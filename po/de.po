@@ -1,0 +1,50 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Michael Tremer <michael.tremer@ipfire.org>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: The IPFire Project\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-07-19 17:03+0000\n"
+"PO-Revision-Date: 2012-07-19 17:11+0000\n"
+"Last-Translator: Michael Tremer <michael.tremer@ipfire.org>\n"
+"Language-Team: German (http://www.transifex.com/projects/p/ipfire/language/de/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: ddns/__init__.py:117
+msgid "Found no entries in the configuration file. Exiting."
+msgstr "Keine Einträge in der Konfigurationsdatei gefunden. Ende."
+
+#: ddns/__init__.py:126
+#, python-format
+msgid "Dynamic DNS update for %(hostname)s (%(provider)s) failed:"
+msgstr "Dynamic DNS-Update für %(hostname)s (%(provider)s) fehlgeschlagen"
+
+#: ddns/__init__.py:131
+#, python-format
+msgid ""
+"Dynamic DNS update for %(hostname)s (%(provider)s) throwed an unhandled "
+"exception:"
+msgstr "Dynamic DNS-Update für %(hostname)s (%(provider)s) erzeugte einen unerwarteten Fehler:"
+
+#. XXX DEBUG
+#: ddns/__init__.py:136
+#, python-format
+msgid "Dynamic DNS update for %(hostname)s (%(provider)s) successful"
+msgstr "Dynamic DNS-Update für %(hostname)s (%(provider)s) erfolgreich"
+
+#: ddns/system.py:73
+msgid "Request header:"
+msgstr "Request-Header:"
+
+#. Log response header.
+#: ddns/system.py:81
+msgid "Response header:"
+msgstr "Response-Header:"

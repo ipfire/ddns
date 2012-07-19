@@ -1,0 +1,3 @@
+*.mo
+*.py[co]
+ddns/__version__.py

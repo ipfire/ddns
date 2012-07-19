@@ -1,0 +1,7 @@
+[main]
+host = https://www.transifex.net
+
+[ipfire.dynamic-dns-client]
+file_filter = po/<lang>.po
+source_file = po/ddns.pot
+source_lang = en

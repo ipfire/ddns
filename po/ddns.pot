@@ -1,0 +1,48 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-07-19 18:48+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ddns/__init__.py:117
+msgid "Found no entries in the configuration file. Exiting."
+msgstr ""
+
+#: ddns/__init__.py:129
+#, python-format
+msgid "Dynamic DNS update for %(hostname)s (%(provider)s) failed:"
+msgstr ""
+
+#: ddns/__init__.py:134
+#, python-format
+msgid ""
+"Dynamic DNS update for %(hostname)s (%(provider)s) throwed an unhandled "
+"exception:"
+msgstr ""
+
+#: ddns/__init__.py:138
+#, python-format
+msgid "Dynamic DNS update for %(hostname)s (%(provider)s) successful"
+msgstr ""
+
+#: ddns/system.py:73
+msgid "Request header:"
+msgstr ""
+
+#. Log response header.
+#: ddns/system.py:81
+msgid "Response header:"
+msgstr ""
