@@ -39,6 +39,14 @@ class DDNSAuthenticationError(DDNSError):
 	pass
 
 
+class DDNSConfigurationError(DDNSError):
+	"""
+		Thrown when invalid or insufficient
+		data is provided by the configuration file.
+	"""
+	pass
+
+
 class DDNSInternalServerError(DDNSError):
 	"""
 		Thrown when the remote server reported
