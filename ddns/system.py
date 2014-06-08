@@ -53,6 +53,22 @@ class DDNSSystem(object):
 
 		return proxy
 
+	def guess_external_ipv6_address(self):
+		"""
+			Sends a request to an external web server
+			to determine the current default IP address.
+		"""
+		response = self.send_request("http://checkip6.dns.lightningwirelabs.com")
+
+		if not response.code == 200:
+			return
+
+		match = re.search(r"^Your IP address is: (.*)$", response.read())
+		if match is None:
+			return
+
+		return match.group(1)
+
 	def guess_external_ipv4_address(self):
 		"""
 			Sends a request to the internet to determine
@@ -60,10 +76,10 @@ class DDNSSystem(object):
 
 			XXX does not work for IPv6.
 		"""
-		response = self.send_request("http://checkip.dyndns.org/")
+		response = self.send_request("http://checkip4.dns.lightningwirelabs.com")
 
 		if response.code == 200:
-			match = re.search(r"Current IP Address: (\d+.\d+.\d+.\d+)", response.read())
+			match = re.search(r"Your IP address is: (\d+.\d+.\d+.\d+)", response.read())
 			if match is None:
 				return
 
@@ -110,14 +126,17 @@ class DDNSSystem(object):
 	def get_address(self, proto):
 		assert proto in ("ipv6", "ipv4")
 
-		if proto == "ipv4":
-			# Check if the external IP address should be guessed from
-			# a remote server.
-			guess_ip = self.core.settings.get("guess_external_ip", "")
+		# Check if the external IP address should be guessed from
+		# a remote server.
+		guess_ip = self.core.settings.get("guess_external_ip", "true")
 
-			# If the external IP address should be used, we just do
-			# that.
-			if guess_ip in ("true", "yes", "1"):
+		# If the external IP address should be used, we just do
+		# that.
+		if guess_ip in ("true", "yes", "1"):
+			if proto == "ipv6":
+				return self.guess_external_ipv6_address()
+
+			elif proto == "ipv4":
 				return self.guess_external_ipv4_address()
 
 		# XXX TODO
