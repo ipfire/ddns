@@ -48,7 +48,7 @@ class DDNSSystem(object):
 		proxy = self.core.settings.get("proxy")
 
 		# Strip http:// at the beginning.
-		if proxy.startswith("http://"):
+		if proxy and proxy.startswith("http://"):
 			proxy = proxy[7:]
 
 		return proxy
