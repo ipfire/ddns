@@ -19,6 +19,7 @@
 #                                                                             #
 ###############################################################################
 
+import base64
 import re
 import urllib
 import urllib2
@@ -86,7 +87,7 @@ class DDNSSystem(object):
 
 			return match.group(1)
 
-	def send_request(self, url, method="GET", data=None, timeout=30):
+	def send_request(self, url, method="GET", data=None, username=None, password=None, timeout=30):
 		assert method in ("GET", "POST")
 
 		# Add all arguments in the data dict to the URL and escape them properly.
@@ -101,6 +102,11 @@ class DDNSSystem(object):
 			logger.debug("  data: %s" % data)
 
 		req = urllib2.Request(url, data=data)
+
+		if username and password:
+			basic_auth_header = self._make_basic_auth_header(username, password)
+			print repr(basic_auth_header)
+			req.add_header("Authorization", "Basic %s" % basic_auth_header)
 
 		# Set the user agent.
 		req.add_header("User-Agent", self.USER_AGENT)
@@ -143,6 +149,17 @@ class DDNSSystem(object):
 			args.append(arg)
 
 		return "&".join(args)
+
+	def _make_basic_auth_header(self, username, password):
+		authstring = "%s:%s" % (username, password)
+
+		# Encode authorization data in base64.
+		authstring = base64.encodestring(authstring)
+
+		# Remove any newline characters.
+		authstring = authstring.replace("\n", "")
+
+		return authstring
 
 	def get_address(self, proto):
 		assert proto in ("ipv6", "ipv4")
