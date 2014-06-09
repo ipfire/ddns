@@ -1,0 +1,49 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# n3oklan <michal@gavlik.eu>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: IPFire Project\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-07-19 18:48+0000\n"
+"PO-Revision-Date: 2014-01-06 12:36+0000\n"
+"Last-Translator: n3oklan <michal@gavlik.eu>\n"
+"Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/ipfire/language/cs_CZ/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: cs_CZ\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: ddns/__init__.py:117
+msgid "Found no entries in the configuration file. Exiting."
+msgstr "Nenalezeny žádné záznamy v konfiguračním souboru. Ukončuji."
+
+#: ddns/__init__.py:129
+#, python-format
+msgid "Dynamic DNS update for %(hostname)s (%(provider)s) failed:"
+msgstr "Dynamická aktualizace DNS pro %(hostname)s (%(provider)s) selhala:"
+
+#: ddns/__init__.py:134
+#, python-format
+msgid ""
+"Dynamic DNS update for %(hostname)s (%(provider)s) throwed an unhandled "
+"exception:"
+msgstr "Dynamická aktualizace DNS pro %(hostname)s (%(provider)s) vyvolala neošetřenou vyjímku:"
+
+#: ddns/__init__.py:138
+#, python-format
+msgid "Dynamic DNS update for %(hostname)s (%(provider)s) successful"
+msgstr "Dynamická aktualizace DNS pro %(hostname)s (%(provider)s) úspěšná"
+
+#: ddns/system.py:73
+msgid "Request header:"
+msgstr "Žádost hlavičky:"
+
+#. Log response header.
+#: ddns/system.py:81
+msgid "Response header:"
+msgstr "Odpověď hlavičky:"
