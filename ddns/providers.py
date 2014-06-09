@@ -133,18 +133,21 @@ class DDNSProviderNOIP(DDNSProvider):
 	# here: http://www.no-ip.com/integrate/request and
 	# here: http://www.no-ip.com/integrate/response
 
-	url = "http://%(username)s:%(password)s@dynupdate.no-ip.com/nic/update?hostname=%(hostname)s&myip=%(address)s"
+	url = "http://%(username)s:%(password)s@dynupdate.no-ip.com/nic/update"
 
 	def __call__(self):
 		url = self.url % {
-			"hostname" : self.hostname,
 			"username" : self.username,
 			"password" : self.password,
+		}
+
+		data = {
+			"hostname" : self.hostname,
 			"address"  : self.get_address("ipv4"),
 		}
 
 		# Send update to the server.
-		response = self.send_request(url)
+		response = self.send_request(url, data=data)
 
 		# Get the full response message.
 		output = response.read()
@@ -173,12 +176,16 @@ class DDNSProviderSelfhost(DDNSProvider):
 		"protocols" : ["ipv4",],
 	}
 
-	url = "https://carol.selfhost.de/update?username=%(username)s&password=%(password)s&textmodi=1"
+	url = "https://carol.selfhost.de/update"
 
 	def __call__(self):
-		url = self.url % { "username" : self.username, "password" : self.password }
+		data = {
+			"username" : self.username,
+			"password" : self.password,
+			"textmodi" : "1",
+		}
 
-		response = self.send_request(url)
+		response = self.send_request(self.url, data=data)
 
 		match = re.search("status=20(0|4)", response.read())
 		if not match:
