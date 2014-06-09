@@ -20,6 +20,7 @@
 ###############################################################################
 
 import re
+import urllib
 import urllib2
 
 from __version__ import CLIENT_VERSION
@@ -85,8 +86,17 @@ class DDNSSystem(object):
 
 			return match.group(1)
 
-	def send_request(self, url, data=None, timeout=30):
-		logger.debug("Sending request: %s" % url)
+	def send_request(self, url, method="GET", data=None, timeout=30):
+		assert method in ("GET", "POST")
+
+		# Add all arguments in the data dict to the URL and escape them properly.
+		if method == "GET" and data:
+			query_args = self._format_query_args(data)
+			data = None
+
+			url = "%s?%s" % (url, query_args)
+
+		logger.debug("Sending request (%s): %s" % (method, url))
 		if data:
 			logger.debug("  data: %s" % data)
 
@@ -105,6 +115,8 @@ class DDNSSystem(object):
 			# Configure the proxy for this request.
 			req.set_proxy(self.proxy, "http")
 
+		assert req.get_method() == method
+
 		logger.debug(_("Request header:"))
 		for k, v in req.headers.items():
 			logger.debug("  %s: %s" % (k, v))
@@ -122,6 +134,15 @@ class DDNSSystem(object):
 
 		except urllib2.URLError, e:
 			raise
+
+	def _format_query_args(self, data):
+		args = []
+
+		for k, v in data.items():
+			arg = "%s=%s" % (k, urllib.quote(v))
+			args.append(arg)
+
+		return "&".join(args)
 
 	def get_address(self, proto):
 		assert proto in ("ipv6", "ipv4")
