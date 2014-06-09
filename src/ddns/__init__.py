@@ -86,6 +86,7 @@ class DDNSCore(object):
 			Simply registers all providers.
 		"""
 		for provider in (
+			DDNSProviderDHS,
 			DDNSProviderNOIP,
 			DDNSProviderLightningWireLabs,
 			DDNSProviderSelfhost,

@@ -121,6 +121,48 @@ class DDNSProvider(object):
 		return self.core.system.get_address(proto)
 
 
+class DDNSProviderDHS(DDNSProvider):
+	INFO = {
+		"handle"    : "dhs.org",
+		"name"      : "DHS International",
+		"website"   : "http://dhs.org/",
+		"protocols" : ["ipv4",]
+	}
+
+	# No information about the used update api provided on webpage,
+	# grabed from source code of ez-ipudate.
+	url = "http://members.dhs.org/nic/hosts"
+
+	def __call__(self):
+		url = self.url % {
+			"username" : self.username,
+			"password" : self.password,
+		}
+
+		data = {
+			"domain"       : self.hostname,
+			"ip"           : self.get_address("ipv4"),
+			"hostcmd"      : "edit",
+			"hostcmdstage" : "2",
+			"type"         : "4",
+		}
+
+		# Send update to the server.
+		response = self.send_request(url, username=self.username, password=self.password,
+			data=data)
+
+		# Handle success messages.
+		if response.code == 200:
+			return
+
+		# Handle error codes.
+		elif response.code == "401":
+			raise DDNSAuthenticationError
+
+		# If we got here, some other update error happened.
+		raise DDNSUpdateError
+
+
 class DDNSProviderLightningWireLabs(DDNSProvider):
 	INFO = {
 		"handle"    : "dns.lightningwirelabs.com",
