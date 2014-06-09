@@ -87,6 +87,7 @@ class DDNSCore(object):
 		"""
 		for provider in (
 			DDNSProviderNOIP,
+			DDNSProviderLightningwirelabs,
 			DDNSProviderSelfhost,
 		):
 			self.register_provider(provider)

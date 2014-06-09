@@ -121,6 +121,76 @@ class DDNSProvider(object):
 		return self.core.system.get_address(proto)
 
 
+class DDNSProviderLightningWireLabs(DDNSProvider):
+	INFO = {
+		"handle"    : "dns.lightningwirelabs.com",
+		"name"      : "Lightning Wire Labs",
+		"website"   : "http://dns.lightningwirelabs.com/",
+		"protocols" : ["ipv6", "ipv4",]
+	}
+
+	# Information about the format of the HTTPS request is to be found
+	# https://dns.lightningwirelabs.com/knowledge-base/api/ddns
+	url = "https://dns.lightningwirelabs.com/update"
+
+	@property
+	def token(self):
+		"""
+			Fast access to the token.
+		"""
+		return self.get("token")
+
+	def __call__(self):
+		data =  {
+			"hostname" : self.hostname,
+		}
+
+		# Check if we update an IPv6 address.
+		address6 = self.get_address("ipv6")
+		if address6:
+			data["address6"] = address6
+
+		# Check if we update an IPv4 address.
+		address4 = self.get_address("ipv4")
+		if address4:
+			data["address4"] = address4
+
+		# Raise an error if none address is given.
+		if not data.has_key("address6") and not data.has_key("address4"):
+			raise DDNSConfigurationError
+
+		# Check if a token has been set.
+		if self.token:
+			data["token"] = self.token
+
+		# Check for username and password.
+		elif self.username and self.password:
+			data.update({
+				"username" : self.username,
+				"password" : self.password,
+			})
+
+		# Raise an error if no auth details are given.
+		else:
+			raise DDNSConfigurationError
+
+		# Send update to the server.
+		response = self.send_request(url, data=data)
+
+		# Handle success messages.
+		if response.code == 200:
+			return
+
+		# Handle error codes.
+		if response.code == "403":
+			raise DDNSAuthenticationError
+		elif response.code == "400":
+			raise DDNSRequestError
+
+		# If we got here, some other update error happened.
+		raise DDNSUpdateError
+
+
 class DDNSProviderNOIP(DDNSProvider):
 	INFO = {
 		"handle"    : "no-ip.com",
