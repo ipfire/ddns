@@ -194,7 +194,14 @@ class DDNSSystem(object):
 			raise ValueError("Protocol not supported: %s" % proto)
 
 		# Resolve the host address.
-		response = socket.getaddrinfo(hostname, None, family)
+		try:
+			response = socket.getaddrinfo(hostname, None, family)
+		except socket.gaierror, e:
+			# Name or service not known
+			if e.errno == -2:
+				return []
+
+			raise
 
 		# Handle responses.
 		for family, socktype, proto, canonname, sockaddr in response:
