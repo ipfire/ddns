@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-09 14:07+0200\n"
+"POT-Creation-Date: 2014-06-11 00:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,32 +17,58 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../src/ddns/__init__.py:136
+#: ../src/ddns/__init__.py:139
 msgid "Found no entries in the configuration file. Exiting."
 msgstr ""
 
-#: ../src/ddns/__init__.py:148
+#: ../src/ddns/__init__.py:151
 #, python-format
 msgid "Dynamic DNS update for %(hostname)s (%(provider)s) failed:"
 msgstr ""
 
-#: ../src/ddns/__init__.py:153
+#: ../src/ddns/__init__.py:156
 #, python-format
 msgid ""
 "Dynamic DNS update for %(hostname)s (%(provider)s) throwed an unhandled "
 "exception:"
 msgstr ""
 
-#: ../src/ddns/__init__.py:157
+#: ../src/ddns/__init__.py:160
 #, python-format
 msgid "Dynamic DNS update for %(hostname)s (%(provider)s) successful"
 msgstr ""
 
-#: ../src/ddns/system.py:120
+#: ../src/ddns/providers.py:120
+#, python-format
+msgid "Updating %s forced"
+msgstr ""
+
+#: ../src/ddns/providers.py:124
+#, python-format
+msgid "%s is already up to date"
+msgstr ""
+
+#: ../src/ddns/providers.py:247
+msgid "No valid FQDN was given."
+msgstr ""
+
+#: ../src/ddns/providers.py:249
+msgid "Invalid hostname specified."
+msgstr ""
+
+#: ../src/ddns/providers.py:251
+msgid "Hostname not marked as a dynamic host."
+msgstr ""
+
+#: ../src/ddns/providers.py:253
+msgid "Invalid IP address has been sent."
+msgstr ""
+
+#: ../src/ddns/system.py:127
 msgid "Request header:"
 msgstr ""
 
 #. Log response header.
-#: ../src/ddns/system.py:128
+#: ../src/ddns/system.py:135
 msgid "Response header:"
 msgstr ""

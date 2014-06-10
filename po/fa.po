@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Khalil Delavaran <khalil.delavaran@gmail.com>, 2013
 # Reza Moghadam <r.moghadam@hotmail.com>, 2013
@@ -9,42 +9,71 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IPFire Project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-19 18:48+0000\n"
+"POT-Creation-Date: 2014-06-11 00:13+0200\n"
 "PO-Revision-Date: 2013-11-20 13:12+0000\n"
 "Last-Translator: Khalil Delavaran <khalil.delavaran@gmail.com>\n"
-"Language-Team: Persian (http://www.transifex.com/projects/p/ipfire/language/fa/)\n"
+"Language-Team: Persian (http://www.transifex.com/projects/p/ipfire/language/"
+"fa/)\n"
+"Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fa\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ddns/__init__.py:117
+#: ../src/ddns/__init__.py:139
 msgid "Found no entries in the configuration file. Exiting."
 msgstr "هیچ نوشته ای در فایل پیکربندی یافت نشد. در حال خارج شدن میباشید."
 
-#: ddns/__init__.py:129
+#: ../src/ddns/__init__.py:151
 #, python-format
 msgid "Dynamic DNS update for %(hostname)s (%(provider)s) failed:"
 msgstr "بروزرسانی Dynamic DNS برای %(hostname)s (%(provider)s) شکست خورد:"
 
-#: ddns/__init__.py:134
+#: ../src/ddns/__init__.py:156
 #, python-format
 msgid ""
 "Dynamic DNS update for %(hostname)s (%(provider)s) throwed an unhandled "
 "exception:"
-msgstr "بروزرسانی Dynamic DNS برای %(hostname)s (%(provider)s) یک استثنا اداره نشده باطل :"
+msgstr ""
+"بروزرسانی Dynamic DNS برای %(hostname)s (%(provider)s) یک استثنا اداره نشده "
+"باطل :"
 
-#: ddns/__init__.py:138
+#: ../src/ddns/__init__.py:160
 #, python-format
 msgid "Dynamic DNS update for %(hostname)s (%(provider)s) successful"
 msgstr "Dynamic DNS برای %(hostname)s (%(provider)s) بروزرسانی شد"
 
-#: ddns/system.py:73
+#: ../src/ddns/providers.py:120
+#, python-format
+msgid "Updating %s forced"
+msgstr ""
+
+#: ../src/ddns/providers.py:124
+#, python-format
+msgid "%s is already up to date"
+msgstr ""
+
+#: ../src/ddns/providers.py:247
+msgid "No valid FQDN was given."
+msgstr ""
+
+#: ../src/ddns/providers.py:249
+msgid "Invalid hostname specified."
+msgstr ""
+
+#: ../src/ddns/providers.py:251
+msgid "Hostname not marked as a dynamic host."
+msgstr ""
+
+#: ../src/ddns/providers.py:253
+msgid "Invalid IP address has been sent."
+msgstr ""
+
+#: ../src/ddns/system.py:127
 msgid "Request header:"
 msgstr "درخواست هدر:"
 
 #. Log response header.
-#: ddns/system.py:81
+#: ../src/ddns/system.py:135
 msgid "Response header:"
 msgstr "پاسخ هدر:"

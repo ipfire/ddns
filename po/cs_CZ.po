@@ -1,49 +1,78 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # n3oklan <michal@gavlik.eu>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: IPFire Project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-07-19 18:48+0000\n"
+"POT-Creation-Date: 2014-06-11 00:13+0200\n"
 "PO-Revision-Date: 2014-01-06 12:36+0000\n"
 "Last-Translator: n3oklan <michal@gavlik.eu>\n"
-"Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/ipfire/language/cs_CZ/)\n"
+"Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/"
+"ipfire/language/cs_CZ/)\n"
+"Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: cs_CZ\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: ddns/__init__.py:117
+#: ../src/ddns/__init__.py:139
 msgid "Found no entries in the configuration file. Exiting."
 msgstr "Nenalezeny žádné záznamy v konfiguračním souboru. Ukončuji."
 
-#: ddns/__init__.py:129
+#: ../src/ddns/__init__.py:151
 #, python-format
 msgid "Dynamic DNS update for %(hostname)s (%(provider)s) failed:"
 msgstr "Dynamická aktualizace DNS pro %(hostname)s (%(provider)s) selhala:"
 
-#: ddns/__init__.py:134
+#: ../src/ddns/__init__.py:156
 #, python-format
 msgid ""
 "Dynamic DNS update for %(hostname)s (%(provider)s) throwed an unhandled "
 "exception:"
-msgstr "Dynamická aktualizace DNS pro %(hostname)s (%(provider)s) vyvolala neošetřenou vyjímku:"
+msgstr ""
+"Dynamická aktualizace DNS pro %(hostname)s (%(provider)s) vyvolala "
+"neošetřenou vyjímku:"
 
-#: ddns/__init__.py:138
+#: ../src/ddns/__init__.py:160
 #, python-format
 msgid "Dynamic DNS update for %(hostname)s (%(provider)s) successful"
 msgstr "Dynamická aktualizace DNS pro %(hostname)s (%(provider)s) úspěšná"
 
-#: ddns/system.py:73
+#: ../src/ddns/providers.py:120
+#, python-format
+msgid "Updating %s forced"
+msgstr ""
+
+#: ../src/ddns/providers.py:124
+#, python-format
+msgid "%s is already up to date"
+msgstr ""
+
+#: ../src/ddns/providers.py:247
+msgid "No valid FQDN was given."
+msgstr ""
+
+#: ../src/ddns/providers.py:249
+msgid "Invalid hostname specified."
+msgstr ""
+
+#: ../src/ddns/providers.py:251
+msgid "Hostname not marked as a dynamic host."
+msgstr ""
+
+#: ../src/ddns/providers.py:253
+msgid "Invalid IP address has been sent."
+msgstr ""
+
+#: ../src/ddns/system.py:127
 msgid "Request header:"
 msgstr "Žádost hlavičky:"
 
 #. Log response header.
-#: ddns/system.py:81
+#: ../src/ddns/system.py:135
 msgid "Response header:"
 msgstr "Odpověď hlavičky:"
