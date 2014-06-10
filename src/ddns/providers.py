@@ -105,6 +105,9 @@ class DDNSProvider(object):
 		return self.get("password")
 
 	def __call__(self):
+		self.update()
+
+	def update(self):
 		raise NotImplementedError
 
 	def send_request(self, *args, **kwargs):
@@ -133,7 +136,7 @@ class DDNSProviderDHS(DDNSProvider):
 	# grabed from source code of ez-ipudate.
 	url = "http://members.dhs.org/nic/hosts"
 
-	def __call__(self):
+	def update(self):
 		url = self.url % {
 			"username" : self.username,
 			"password" : self.password,
@@ -175,7 +178,7 @@ class DDNSProviderDNSpark(DDNSProvider):
 	# https://dnspark.zendesk.com/entries/31229348-Dynamic-DNS-API-Documentation
 	url = "https://control.dnspark.com/api/dynamic/update.php"
 
-	def __call__(self):
+	def update(self):
 		url = self.url % {
 			"username" : self.username,
 			"password" : self.password,
@@ -236,7 +239,7 @@ class DDNSProviderLightningWireLabs(DDNSProvider):
 		"""
 		return self.get("token")
 
-	def __call__(self):
+	def update(self):
 		data =  {
 			"hostname" : self.hostname,
 		}
@@ -301,7 +304,7 @@ class DDNSProviderNOIP(DDNSProvider):
 
 	url = "http://%(username)s:%(password)s@dynupdate.no-ip.com/nic/update"
 
-	def __call__(self):
+	def update(self):
 		url = self.url % {
 			"username" : self.username,
 			"password" : self.password,
@@ -344,7 +347,7 @@ class DDNSProviderSelfhost(DDNSProvider):
 
 	url = "https://carol.selfhost.de/update"
 
-	def __call__(self):
+	def update(self):
 		data = {
 			"username" : self.username,
 			"password" : self.password,
