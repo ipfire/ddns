@@ -37,7 +37,11 @@ def setup_logging():
 	rootlogger.setLevel(logging.INFO)
 
 	# Setup a logger that logs to syslog.
-	#handler = logging.handlers.SysLogHandler(address="/dev/log")
+	handler = logging.handlers.SysLogHandler(address="/dev/log",
+		facility=logging.handlers.SysLogHandler.LOG_DAEMON
+	)
+	handler.setLevel(logging.INFO)
+	rootlogger.addHandler(handler)
 
 	handler = logging.StreamHandler()
 	rootlogger.addHandler(handler)
