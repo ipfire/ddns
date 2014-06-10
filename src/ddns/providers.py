@@ -274,7 +274,7 @@ class DDNSProviderLightningWireLabs(DDNSProvider):
 			raise DDNSConfigurationError
 
 		# Send update to the server.
-		response = self.send_request(url, data=data)
+		response = self.send_request(self.url, data=data)
 
 		# Handle success messages.
 		if response.code == 200:
