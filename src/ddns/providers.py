@@ -19,8 +19,15 @@
 #                                                                             #
 ###############################################################################
 
+import logging
+
+from i18n import _
+
 # Import all possible exception types.
 from .errors import *
+
+logger = logging.getLogger("ddns.providers")
+logger.propagate = 1
 
 class DDNSProvider(object):
 	INFO = {
@@ -104,11 +111,37 @@ class DDNSProvider(object):
 		"""
 		return self.get("password")
 
+	@property
+	def protocols(self):
+		return self.INFO.get("protocols")
+
 	def __call__(self):
+		# Check if we actually need to update this host.
+		if self.is_uptodate(self.protocols):
+			logger.info(_("%s is already up to date") % self.hostname)
+			return
+
+		# Execute the update.
 		self.update()
 
 	def update(self):
 		raise NotImplementedError
+
+	def is_uptodate(self, protos):
+		"""
+			Returns True if this host is already up to date
+			and does not need to change the IP address on the
+			name server.
+		"""
+		for proto in protos:
+			addresses = self.core.system.resolve(self.hostname, proto)
+
+			current_address = self.get_address(proto)
+
+			if not current_address in addresses:
+				return False
+
+		return True
 
 	def send_request(self, *args, **kwargs):
 		"""
