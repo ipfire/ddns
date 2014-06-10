@@ -34,7 +34,7 @@ from .system import DDNSSystem
 # Setup the logger.
 def setup_logging():
 	rootlogger = logging.getLogger("ddns")
-	rootlogger.setLevel(logging.DEBUG)
+	rootlogger.setLevel(logging.INFO)
 
 	# Setup a logger that logs to syslog.
 	#handler = logging.handlers.SysLogHandler(address="/dev/log")
@@ -49,6 +49,7 @@ class DDNSCore(object):
 		# In debug mode, enable debug logging.
 		if debug:
 			logger.setLevel(logging.DEBUG)
+			logger.debug(_("Debugging mode enabled"))
 
 		# Initialize the settings array.
 		self.settings = {}
