@@ -19,9 +19,56 @@
 #                                                                             #
 ###############################################################################
 
+import argparse
+
 import ddns
 
-d = ddns.DDNSCore(debug=1)
-d.load_configuration("@configsdir@/ddns.conf")
+from ddns.i18n import _
 
-d.updateall()
+CONFIGURATION_FILE = "@configsdir@/ddns.conf"
+
+def main():
+	# Parse command line
+	p = argparse.ArgumentParser(description=_("Dynamic DNS Updater"))
+
+	p.add_argument("-d", "--debug", action="store_true",
+		help=_("Enable debugging output"))
+
+	p.add_argument("-c", "--config", default=CONFIGURATION_FILE,
+		help=_("Load configuration file (Default: %s)") % CONFIGURATION_FILE)
+
+	# Create subparsers for commands.
+	subparsers = p.add_subparsers(help=_("Sub-command help"),
+		dest="subparsers_name")
+
+	# update
+	p_update = subparsers.add_parser("update", help=_("Update DNS record"))
+	p_update.add_argument("hostname")
+	p_update.add_argument("--force", action="store_true",
+		help=_("Execute update even if the record is already up to date"))
+
+	# update-all
+	p_update_all = subparsers.add_parser("update-all", help=_("Update all DNS records"))
+	p_update_all.add_argument("--force", action="store_true",
+		help=_("Execute update even if the record is already up to date"))
+
+	args = p.parse_args()
+
+	# Initialise the DDNSCore module.
+	d = ddns.DDNSCore(debug=args.debug)
+
+	# Load configuration.
+	if args.config:
+		d.load_configuration(args.config)
+
+	# Handle commands...
+	if args.subparsers_name == "update":
+		d.updateone(hostname=args.hostname, force=args.force)
+
+	elif args.subparsers_name == "update-all":
+		d.updateall(force=args.force)
+
+	else:
+		raise RuntimeError("Unhandled command: %s" % args.subparsers_name)
+
+main()

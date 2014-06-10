@@ -56,6 +56,14 @@ class DDNSConfigurationError(DDNSError):
 	pass
 
 
+class DDNSHostNotFoundError(DDNSError):
+	"""
+		Thrown when a configuration entry could
+		not be found.
+	"""
+	pass
+
+
 class DDNSInternalServerError(DDNSError):
 	"""
 		Thrown when the remote server reported

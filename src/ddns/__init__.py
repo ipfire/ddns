@@ -133,17 +133,28 @@ class DDNSCore(object):
 			if not entry in self.entries:
 				self.entries.append(entry)
 
-	def updateall(self, force=False):
+	def updateone(self, hostname, **kwargs):
+		for entry in self.entries:
+			if not entry.hostname == hostname:
+				continue
+
+			return self._update(entry, **kwargs)
+
+		raise DDNSHostNotFoundError(hostname)
+
+	def updateall(self, **kwargs):
+		"""
+			Update all configured entries.
+		"""
 		# If there are no entries, there is nothing to do.
 		if not self.entries:
 			logger.debug(_("Found no entries in the configuration file. Exiting."))
 			return
 
-		# Update them all.
 		for entry in self.entries:
-			self.update(entry, force=force)
+			self._update(entry, **kwargs)
 
-	def update(self, entry, force=False):
+	def _update(self, entry, force=False):
 		try:
 			entry(force=force)
 
