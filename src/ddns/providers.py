@@ -195,7 +195,7 @@ class DDNSProviderDHS(DDNSProvider):
 			return
 
 		# Handle error codes.
-		elif response.code == "401":
+		elif response.code == 401:
 			raise DDNSAuthenticationError
 
 		# If we got here, some other update error happened.
