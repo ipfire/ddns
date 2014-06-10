@@ -21,6 +21,7 @@
 
 import base64
 import re
+import socket
 import urllib
 import urllib2
 
@@ -179,3 +180,42 @@ class DDNSSystem(object):
 
 		# XXX TODO
 		assert False
+
+	def resolve(self, hostname, proto=None):
+		addresses = []
+
+		if proto is None:
+			family = 0
+		elif proto == "ipv6":
+			family = socket.AF_INET6
+		elif proto == "ipv4":
+			family = socket.AF_INET
+		else:
+			raise ValueError("Protocol not supported: %s" % proto)
+
+		# Resolve the host address.
+		response = socket.getaddrinfo(hostname, None, family)
+
+		# Handle responses.
+		for family, socktype, proto, canonname, sockaddr in response:
+			# IPv6
+			if family == socket.AF_INET6:
+				address, port, flow_info, scope_id = sockaddr
+
+				# Only use the global scope.
+				if not scope_id == 0:
+					continue
+
+			# IPv4
+			elif family == socket.AF_INET:
+				address, port = sockaddr
+
+			# Ignore everything else...
+			else:
+				continue
+
+			# Add to repsonse list if not already in there.
+			if not address in addresses:
+				addresses.append(address)
+
+		return addresses
