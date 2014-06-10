@@ -51,7 +51,13 @@ dist_doc_DATA = \
 
 # ------------------------------------------------------------------------------
 
-dist_bin_SCRIPTS = \
+bin_SCRIPTS = \
+	ddns
+
+EXTRA_DIST += \
+	ddns.in
+
+CLEANFILES += \
 	ddns
 
 dist_configs_DATA = \
@@ -66,3 +72,18 @@ ddns_PYTHON = \
 	src/ddns/system.py
 
 ddnsdir = $(pythondir)/ddns
+
+# ------------------------------------------------------------------------------
+
+substitutions = \
+	'|PACKAGE_NAME=$(PACKAGE_NAME)|' \
+	'|PACKAGE_VERSION=$(PACKAGE_VERSION)|' \
+	'|configsdir=$(configsdir)|'
+
+SED_PROCESS = \
+	$(AM_V_GEN)$(MKDIR_P) $(dir $@) && \
+	$(SED) $(subst '|,-e 's|@,$(subst =,\@|,$(subst |',|g',$(substitutions)))) \
+		< $< > $@
+
+ddns: ddns.in Makefile
+	$(SED_PROCESS)

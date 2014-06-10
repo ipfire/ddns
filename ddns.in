@@ -22,6 +22,6 @@
 import ddns
 
 d = ddns.DDNSCore(debug=1)
-d.load_configuration("/etc/ddns.conf")
+d.load_configuration("@configsdir@/ddns.conf")
 
 d.updateall()
