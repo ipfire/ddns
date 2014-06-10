@@ -94,6 +94,12 @@ class DDNSCore(object):
 		):
 			self.register_provider(provider)
 
+	def get_provider_names(self):
+		"""
+			Returns a list of names of all registered providers.
+		"""
+		return sorted(self.providers.keys())
+
 	def load_configuration(self, filename):
 		configs = ConfigParser.SafeConfigParser()
 		configs.read([filename,])

@@ -41,6 +41,10 @@ def main():
 	subparsers = p.add_subparsers(help=_("Sub-command help"),
 		dest="subparsers_name")
 
+	# list-providers
+	p_list_providers = subparsers.add_parser("list-providers",
+		help=_("List all available providers"))
+
 	# update
 	p_update = subparsers.add_parser("update", help=_("Update DNS record"))
 	p_update.add_argument("hostname")
@@ -62,7 +66,11 @@ def main():
 		d.load_configuration(args.config)
 
 	# Handle commands...
-	if args.subparsers_name == "update":
+	if args.subparsers_name == "list-providers":
+		provider_names = d.get_provider_names()
+		print "\n".join(provider_names)
+
+	elif args.subparsers_name == "update":
 		d.updateone(hostname=args.hostname, force=args.force)
 
 	elif args.subparsers_name == "update-all":
