@@ -133,7 +133,7 @@ class DDNSCore(object):
 			if not entry in self.entries:
 				self.entries.append(entry)
 
-	def updateall(self):
+	def updateall(self, force=False):
 		# If there are no entries, there is nothing to do.
 		if not self.entries:
 			logger.debug(_("Found no entries in the configuration file. Exiting."))
@@ -141,11 +141,11 @@ class DDNSCore(object):
 
 		# Update them all.
 		for entry in self.entries:
-			self.update(entry)
+			self.update(entry, force=force)
 
-	def update(self, entry):
+	def update(self, entry, force=False):
 		try:
-			entry()
+			entry(force=force)
 
 		except DDNSUpdateError, e:
 			logger.error(_("Dynamic DNS update for %(hostname)s (%(provider)s) failed:") % \

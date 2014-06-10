@@ -115,9 +115,12 @@ class DDNSProvider(object):
 	def protocols(self):
 		return self.INFO.get("protocols")
 
-	def __call__(self):
+	def __call__(self, force=False):
+		if force:
+			logger.info(_("Updating %s forced") % self.hostname)
+
 		# Check if we actually need to update this host.
-		if self.is_uptodate(self.protocols):
+		elif self.is_uptodate(self.protocols):
 			logger.info(_("%s is already up to date") % self.hostname)
 			return
 
