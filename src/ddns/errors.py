@@ -39,6 +39,15 @@ class DDNSAuthenticationError(DDNSError):
 	pass
 
 
+class DDNSBlockedError(DDNSError):
+	"""
+		Thrown when the dynamic update client
+		(specified by the user-agent) has been blocked
+		by a dynamic DNS provider.
+	"""
+	pass
+
+
 class DDNSConfigurationError(DDNSError):
 	"""
 		Thrown when invalid or insufficient
