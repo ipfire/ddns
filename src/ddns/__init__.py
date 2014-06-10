@@ -87,6 +87,7 @@ class DDNSCore(object):
 		"""
 		for provider in (
 			DDNSProviderDHS,
+			DDNSProviderDNSpark,
 			DDNSProviderNOIP,
 			DDNSProviderLightningWireLabs,
 			DDNSProviderSelfhost,

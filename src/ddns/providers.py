@@ -163,6 +163,60 @@ class DDNSProviderDHS(DDNSProvider):
 		raise DDNSUpdateError
 
 
+class DDNSProviderDNSpark(DDNSProvider):
+	INFO = {
+		"handle"    : "dnspark.com",
+		"name"      : "DNS Park",
+		"website"   : "http://dnspark.com/",
+		"protocols" : ["ipv4",]
+	}
+
+	# Informations to the used api can be found here:
+	# https://dnspark.zendesk.com/entries/31229348-Dynamic-DNS-API-Documentation
+	url = "https://control.dnspark.com/api/dynamic/update.php"
+
+	def __call__(self):
+		url = self.url % {
+			"username" : self.username,
+			"password" : self.password,
+		}
+
+		data = {
+			"domain" : self.hostname,
+			"ip"     : self.get_address("ipv4"),
+		}
+
+		# Send update to the server.
+		response = self.send_request(url, username=self.username, password=self.password,
+			data=data)
+
+		# Get the full response message.
+		output = response.read()
+
+		# Handle success messages.
+		if output.startswith("ok") or output.startswith("nochange"):
+			return
+
+		# Handle error codes.
+		if output == "unauth":
+			raise DDNSAuthenticationError
+		elif output == "abuse":
+			raise DDNSAbuseError
+		elif output == "blocked":
+			raise DDNSBlockedError
+		elif output == "nofqdn":
+			raise DDNSRequestError(_("No valid FQDN was given."))
+		elif output == "nohost":
+			raise DDNSRequestError(_("Invalid hostname specified."))
+		elif output == "notdyn":
+			raise DDNSRequestError(_("Hostname not marked as a dynamic host."))
+		elif output == "invalid":
+			raise DDNSRequestError(_("Invalid IP address has been sent."))
+
+		# If we got here, some other update error happened.
+		raise DDNSUpdateError
+
+		
 class DDNSProviderLightningWireLabs(DDNSProvider):
 	INFO = {
 		"handle"    : "dns.lightningwirelabs.com",
