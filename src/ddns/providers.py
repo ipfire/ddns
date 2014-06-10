@@ -281,9 +281,9 @@ class DDNSProviderLightningWireLabs(DDNSProvider):
 			return
 
 		# Handle error codes.
-		if response.code == "403":
+		if response.code == 403:
 			raise DDNSAuthenticationError
-		elif response.code == "400":
+		elif response.code == 400:
 			raise DDNSRequestError
 
 		# If we got here, some other update error happened.
