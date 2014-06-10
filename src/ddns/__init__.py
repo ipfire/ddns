@@ -179,5 +179,6 @@ class DDNSCore(object):
 				{ "hostname" : entry.hostname, "provider" : entry.name })
 			logger.error("  %s" % e)
 
-		logger.info(_("Dynamic DNS update for %(hostname)s (%(provider)s) successful") % \
-			{ "hostname" : entry.hostname, "provider" : entry.name })
+		else:
+			logger.info(_("Dynamic DNS update for %(hostname)s (%(provider)s) successful") % \
+				{ "hostname" : entry.hostname, "provider" : entry.name })
