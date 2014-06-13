@@ -255,7 +255,63 @@ class DDNSProviderDNSpark(DDNSProvider):
 		# If we got here, some other update error happened.
 		raise DDNSUpdateError
 
-		
+
+class DDNSProviderDtDNS(DDNSProvider):
+	INFO = {
+		"handle"    : "dtdns.com",
+		"name"      : "DtDNS",
+		"website"   : "http://dtdns.com/",
+		"protocols" : ["ipv4",]
+		}
+
+	# Information about the format of the HTTPS request is to be found
+	# http://www.dtdns.com/dtsite/updatespec
+	url = "https://www.dtdns.com/api/autodns.cfm"
+
+
+	def update(self):
+		data = {
+			"ip" : self.get_address("ipv4"),
+			"id" : self.hostname,
+			"pw" : self.password
+		}
+
+		# Send update to the server.
+		response = self.send_request(self.url, data=data)
+
+		# Get the full response message.
+		output = response.read()
+
+		# Remove all leading and trailing whitespace.
+		output = output.strip()
+
+		# Handle success messages.
+		if "now points to" in output:
+			return
+
+		# Handle error codes.
+		if output == "No hostname to update was supplied.":
+			raise DDNSRequestError(_("No hostname specified."))
+
+		elif output == "The hostname you supplied is not valid.":
+			raise DDNSRequestError(_("Invalid hostname specified."))
+
+		elif output == "The password you supplied is not valid.":
+			raise DDNSAuthenticationError
+
+		elif output == "Administration has disabled this account.":
+			raise DDNSRequestError(_("Account has been disabled."))
+
+		elif output == "Illegal character in IP.":
+			raise DDNSRequestError(_("Invalid IP address has been sent."))
+
+		elif output == "Too many failed requests.":
+			raise DDNSRequestError(_("Too many failed requests."))
+
+		# If we got here, some other update error happened.
+		raise DDNSUpdateError
+
+
 class DDNSProviderLightningWireLabs(DDNSProvider):
 	INFO = {
 		"handle"    : "dns.lightningwirelabs.com",
