@@ -23,6 +23,10 @@ class DDNSError(Exception):
 	pass
 
 
+class DDNSNetworkError(DDNSError):
+	pass
+
+
 class DDNSAbuseError(DDNSError):
 	"""
 		Thrown when the server reports
@@ -56,6 +60,20 @@ class DDNSConfigurationError(DDNSError):
 	pass
 
 
+class DDNSConnectionRefusedError(DDNSNetworkError):
+	"""
+		Thrown when a connection is refused.
+	"""
+	pass
+
+
+class DDNSConnectionTimeoutError(DDNSNetworkError):
+	"""
+		Thrown when a connection to a server has timed out.
+	"""
+	pass
+
+
 class DDNSHostNotFoundError(DDNSError):
 	"""
 		Thrown when a configuration entry could
@@ -72,10 +90,24 @@ class DDNSInternalServerError(DDNSError):
 	pass
 
 
+class DDNSNetworkUnreachableError(DDNSNetworkError):
+	"""
+		Thrown when a network is not reachable.
+	"""
+	pass
+
+
 class DDNSRequestError(DDNSError):
 	"""
 		Thrown when a request could
 		not be properly performed.
+	"""
+	pass
+
+
+class DDNSServiceUnavailableError(DDNSNetworkError):
+	"""
+		Equivalent to HTTP error code 503.
 	"""
 	pass
 

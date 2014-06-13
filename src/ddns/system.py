@@ -26,6 +26,7 @@ import urllib
 import urllib2
 
 from __version__ import CLIENT_VERSION
+from .errors import *
 from i18n import _
 
 # Initialize the logger.
@@ -61,7 +62,12 @@ class DDNSSystem(object):
 			Sends a request to an external web server
 			to determine the current default IP address.
 		"""
-		response = self.send_request("http://checkip6.dns.lightningwirelabs.com")
+		try:
+			response = self.send_request("http://checkip6.dns.lightningwirelabs.com", timeout=10)
+
+		# If the server could not be reached, we will return nothing.
+		except DDNSNetworkError:
+			return
 
 		if not response.code == 200:
 			return
@@ -79,7 +85,12 @@ class DDNSSystem(object):
 
 			XXX does not work for IPv6.
 		"""
-		response = self.send_request("http://checkip4.dns.lightningwirelabs.com")
+		try:
+			response = self.send_request("http://checkip4.dns.lightningwirelabs.com", timeout=10)
+
+		# If the server could not be reached, we will return nothing.
+		except DDNSNetworkError:
+			return
 
 		if response.code == 200:
 			match = re.search(r"Your IP address is: (\d+.\d+.\d+.\d+)", response.read())
@@ -129,7 +140,7 @@ class DDNSSystem(object):
 			logger.debug("  %s: %s" % (k, v))
 
 		try:
-			resp = urllib2.urlopen(req)
+			resp = urllib2.urlopen(req, timeout=timeout)
 
 			# Log response header.
 			logger.debug(_("Response header:"))
@@ -139,8 +150,29 @@ class DDNSSystem(object):
 			# Return the entire response object.
 			return resp
 
-		except urllib2.URLError, e:
+		except urllib2.HTTPError, e:
+			# 503 - Service Unavailable
+			if e.code == 503:
+				raise DDNSServiceUnavailableError
+
+			# Raise all other unhandled exceptions.
 			raise
+
+		except urllib2.URLError, e:
+			if e.reason:
+				# Network Unreachable (e.g. no IPv6 access)
+				if e.reason.errno == 101:
+					raise DDNSNetworkUnreachableError
+				elif e.reason.errno == 111:
+					raise DDNSConnectionRefusedError
+
+			# Raise all other unhandled exceptions.
+			raise
+
+		except socket.timeout, e:
+			logger.debug(_("Connection timeout"))
+
+			raise DDNSConnectionTimeoutError
 
 	def _format_query_args(self, data):
 		args = []
