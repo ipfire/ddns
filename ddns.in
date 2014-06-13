@@ -41,6 +41,10 @@ def main():
 	subparsers = p.add_subparsers(help=_("Sub-command help"),
 		dest="subparsers_name")
 
+	# guess-ip-addresses
+	p_guess_ip_addresses = subparsers.add_parser("guess-ip-addresses",
+		help=_("Guess the external IP addresses"))
+
 	# list-providers
 	p_list_providers = subparsers.add_parser("list-providers",
 		help=_("List all available providers"))
@@ -66,7 +70,18 @@ def main():
 		d.load_configuration(args.config)
 
 	# Handle commands...
-	if args.subparsers_name == "list-providers":
+	if args.subparsers_name == "guess-ip-addresses":
+		# IPv6
+		ipv6_address = d.system.guess_external_ipv6_address()
+		if ipv6_address:
+			print _("IPv6 Address: %s") % ipv6_address
+
+		# IPv4
+		ipv4_address = d.system.guess_external_ipv4_address()
+		if ipv4_address:
+			print _("IPv4 Address: %s") % ipv4_address
+
+	elif args.subparsers_name == "list-providers":
 		provider_names = d.get_provider_names()
 		print "\n".join(provider_names)
 
