@@ -106,6 +106,8 @@ class DDNSCore(object):
 		return sorted(self.providers.keys())
 
 	def load_configuration(self, filename):
+		logger.debug(_("Loading configuration file %s") % filename)
+
 		configs = ConfigParser.SafeConfigParser()
 		configs.read([filename,])
 
