@@ -61,7 +61,7 @@ CLEANFILES += \
 	ddns
 
 dist_configs_DATA = \
-	ddns.conf
+	ddns.conf.sample
 
 ddns_PYTHON = \
 	src/ddns/__init__.py \

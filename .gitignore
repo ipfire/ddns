@@ -1,6 +1,7 @@
 /Makefile
 /build-aux
 /ddns
+/ddns.conf
 /missing
 /src/ddns/__version__.py
 /tmp
