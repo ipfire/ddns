@@ -57,13 +57,13 @@ class DDNSSystem(object):
 
 		return proxy
 
-	def guess_external_ipv6_address(self):
+	def _guess_external_ip_address(self, url, timeout=10):
 		"""
 			Sends a request to an external web server
 			to determine the current default IP address.
 		"""
 		try:
-			response = self.send_request("http://checkip6.dns.lightningwirelabs.com", timeout=10)
+			response = self.send_request(url, timeout=timeout)
 
 		# If the server could not be reached, we will return nothing.
 		except DDNSNetworkError:
@@ -78,26 +78,19 @@ class DDNSSystem(object):
 
 		return match.group(1)
 
+	def guess_external_ipv6_address(self):
+		"""
+			Sends a request to the internet to determine
+			the public IPv6 address.
+		"""
+		return self._guess_external_ip_address("http://checkip6.dns.lightningwirelabs.com")
+
 	def guess_external_ipv4_address(self):
 		"""
 			Sends a request to the internet to determine
-			the public IP address.
-
-			XXX does not work for IPv6.
+			the public IPv4 address.
 		"""
-		try:
-			response = self.send_request("http://checkip4.dns.lightningwirelabs.com", timeout=10)
-
-		# If the server could not be reached, we will return nothing.
-		except DDNSNetworkError:
-			return
-
-		if response.code == 200:
-			match = re.search(r"Your IP address is: (\d+.\d+.\d+.\d+)", response.read())
-			if match is None:
-				return
-
-			return match.group(1)
+		return self._guess_external_ip_address("http://checkip4.dns.lightningwirelabs.com")
 
 	def send_request(self, url, method="GET", data=None, username=None, password=None, timeout=30):
 		assert method in ("GET", "POST")
