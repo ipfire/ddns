@@ -20,4 +20,7 @@ config.log
 config.status
 configure
 install-sh
+intltool-extract.in
+intltool-merge.in
+intltool-update.in
 stamp-*
