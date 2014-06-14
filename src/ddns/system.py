@@ -100,7 +100,10 @@ class DDNSSystem(object):
 			query_args = self._format_query_args(data)
 			data = None
 
-			url = "%s?%s" % (url, query_args)
+			if "?" in url:
+				url = "%s&%s" % (url, query_args)
+			else:
+				url = "%s?%s" % (url, query_args)
 
 		logger.debug("Sending request (%s): %s" % (method, url))
 		if data:
