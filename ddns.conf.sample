@@ -29,6 +29,11 @@
 # provider = dtdns.org
 # password = pass
 
+# [test.freedns.afraid.org]
+# provider = freedns.afraid.org
+# token = token
+# proto = ipv4 OR ipv6
+
 # [test.no-ip.org]
 # provider = no-ip.com
 # username = user
