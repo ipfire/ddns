@@ -115,6 +115,13 @@ class DDNSProvider(object):
 	def protocols(self):
 		return self.INFO.get("protocols")
 
+	@property
+	def token(self):
+		"""
+			Fast access to the token.
+		"""
+		return self.get("token")
+
 	def __call__(self, force=False):
 		if force:
 			logger.info(_("Updating %s forced") % self.hostname)
@@ -369,13 +376,6 @@ class DDNSProviderLightningWireLabs(DDNSProvider):
 	# Information about the format of the HTTPS request is to be found
 	# https://dns.lightningwirelabs.com/knowledge-base/api/ddns
 	url = "https://dns.lightningwirelabs.com/update"
-
-	@property
-	def token(self):
-		"""
-			Fast access to the token.
-		"""
-		return self.get("token")
 
 	def update(self):
 		data =  {
