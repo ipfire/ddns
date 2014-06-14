@@ -94,6 +94,7 @@ class DDNSCore(object):
 			DDNSProviderDHS,
 			DDNSProviderDNSpark,
 			DDNSProviderDtDNS,
+			DDNSProviderDynDNS,
 			DDNSProviderNOIP,
 			DDNSProviderLightningWireLabs,
 			DDNSProviderSelfhost,

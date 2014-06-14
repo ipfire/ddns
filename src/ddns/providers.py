@@ -312,6 +312,54 @@ class DDNSProviderDtDNS(DDNSProvider):
 		raise DDNSUpdateError
 
 
+class DDNSProviderDynDNS(DDNSProvider):
+	INFO = {
+		"handle"    : "dyndns.org",
+		"name"      : "Dyn",
+		"website"   : "http://dyn.com/dns/",
+		"protocols" : ["ipv4",]
+	}
+
+	# Information about the format of the request is to be found
+	# http://http://dyn.com/support/developers/api/perform-update/
+	# http://dyn.com/support/developers/api/return-codes/
+	url = "https://members.dyndns.org/nic/update"
+
+	def update(self):
+		data = {
+			"hostname" : self.hostname,
+			"myip"     : self.get_address("ipv4"),
+		}
+
+		# Send update to the server.
+		response = self.send_request(self.url, username=self.username, password=self.password,
+			data=data)
+
+		# Get the full response message.
+		output = response.read()
+
+		# Handle success messages.
+		if output.startswith("good") or output.startswith("nochg"):
+			return
+
+		# Handle error codes.
+		if output == "badauth":
+			raise DDNSAuthenticationError
+		elif output == "aduse":
+			raise DDNSAbuseError
+		elif output == "notfqdn":
+			raise DDNSRequestError(_("No valid FQDN was given."))
+		elif output == "nohost":
+			raise DDNSRequestError(_("Specified host does not exist."))
+		elif output == "911":
+			raise DDNSInternalServerError
+		elif output == "dnserr":
+			raise DDNSInternalServerError(_("DNS error encountered."))
+
+		# If we got here, some other update error happened.
+		raise DDNSUpdateError
+
+
 class DDNSProviderLightningWireLabs(DDNSProvider):
 	INFO = {
 		"handle"    : "dns.lightningwirelabs.com",

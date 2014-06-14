@@ -29,6 +29,11 @@
 # provider = dtdns.org
 # password = pass
 
+# [test.dyndns.org]
+# provider = dnydns.org
+# username = user
+# password = pass
+
 # [test.no-ip.org]
 # provider = no-ip.com
 # username = user
