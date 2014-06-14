@@ -173,11 +173,6 @@ class DDNSProviderDHS(DDNSProvider):
 	url = "http://members.dhs.org/nic/hosts"
 
 	def update(self):
-		url = self.url % {
-			"username" : self.username,
-			"password" : self.password,
-		}
-
 		data = {
 			"domain"       : self.hostname,
 			"ip"           : self.get_address("ipv4"),
@@ -187,7 +182,7 @@ class DDNSProviderDHS(DDNSProvider):
 		}
 
 		# Send update to the server.
-		response = self.send_request(url, username=self.username, password=self.password,
+		response = self.send_request(self.url, username=self.username, password=self.password,
 			data=data)
 
 		# Handle success messages.
@@ -215,18 +210,13 @@ class DDNSProviderDNSpark(DDNSProvider):
 	url = "https://control.dnspark.com/api/dynamic/update.php"
 
 	def update(self):
-		url = self.url % {
-			"username" : self.username,
-			"password" : self.password,
-		}
-
 		data = {
 			"domain" : self.hostname,
 			"ip"     : self.get_address("ipv4"),
 		}
 
 		# Send update to the server.
-		response = self.send_request(url, username=self.username, password=self.password,
+		response = self.send_request(self.url, username=self.username, password=self.password,
 			data=data)
 
 		# Get the full response message.
