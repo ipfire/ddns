@@ -98,6 +98,7 @@ class DDNSCore(object):
 			DDNSProviderNOIP,
 			DDNSProviderLightningWireLabs,
 			DDNSProviderSelfhost,
+			DDNSProviderVariomedia,
 		):
 			self.register_provider(provider)
 

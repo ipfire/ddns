@@ -51,3 +51,9 @@
 # token = token
 # username = user
 # password = pass
+
+# [test.variomedia.de]
+# provider = variomedia.de
+# username = user
+# password = pass
+# proto = ipv4 OR ipv6

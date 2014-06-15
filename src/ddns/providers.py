@@ -489,3 +489,26 @@ class DDNSProviderSelfhost(DDNSProvider):
 		match = re.search("status=20(0|4)", response.read())
 		if not match:
 			raise DDNSUpdateError
+
+class DDNSProviderVariomedia(DDNSProviderDynDNS):
+	INFO = {
+		"handle"   : "variomedia.de",
+		"name"     : "Variomedia",
+		"website"  : "http://www.variomedia.de/",
+		"protocols" : ["ipv6", "ipv4",]
+	}
+
+	# Detailed information about the request can be found here
+	# https://dyndns.variomedia.de/
+
+	url = "https://dyndns.variomedia.de/nic/update"
+
+	@property
+	def proto(self):
+		return self.get("proto")
+
+	def _prepare_request_data(self):
+		data = {
+			"hostname" : self.hostname,
+			"myip"     : self.get_address(self.proto)
+		}
