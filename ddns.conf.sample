@@ -44,6 +44,11 @@
 # username = user
 # password = pass
 
+# [test.spdns.org]
+# provider = spdns.org
+# username = user
+# password = pass
+
 # [test.lightningwirelabs.com]
 # provider = dns.lightningwirelabs.com
 
