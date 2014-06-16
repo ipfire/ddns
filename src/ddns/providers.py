@@ -321,15 +321,20 @@ class DDNSProviderDynDNS(DDNSProvider):
 	# http://dyn.com/support/developers/api/return-codes/
 	url = "https://members.dyndns.org/nic/update"
 
-	def update(self):
+	def _prepare_request_data(self):
 		data = {
 			"hostname" : self.hostname,
 			"myip"     : self.get_address("ipv4"),
 		}
 
+		return data
+
+	def update(self):
+		data = self._prepare_request_data()
+
 		# Send update to the server.
-		response = self.send_request(self.url, username=self.username, password=self.password,
-			data=data)
+		response = self.send_request(self.url, data=data,
+			username=self.username, password=self.password)
 
 		# Get the full response message.
 		output = response.read()
@@ -458,7 +463,7 @@ class DDNSProviderLightningWireLabs(DDNSProvider):
 		raise DDNSUpdateError
 
 
-class DDNSProviderNOIP(DDNSProvider):
+class DDNSProviderNOIP(DDNSProviderDynDNS):
 	INFO = {
 		"handle"    : "no-ip.com",
 		"name"      : "No-IP",
@@ -470,39 +475,15 @@ class DDNSProviderNOIP(DDNSProvider):
 	# here: http://www.no-ip.com/integrate/request and
 	# here: http://www.no-ip.com/integrate/response
 
-	url = "http://%(username)s:%(password)s@dynupdate.no-ip.com/nic/update"
+	url = "http://dynupdate.no-ip.com/nic/update"
 
-	def update(self):
-		url = self.url % {
-			"username" : self.username,
-			"password" : self.password,
-		}
-
+	def _prepare_request_data(self):
 		data = {
 			"hostname" : self.hostname,
 			"address"  : self.get_address("ipv4"),
 		}
 
-		# Send update to the server.
-		response = self.send_request(url, data=data)
-
-		# Get the full response message.
-		output = response.read()
-
-		# Handle success messages.
-		if output.startswith("good") or output.startswith("nochg"):
-			return
-
-		# Handle error codes.
-		if output == "badauth":
-			raise DDNSAuthenticationError
-		elif output == "aduse":
-			raise DDNSAbuseError
-		elif output == "911":
-			raise DDNSInternalServerError
-
-		# If we got here, some other update error happened.
-		raise DDNSUpdateError
+		return data
 
 
 class DDNSProviderSelfhost(DDNSProvider):
