@@ -361,6 +361,21 @@ class DDNSProviderDynDNS(DDNSProvider):
 		raise DDNSUpdateError
 
 
+class DDNSProviderEasyDNS(DDNSProviderDynDNS):
+	INFO = {
+		"handle"    : "easydns.com",
+		"name"      : "EasyDNS",
+		"website"   : "http://www.easydns.com/",
+		"protocols" : ["ipv4",]
+	}
+
+	# There is only some basic documentation provided by the vendor,
+	# also searching the web gain very poor results.
+	# http://mediawiki.easydns.com/index.php/Dynamic_DNS
+
+	url = "http://api.cp.easydns.com/dyn/tomato.php"
+
+
 class DDNSProviderFreeDNSAfraidOrg(DDNSProvider):
 	INFO = {
 		"handle"    : "freedns.afraid.org",

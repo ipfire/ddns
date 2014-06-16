@@ -95,6 +95,7 @@ class DDNSCore(object):
 			DDNSProviderDNSpark,
 			DDNSProviderDtDNS,
 			DDNSProviderDynDNS,
+			DDNSProviderEasyDNS,
 			DDNSProviderFreeDNSAfraidOrg,
 			DDNSProviderNOIP,
 			DDNSProviderLightningWireLabs,
