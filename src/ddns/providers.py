@@ -115,6 +115,13 @@ class DDNSProvider(object):
 	def protocols(self):
 		return self.INFO.get("protocols")
 
+	@property
+	def token(self):
+		"""
+			Fast access to the token.
+		"""
+		return self.get("token")
+
 	def __call__(self, force=False):
 		if force:
 			logger.info(_("Updating %s forced") % self.hostname)
@@ -258,7 +265,6 @@ class DDNSProviderDtDNS(DDNSProvider):
 	# http://www.dtdns.com/dtsite/updatespec
 	url = "https://www.dtdns.com/api/autodns.cfm"
 
-
 	def update(self):
 		data = {
 			"ip" : self.get_address("ipv4"),
@@ -350,6 +356,45 @@ class DDNSProviderDynDNS(DDNSProvider):
 		raise DDNSUpdateError
 
 
+class DDNSProviderFreeDNSAfraidOrg(DDNSProvider):
+	INFO = {
+		"handle"    : "freedns.afraid.org",
+		"name"      : "freedns.afraid.org",
+		"website"   : "http://freedns.afraid.org/",
+		"protocols" : ["ipv6", "ipv4",]
+		}
+
+	# No information about the request or response could be found on the vendor
+	# page. All used values have been collected by testing.
+	url = "https://freedns.afraid.org/dynamic/update.php"
+
+	@property
+	def proto(self):
+		return self.get("proto")
+
+	def update(self):
+		address = self.get_address(self.proto)
+
+		data = {
+			"address" : address,
+		}
+
+		# Add auth token to the update url.
+		url = "%s?%s" % (self.url, self.token)
+
+		# Send update to the server.
+		response = self.send_request(url, data=data)
+
+		if output.startswith("Updated") or "has not changed" in output:
+			return
+
+		# Handle error codes.
+		if output == "ERROR: Unable to locate this record":
+			raise DDNSAuthenticationError
+		elif "is an invalid IP address" in output:
+			raise DDNSRequestError(_("Invalid IP address has been sent."))
+
+
 class DDNSProviderLightningWireLabs(DDNSProvider):
 	INFO = {
 		"handle"    : "dns.lightningwirelabs.com",
@@ -361,13 +406,6 @@ class DDNSProviderLightningWireLabs(DDNSProvider):
 	# Information about the format of the HTTPS request is to be found
 	# https://dns.lightningwirelabs.com/knowledge-base/api/ddns
 	url = "https://dns.lightningwirelabs.com/update"
-
-	@property
-	def token(self):
-		"""
-			Fast access to the token.
-		"""
-		return self.get("token")
 
 	def update(self):
 		data =  {
