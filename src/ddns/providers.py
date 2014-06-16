@@ -527,3 +527,21 @@ class DDNSProviderSelfhost(DDNSProvider):
 		match = re.search("status=20(0|4)", response.read())
 		if not match:
 			raise DDNSUpdateError
+
+
+class DDNSProviderSPDNS(DDNSProviderDynDNS):
+	INFO = {
+		"handle"    : "spdns.org",
+		"name"      : "SPDNS",
+		"website"   : "http://spdns.org/",
+		"protocols" : ["ipv4",]
+	}
+
+	# Detailed information about request and response codes are provided
+	# by the vendor. They are using almost the same mechanism and status
+	# codes as dyndns.org so we can inherit all those stuff.
+	#
+	# http://wiki.securepoint.de/index.php/SPDNS_FAQ
+	# http://wiki.securepoint.de/index.php/SPDNS_Update-Tokens
+
+	url = "https://update.spdns.de/nic/update"

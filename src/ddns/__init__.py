@@ -99,6 +99,7 @@ class DDNSCore(object):
 			DDNSProviderNOIP,
 			DDNSProviderLightningWireLabs,
 			DDNSProviderSelfhost,
+			DDNSProviderSPDNS,
 		):
 			self.register_provider(provider)
 
