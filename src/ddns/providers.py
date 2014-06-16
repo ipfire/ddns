@@ -510,6 +510,80 @@ class DDNSProviderOVH(DDNSProviderDynDNS):
 		}
 
 
+class DDNSProviderRegfish(DDNSProvider):
+	INFO = {
+		"handle"    : "regfish.com",
+		"name"      : "Regfish GmbH",
+		"website"   : "http://www.regfish.com/",
+		"protocols" : ["ipv6", "ipv4",]
+	}
+
+	# A full documentation to the providers api can be found here
+	# but is only available in german.
+	# https://www.regfish.de/domains/dyndns/dokumentation
+
+	url = "https://dyndns.regfish.de/"
+
+	def update(self):
+		data = {
+			"fqdn" : self.hostname,
+		}
+
+		# Check if we update an IPv6 address.
+		address6 = self.get_address("ipv6")
+		if address6:
+			data["ipv6"] = address6
+
+		# Check if we update an IPv4 address.
+		address4 = self.get_address("ipv4")
+		if address4:
+			data["ipv4"] = address4
+
+		# Raise an error if none address is given.
+		if not data.has_key("ipv6") and not data.has_key("ipv4"):
+			raise DDNSConfigurationError
+
+		# Check if a token has been set.
+		if self.token:
+			data["token"] = self.token
+
+		# Raise an error if no token and no useranem and password
+		# are given.
+		elif not self.username and not self.password:
+			raise DDNSConfigurationError(_("No Auth details specified."))
+
+		# HTTP Basic Auth is only allowed if no token is used.
+		if self.token:
+			# Send update to the server.
+			response = self.send_request(self.url, data=data)
+		else:
+			# Send update to the server.
+			response = self.send_request(self.url, username=self.username, password=self.password,
+				data=data)
+
+		# Get the full response message.
+		output = response.read()
+
+		# Handle success messages.
+		if "100" in output or "101" in output:
+			return
+
+		# Handle error codes.
+		if "401" or "402" in output:
+			raise DDNSAuthenticationError
+		elif "408" in output:
+			raise DDNSRequestError(_("Invalid IPv4 address has been sent."))
+		elif "409" in output:
+			raise DDNSRequestError(_("Invalid IPv6 address has been sent."))
+		elif "412" in output:
+			raise DDNSRequestError(_("No valid FQDN was given."))
+		elif "414" in output:
+			raise DDNSInternalServerError
+
+		# If we got here, some other update error happened.
+		raise DDNSUpdateError
+
+
 class DDNSProviderSelfhost(DDNSProvider):
 	INFO = {
 		"handle"    : "selfhost.de",

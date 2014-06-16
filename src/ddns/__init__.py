@@ -99,6 +99,7 @@ class DDNSCore(object):
 			DDNSProviderNOIP,
 			DDNSProviderLightningWireLabs,
 			DDNSProviderOVH,
+			DDNSProviderRegfish,
 			DDNSProviderSelfhost,
 			DDNSProviderSPDNS,
 			DDNSProviderVariomedia,

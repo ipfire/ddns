@@ -49,6 +49,14 @@
 # username = user
 # password = pass
 
+# [test.regfish.com]
+# provider = regfish.com
+
+# Only use one of these two auth options.
+# token = token
+# username = user
+# password = pass
+
 # [test.selfhost.de]
 # provider = selfhost.de
 # username = user
