@@ -100,6 +100,7 @@ class DDNSCore(object):
 			DDNSProviderLightningWireLabs,
 			DDNSProviderSelfhost,
 			DDNSProviderSPDNS,
+			DDNSProviderVariomedia,
 		):
 			self.register_provider(provider)
 
