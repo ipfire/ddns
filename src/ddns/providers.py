@@ -486,6 +486,30 @@ class DDNSProviderNOIP(DDNSProviderDynDNS):
 		return data
 
 
+class DDNSProviderOVH(DDNSProviderDynDNS):
+	INFO = {
+		"handle"    : "ovh.com",
+		"name"      : "OVH",
+		"website"   : "http://www.ovh.com/",
+		"protocols" : ["ipv4",]
+	}
+
+	# OVH only provides very limited information about how to
+	# update a DynDNS host. They only provide the update url
+	# on the their german subpage.
+	#
+	# http://hilfe.ovh.de/DomainDynHost
+
+	url = "https://www.ovh.com/nic/update"
+
+	def _prepare_request_data(self):
+		data = {
+			"hostname" : self.hostname,
+			"myip"     : self.get_address("ipv4"),
+			"system"   : "dyndns",
+		}
+
+
 class DDNSProviderSelfhost(DDNSProvider):
 	INFO = {
 		"handle"    : "selfhost.de",

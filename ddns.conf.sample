@@ -44,6 +44,11 @@
 # username = user
 # password = pass
 
+# [test.ovh.com]
+# provider = ovh.com
+# username = user
+# password = pass
+
 # [test.selfhost.de]
 # provider = selfhost.de
 # username = user

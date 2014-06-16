@@ -98,6 +98,7 @@ class DDNSCore(object):
 			DDNSProviderFreeDNSAfraidOrg,
 			DDNSProviderNOIP,
 			DDNSProviderLightningWireLabs,
+			DDNSProviderOVH,
 			DDNSProviderSelfhost,
 			DDNSProviderSPDNS,
 			DDNSProviderVariomedia,
