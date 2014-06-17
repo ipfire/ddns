@@ -91,6 +91,7 @@ class DDNSCore(object):
 			Simply registers all providers.
 		"""
 		for provider in (
+			DDNSProviderAllInkl,
 			DDNSProviderDHS,
 			DDNSProviderDNSpark,
 			DDNSProviderDtDNS,

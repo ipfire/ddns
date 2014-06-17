@@ -20,6 +20,7 @@
 ###############################################################################
 
 import logging
+import urllib2
 
 from i18n import _
 
@@ -165,6 +166,47 @@ class DDNSProvider(object):
 			Proxy method to get the current IP address.
 		"""
 		return self.core.system.get_address(proto)
+
+
+class DDNSProviderAllInkl(DDNSProvider):
+	INFO = {
+		"handle"    : "all-inkl.com",
+		"name"      : "All-inkl.com",
+		"website"   : "http://all-inkl.com/",
+		"protocols" : ["ipv4",]
+	}
+
+	# There are only information provided by the vendor how to
+	# perform an update on a FRITZ Box. Grab requried informations
+	# from the net.
+	# http://all-inkl.goetze.it/v01/ddns-mit-einfachen-mitteln/
+
+	url = "http://dyndns.kasserver.com"
+
+	def update(self):
+
+		# There is no additional data required so we directly can
+		# send our request.
+		try:
+			# Send request to the server.
+			response = self.send_request(self.url, username=self.username, password=self.password)
+
+			# Handle 401 HTTP Header (Authentication Error)
+		except urllib2.HTTPError, e:
+			if e.code == 401:
+				raise DDNSAuthenticationError
+
+			raise
+
+		# Get the full response message.
+		output = response.read()
+
+		# Handle success messages.
+		if output.startswith("good") or output.startswith("nochg"):
+			return
+
+		# If we got here, some other update error happened.
+		raise DDNSUpdateError
 
 
 class DDNSProviderDHS(DDNSProvider):

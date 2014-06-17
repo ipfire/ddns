@@ -15,6 +15,11 @@
 # Accounts are its own sections.
 # These are some examples.
 
+# [test.all-inkl.com]
+# provider = all-inkl.com
+# username = user
+# password = pass
+
 # [test.dhs.org]
 # provider = dhs.org
 # username = user
