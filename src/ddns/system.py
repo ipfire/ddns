@@ -113,7 +113,6 @@ class DDNSSystem(object):
 
 		if username and password:
 			basic_auth_header = self._make_basic_auth_header(username, password)
-			print repr(basic_auth_header)
 			req.add_header("Authorization", "Basic %s" % basic_auth_header)
 
 		# Set the user agent.
