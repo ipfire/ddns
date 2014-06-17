@@ -377,11 +377,14 @@ class DDNSProviderDynU(DDNSProviderDynDNS):
 	url = "https://api.dynu.com/nic/update"
 
 	def _prepare_request_data(self):
-		data = {
-			"hostname" : self.hostname,
-			"myip"     : self.get_address("ipv4"),
+		data = DDNSProviderDynDNS._prepare_request_data(self)
+
+		# This one supports IPv6
+		data.update({
 			"myipv6"   : self.get_address("ipv6"),
-		}
+		})
+
+		return data
 
 
 class DDNSProviderEasyDNS(DDNSProviderDynDNS):
@@ -541,11 +544,12 @@ class DDNSProviderOVH(DDNSProviderDynDNS):
 	url = "https://www.ovh.com/nic/update"
 
 	def _prepare_request_data(self):
-		data = {
-			"hostname" : self.hostname,
-			"myip"     : self.get_address("ipv4"),
-			"system"   : "dyndns",
-		}
+		data = DDNSProviderDynDNS._prepare_request_data(self)
+		data.update({
+			"system" : "dyndns",
+		})
+
+		return data
 
 
 class DDNSProviderRegfish(DDNSProvider):
@@ -686,3 +690,5 @@ class DDNSProviderVariomedia(DDNSProviderDynDNS):
 			"hostname" : self.hostname,
 			"myip"     : self.get_address(self.proto)
 		}
+
+		return data
