@@ -361,6 +361,29 @@ class DDNSProviderDynDNS(DDNSProvider):
 		raise DDNSUpdateError
 
 
+class DDNSProviderDynU(DDNSProviderDynDNS):
+	INFO = {
+		"handle"    : "dynu.com",
+		"name"      : "Dynu",
+		"website"   : "http://dynu.com/",
+		"protocols" : ["ipv6", "ipv4",]
+	}
+
+
+	# Detailed information about the request and response codes
+	# are available on the providers webpage.
+	# http://dynu.com/Default.aspx?page=dnsapi
+
+	url = "https://api.dynu.com/nic/update"
+
+	def _prepare_request_data(self):
+		data = {
+			"hostname" : self.hostname,
+			"myip"     : self.get_address("ipv4"),
+			"myipv6"   : self.get_address("ipv6"),
+		}
+
+
 class DDNSProviderEasyDNS(DDNSProviderDynDNS):
 	INFO = {
 		"handle"    : "easydns.com",
