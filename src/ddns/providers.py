@@ -806,3 +806,51 @@ class DDNSProviderVariomedia(DDNSProviderDynDNS):
 		}
 
 		return data
+
+
+class DDNSProviderZoneedit(DDNSProvider):
+	INFO = {
+		"handle"    : "zoneedit.com",
+		"name"      : "Zoneedit",
+		"website"   : "http://www.zoneedit.com",
+		"protocols" : ["ipv6", "ipv4",]
+	}
+
+	# Detailed information about the request and the response codes can be
+	# obtained here:
+	# http://www.zoneedit.com/doc/api/other.html
+	# http://www.zoneedit.com/faq.html
+
+	url = "https://dynamic.zoneedit.com/auth/dynamic.html"
+
+	@property
+	def proto(self):
+		return self.get("proto")
+
+	def update(self):
+		data = {
+			"dnsto" : self.get_address(self.proto),
+			"host"  : self.hostname
+		}
+
+		# Send update to the server.
+		response = self.send_request(self.url, username=self.username, password=self.password,
+			data=data)
+
+		# Get the full response message.
+		output = response.read()
+
+		# Handle success messages.
+		if output.startswith("<SUCCESS"):
+			return
+
+		# Handle error codes.
+		if output.startswith("invalid login"):
+			raise DDNSAuthenticationError
+		elif output.startswith("<ERROR CODE=\"704\""):
+			raise DDNSRequestError(_("No valid FQDN was given.")) 
+		elif output.startswith("<ERROR CODE=\"702\""):
+			raise DDNSInternalServerError
+
+		# If we got here, some other update error happened.
+		raise DDNSUpdateError

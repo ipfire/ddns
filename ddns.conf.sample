@@ -99,3 +99,9 @@
 # username = user
 # password = pass
 # proto = ipv4 OR ipv6
+
+# [test.zoneedit.com]
+# provider = zoneedit.com
+# username = user
+# password = pass
+# proto = ipv4 OR ipv6 
