@@ -54,6 +54,10 @@
 # token = token
 # proto = ipv4 OR ipv6
 
+# [test.namecheap.com]
+# provider = namecheap.com
+# password = pass
+
 # [test.no-ip.org]
 # provider = no-ip.com
 # username = user

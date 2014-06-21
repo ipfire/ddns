@@ -99,6 +99,7 @@ class DDNSCore(object):
 			DDNSProviderDynU,
 			DDNSProviderEasyDNS,
 			DDNSProviderFreeDNSAfraidOrg,
+			DDNSProviderNamecheap,
 			DDNSProviderNOIP,
 			DDNSProviderLightningWireLabs,
 			DDNSProviderOVH,
