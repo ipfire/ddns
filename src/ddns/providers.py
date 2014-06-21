@@ -20,6 +20,7 @@
 ###############################################################################
 
 import logging
+import xml.dom.minidom
 
 from i18n import _
 
@@ -499,6 +500,77 @@ class DDNSProviderLightningWireLabs(DDNSProvider):
 			raise DDNSAuthenticationError
 		elif response.code == 400:
 			raise DDNSRequestError
+
+		# If we got here, some other update error happened.
+		raise DDNSUpdateError
+
+
+class DDNSProviderNamecheap(DDNSProvider):
+	INFO = {
+		"handle"    : "namecheap.com",
+		"name"      : "Namecheap",
+		"website"   : "http://namecheap.com",
+		"protocols" : ["ipv4",]
+	}
+
+	# Information about the format of the HTTP request is to be found
+	# https://www.namecheap.com/support/knowledgebase/article.aspx/9249/0/nc-dynamic-dns-to-dyndns-adapter
+	# https://community.namecheap.com/forums/viewtopic.php?f=6&t=6772
+
+	url = "https://dynamicdns.park-your-domain.com/update"
+
+	def parse_xml(self, document, content):
+		# Send input to the parser.
+		xmldoc = xml.dom.minidom.parseString(document)
+
+		# Get XML elements by the given content.
+		element = xmldoc.getElementsByTagName(content)
+
+		# If no element has been found, we directly can return None.
+		if not element:
+			return None
+
+		# Only get the first child from an element, even there are more than one.
+		firstchild = element[0].firstChild
+
+		# Get the value of the child.
+		value = firstchild.nodeValue
+
+		# Return the value.
+		return value
+		
+	def update(self):
+		# Namecheap requires the hostname splitted into a host and domain part.
+		host, domain = self.hostname.split(".", 1)
+
+		data = {
+			"ip"       : self.get_address("ipv4"),
+			"password" : self.password,
+			"host"     : host,
+			"domain"   : domain
+		}
+
+		# Send update to the server.
+		response = self.send_request(self.url, data=data)
+
+		# Get the full response message.
+		output = response.read()
+
+		# Handle success messages.
+		if self.parse_xml(output, "IP") == self.get_address("ipv4"):
+			return
+
+		# Handle error codes.
+		errorcode = self.parse_xml(output, "ResponseNumber")
+
+		if errorcode == "304156":
+			raise DDNSAuthenticationError
+		elif errorcode == "316153":
+			raise DDNSRequestError(_("Domain not found."))
+		elif errorcode == "316154":
+			raise DDNSRequestError(_("Domain not active."))
+		elif errorcode in ("380098", "380099"):
+			raise DDNSInternalServerError
 
 		# If we got here, some other update error happened.
 		raise DDNSUpdateError
