@@ -94,6 +94,11 @@
 # username = user
 # password = pass
 
+# [test.udmedia.de]
+# provider = udmedia.de
+# username = user
+# password = pass
+
 # [test.variomedia.de]
 # provider = variomedia.de
 # username = user
