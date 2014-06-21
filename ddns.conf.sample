@@ -86,6 +86,11 @@
 # username = user
 # password = pass
 
+# [test.strato.com]
+# provider = strato.com
+# username = user
+# password = pass
+
 # [test.lightningwirelabs.com]
 # provider = dns.lightningwirelabs.com
 

@@ -782,6 +782,20 @@ class DDNSProviderSPDNS(DDNSProviderDynDNS):
 	url = "https://update.spdns.de/nic/update"
 
 
+class DDNSProviderStrato(DDNSProviderDynDNS):
+	INFO = {
+		"handle"    : "strato.com",
+		"name"      : "Strato AG",
+		"website"   : "http:/www.strato.com/",
+		"protocols" : ["ipv4",]
+	}
+
+	# Information about the request and response can be obtained here:
+	# http://www.strato-faq.de/article/671/So-einfach-richten-Sie-DynDNS-f%C3%BCr-Ihre-Domains-ein.html
+
+	url = "https://dyndns.strato.com/nic/update"
+
+
 class DDNSProviderVariomedia(DDNSProviderDynDNS):
 	INFO = {
 		"handle"   : "variomedia.de",
