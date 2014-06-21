@@ -104,6 +104,7 @@ class DDNSCore(object):
 			DDNSProviderRegfish,
 			DDNSProviderSelfhost,
 			DDNSProviderSPDNS,
+			DDNSProviderTwoDNS,
 			DDNSProviderVariomedia,
 		):
 			self.register_provider(provider)

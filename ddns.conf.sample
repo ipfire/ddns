@@ -85,6 +85,11 @@
 # username = user
 # password = pass
 
+# [test.twodns.de]
+# provider = twodns.de
+# username = user
+# password = pass
+
 # [test.variomedia.de]
 # provider = variomedia.de
 # username = user

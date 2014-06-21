@@ -668,6 +668,29 @@ class DDNSProviderSPDNS(DDNSProviderDynDNS):
 	url = "https://update.spdns.de/nic/update"
 
 
+class DDNSProviderTwoDNS(DDNSProviderDynDNS):
+	INFO = {
+		"handle"    : "twodns.de",
+		"name"      : "TwoDNS",
+		"website"   : "http://www.twodns.de",
+		"protocols" : ["ipv4",]
+	}
+
+	# Detailed information about the request can be found here
+	# http://twodns.de/en/faqs
+	# http://twodns.de/en/api
+
+	url = "https://update.twodns.de/update"
+
+	def _prepare_request_data(self):
+		data = {
+			"ip" : self.get_address("ipv4"),
+			"hostname" : self.hostname
+		}
+
+		return data
+
+
 class DDNSProviderVariomedia(DDNSProviderDynDNS):
 	INFO = {
 		"handle"   : "variomedia.de",
