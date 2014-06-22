@@ -197,8 +197,7 @@ class DDNSCore(object):
 
 		except Exception, e:
 			logger.error(_("Dynamic DNS update for %(hostname)s (%(provider)s) throwed an unhandled exception:") % \
-				{ "hostname" : entry.hostname, "provider" : entry.name })
-			logger.error("  %s" % e)
+				{ "hostname" : entry.hostname, "provider" : entry.name }, exc_info=True)
 
 		else:
 			logger.info(_("Dynamic DNS update for %(hostname)s (%(provider)s) successful") % \
