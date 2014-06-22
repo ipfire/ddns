@@ -19,12 +19,24 @@
 #                                                                             #
 ###############################################################################
 
+N_ = lambda x: x
+
 class DDNSError(Exception):
-	pass
+	"""
+		Generic error class for all exceptions
+		raised by DDNS.
+	"""
+	reason = N_("Error")
+
+	def __init__(self, message=None):
+		self.message = message
 
 
 class DDNSNetworkError(DDNSError):
-	pass
+	"""
+		Thrown when a network error occured.
+	"""
+	reason = N_("Network error")
 
 
 class DDNSAbuseError(DDNSError):
@@ -32,7 +44,7 @@ class DDNSAbuseError(DDNSError):
 		Thrown when the server reports
 		abuse for this account.
 	"""
-	pass
+	reason = N_("The server denied processing the request because account abuse is suspected")
 
 
 class DDNSAuthenticationError(DDNSError):
@@ -40,7 +52,7 @@ class DDNSAuthenticationError(DDNSError):
 		Thrown when the server did not
 		accept the user credentials.
 	"""
-	pass
+	reason = N_("Authentication against the server has failed")
 
 
 class DDNSBlockedError(DDNSError):
@@ -49,7 +61,7 @@ class DDNSBlockedError(DDNSError):
 		(specified by the user-agent) has been blocked
 		by a dynamic DNS provider.
 	"""
-	pass
+	reason = N_("The server denies any updates from this client")
 
 
 class DDNSConfigurationError(DDNSError):
@@ -57,21 +69,21 @@ class DDNSConfigurationError(DDNSError):
 		Thrown when invalid or insufficient
 		data is provided by the configuration file.
 	"""
-	pass
+	reason = N_("The configuration file has errors")
 
 
 class DDNSConnectionRefusedError(DDNSNetworkError):
 	"""
 		Thrown when a connection is refused.
 	"""
-	pass
+	reason = N_("Connection refused")
 
 
 class DDNSConnectionTimeoutError(DDNSNetworkError):
 	"""
 		Thrown when a connection to a server has timed out.
 	"""
-	pass
+	reason = N_("Connection timeout")
 
 
 class DDNSHostNotFoundError(DDNSError):
@@ -79,7 +91,7 @@ class DDNSHostNotFoundError(DDNSError):
 		Thrown when a configuration entry could
 		not be found.
 	"""
-	pass
+	reason = N_("The host could not be found in the configuration file")
 
 
 class DDNSInternalServerError(DDNSError):
@@ -87,14 +99,14 @@ class DDNSInternalServerError(DDNSError):
 		Thrown when the remote server reported
 		an error on the provider site.
 	"""
-	pass
+	reason = N_("Internal server error")
 
 
 class DDNSNetworkUnreachableError(DDNSNetworkError):
 	"""
 		Thrown when a network is not reachable.
 	"""
-	pass
+	reason = N_("Network unreachable")
 
 
 class DDNSRequestError(DDNSError):
@@ -102,14 +114,14 @@ class DDNSRequestError(DDNSError):
 		Thrown when a request could
 		not be properly performed.
 	"""
-	pass
+	reason = N_("Request error")
 
 
 class DDNSServiceUnavailableError(DDNSNetworkError):
 	"""
 		Equivalent to HTTP error code 503.
 	"""
-	pass
+	reason = N_("Service unavailable")
 
 
 class DDNSUpdateError(DDNSError):
@@ -117,4 +129,4 @@ class DDNSUpdateError(DDNSError):
 		Thrown when an update could not be
 		properly performed.
 	"""
-	pass
+	reason = N_("The update could not be performed")

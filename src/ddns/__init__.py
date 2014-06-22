@@ -190,10 +190,12 @@ class DDNSCore(object):
 		try:
 			entry(force=force)
 
-		except DDNSUpdateError, e:
+		except DDNSError, e:
 			logger.error(_("Dynamic DNS update for %(hostname)s (%(provider)s) failed:") % \
 				{ "hostname" : entry.hostname, "provider" : entry.name })
-			logger.error("  %s" % e)
+			logger.error("  %s: %s" % (e.__class__.__name__, e.reason))
+			if e.message:
+				logger.error("  %s" % e.message)
 
 		except Exception, e:
 			logger.error(_("Dynamic DNS update for %(hostname)s (%(provider)s) throwed an unhandled exception:") % \
