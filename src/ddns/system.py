@@ -160,7 +160,7 @@ class DDNSSystem(object):
 			resp = urllib2.urlopen(req, timeout=timeout)
 
 			# Log response header.
-			logger.debug(_("Response header:"))
+			logger.debug(_("Response header (Status Code %s):") % resp.code)
 			for k, v in resp.info().items():
 				logger.debug("  %s: %s" % (k, v))
 
