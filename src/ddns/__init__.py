@@ -52,7 +52,11 @@ class DDNSCore(object):
 	def __init__(self, debug=False):
 		# In debug mode, enable debug logging.
 		if debug:
-			logger.setLevel(logging.DEBUG)
+			rootlogger = logging.getLogger("ddns")
+			rootlogger.setLevel(logging.DEBUG)
+			for handler in rootlogger.handlers:
+				handler.setLevel(logging.DEBUG)
+
 			logger.debug(_("Debugging mode enabled"))
 
 		# Initialize the settings array.
