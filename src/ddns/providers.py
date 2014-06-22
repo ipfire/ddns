@@ -139,11 +139,11 @@ class DDNSProvider(object):
 		"""
 		return self.core.system.send_request(*args, **kwargs)
 
-	def get_address(self, proto):
+	def get_address(self, proto, default=None):
 		"""
 			Proxy method to get the current IP address.
 		"""
-		return self.core.system.get_address(proto)
+		return self.core.system.get_address(proto) or default
 
 
 class DDNSProviderAllInkl(DDNSProvider):
@@ -440,21 +440,9 @@ class DDNSProviderLightningWireLabs(DDNSProvider):
 	def update(self):
 		data =  {
 			"hostname" : self.hostname,
+			"address6" : self.get_address("ipv6", "-"),
+			"address4" : self.get_address("ipv4", "-"),
 		}
-
-		# Check if we update an IPv6 address.
-		address6 = self.get_address("ipv6")
-		if address6:
-			data["address6"] = address6
-
-		# Check if we update an IPv4 address.
-		address4 = self.get_address("ipv4")
-		if address4:
-			data["address4"] = address4
-
-		# Raise an error if none address is given.
-		if not data.has_key("address6") and not data.has_key("address4"):
-			raise DDNSConfigurationError
 
 		# Check if a token has been set.
 		if self.token:
