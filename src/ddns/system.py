@@ -228,6 +228,10 @@ class DDNSSystem(object):
 			if e.errno == -2:
 				return []
 
+			# No record for requested family available (e.g. no AAAA)
+			elif e.errno == -5:
+				return []
+
 			raise
 
 		# Handle responses.
