@@ -72,12 +72,12 @@ def main():
 	# Handle commands...
 	if args.subparsers_name == "guess-ip-addresses":
 		# IPv6
-		ipv6_address = d.system.guess_external_ipv6_address()
+		ipv6_address = d.system.guess_external_ip_address("ipv6")
 		if ipv6_address:
 			print _("IPv6 Address: %s") % ipv6_address
 
 		# IPv4
-		ipv4_address = d.system.guess_external_ipv4_address()
+		ipv4_address = d.system.guess_external_ip_address("ipv4")
 		if ipv4_address:
 			print _("IPv4 Address: %s") % ipv4_address
 

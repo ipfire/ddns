@@ -103,19 +103,15 @@ class DDNSSystem(object):
 
 		return match.group(1)
 
-	def guess_external_ipv6_address(self):
-		"""
-			Sends a request to the internet to determine
-			the public IPv6 address.
-		"""
-		return self._guess_external_ip_address("http://checkip6.dns.lightningwirelabs.com")
+	def guess_external_ip_address(self, family, **kwargs):
+		if family == "ipv6":
+			url = "http://checkip6.dns.lightningwirelabs.com"
+		elif family == "ipv4":
+			url = "http://checkip4.dns.lightningwirelabs.com"
+		else:
+			raise ValueError("unknown address family")
 
-	def guess_external_ipv4_address(self):
-		"""
-			Sends a request to the internet to determine
-			the public IPv4 address.
-		"""
-		return self._guess_external_ip_address("http://checkip4.dns.lightningwirelabs.com")
+		return self._guess_external_ip_address(url, **kwargs)
 
 	def send_request(self, url, method="GET", data=None, username=None, password=None, timeout=30):
 		assert method in ("GET", "POST")
@@ -256,11 +252,7 @@ class DDNSSystem(object):
 		# If the external IP address should be used, we just do
 		# that.
 		if guess_ip in ("true", "yes", "1"):
-			if proto == "ipv6":
-				return self.guess_external_ipv6_address()
-
-			elif proto == "ipv4":
-				return self.guess_external_ipv4_address()
+			return self.guess_external_ip_address(proto)
 
 		# Get the local IP addresses.
 		else:
