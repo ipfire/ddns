@@ -196,6 +196,10 @@ class DDNSSystem(object):
 	def get_address(self, proto):
 		assert proto in ("ipv6", "ipv4")
 
+		# IPFire 2 does not support IPv6.
+		if self.distro == "ipfire-2" and proto == "ipv6":
+			return
+
 		# Check if the external IP address should be guessed from
 		# a remote server.
 		guess_ip = self.core.settings.get("guess_external_ip", "true")
