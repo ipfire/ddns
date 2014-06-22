@@ -150,6 +150,11 @@ class DDNSProvider(object):
 
 			current_address = self.get_address(proto)
 
+			# If no addresses for the given protocol exist, we
+			# are fine...
+			if current_address is None and not addresses:
+				continue
+
 			if not current_address in addresses:
 				return False
 
