@@ -98,11 +98,11 @@ class DDNSProvider(object):
 
 	def __call__(self, force=False):
 		if force:
-			logger.info(_("Updating %s forced") % self.hostname)
+			logger.debug(_("Updating %s forced") % self.hostname)
 
 		# Check if we actually need to update this host.
 		elif self.is_uptodate(self.protocols):
-			logger.info(_("%s is already up to date") % self.hostname)
+			logger.debug(_("%s is already up to date") % self.hostname)
 			return
 
 		# Execute the update.
