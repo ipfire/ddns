@@ -745,7 +745,7 @@ class DDNSProviderRegfish(DDNSProvider):
 		raise DDNSUpdateError
 
 
-class DDNSProviderSelfhost(DDNSProvider):
+class DDNSProviderSelfhost(DDNSProviderDynDNS):
 	INFO = {
 		"handle"    : "selfhost.de",
 		"name"      : "Selfhost.de",
@@ -753,20 +753,15 @@ class DDNSProviderSelfhost(DDNSProvider):
 		"protocols" : ["ipv4",],
 	}
 
-	url = "https://carol.selfhost.de/update"
+	url = "https://carol.selfhost.de/nic/update"
 
-	def update(self):
-		data = {
-			"username" : self.username,
-			"password" : self.password,
-			"textmodi" : "1",
-		}
+	def _prepare_request_data(self):
+		data = DDNSProviderDynDNS._prepare_request_data(self)
+		data.update({
+			"hostname" : "1",
+		})
 
-		response = self.send_request(self.url, data=data)
-
-		match = re.search("status=20(0|4)", response.read())
-		if not match:
-			raise DDNSUpdateError
+		return data
 
 
 class DDNSProviderSPDNS(DDNSProviderDynDNS):
