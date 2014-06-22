@@ -47,6 +47,9 @@ class DDNSSystem(object):
 		# Connection to the core of the program.
 		self.core = core
 
+		# Address cache.
+		self.__addresses = {}
+
 		# Find out on which distribution we are running.
 		self.distro = self._get_distro_identifier()
 		logger.debug(_("Running on distribution: %s") % self.distro)
@@ -225,6 +228,21 @@ class DDNSSystem(object):
 		return authstring
 
 	def get_address(self, proto):
+		"""
+			Returns the current IP address for
+			the given IP protocol.
+		"""
+		try:
+			return self.__addresses[proto]
+
+		# IP is currently unknown and needs to be retrieved.
+		except KeyError:
+			self.__addresses[proto] = address = \
+				self._get_address(proto)
+
+			return address
+
+	def _get_address(self, proto):
 		assert proto in ("ipv6", "ipv4")
 
 		# IPFire 2 does not support IPv6.
