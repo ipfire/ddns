@@ -168,9 +168,22 @@ class DDNSSystem(object):
 			return resp
 
 		except urllib2.HTTPError, e:
+			# 400 - Bad request
+			if e.code == 400:
+				raise DDNSRequestError(e.reason)
+
+			# 401 - Authorization Required
+			# 403 - Forbidden
+			elif e.code in (401, 403):
+				raise DDNSAuthenticationError(e.reason)
+
+			# 500 - Internal Server Error
+			elif e.code == 500:
+				raise DDNSInternalServerError(e.reason)
+
 			# 503 - Service Unavailable
-			if e.code == 503:
-				raise DDNSServiceUnavailableError
+			elif e.code == 503:
+				raise DDNSServiceUnavailableError(e.reason)
 
 			# Raise all other unhandled exceptions.
 			raise

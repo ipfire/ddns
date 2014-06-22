@@ -190,19 +190,9 @@ class DDNSProviderAllInkl(DDNSProvider):
 	url = "http://dyndns.kasserver.com"
 
 	def update(self):
-
 		# There is no additional data required so we directly can
 		# send our request.
-		try:
-			# Send request to the server.
-			response = self.send_request(self.url, username=self.username, password=self.password)
-
-			# Handle 401 HTTP Header (Authentication Error)
-		except urllib2.HTTPError, e:
-			if e.code == 401:
-				raise DDNSAuthenticationError
-
-			raise
+		response = self.send_request(self.url, username=self.username, password=self.password)
 
 		# Get the full response message.
 		output = response.read()
@@ -243,10 +233,6 @@ class DDNSProviderDHS(DDNSProvider):
 		# Handle success messages.
 		if response.code == 200:
 			return
-
-		# Handle error codes.
-		elif response.code == 401:
-			raise DDNSAuthenticationError
 
 		# If we got here, some other update error happened.
 		raise DDNSUpdateError
@@ -541,12 +527,6 @@ class DDNSProviderLightningWireLabs(DDNSProvider):
 		# Handle success messages.
 		if response.code == 200:
 			return
-
-		# Handle error codes.
-		if response.code == 403:
-			raise DDNSAuthenticationError
-		elif response.code == 400:
-			raise DDNSRequestError
 
 		# If we got here, some other update error happened.
 		raise DDNSUpdateError
