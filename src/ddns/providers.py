@@ -406,7 +406,7 @@ class DDNSProviderDynDNS(DDNSProvider):
 			raise DDNSInternalServerError(_("DNS error encountered."))
 
 		# If we got here, some other update error happened.
-		raise DDNSUpdateError
+		raise DDNSUpdateError(_("Server response: %s") % output)
 
 
 class DDNSProviderDynU(DDNSProviderDynDNS):
