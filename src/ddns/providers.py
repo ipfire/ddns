@@ -430,7 +430,7 @@ class DDNSProviderFreeDNSAfraidOrg(DDNSProvider):
 
 class DDNSProviderLightningWireLabs(DDNSProvider):
 	handle    = "dns.lightningwirelabs.com"
-	name      = "Lightning Wire Labs"
+	name      = "Lightning Wire Labs DNS Service"
 	website   = "http://dns.lightningwirelabs.com/"
 
 	# Information about the format of the HTTPS request is to be found
