@@ -819,6 +819,20 @@ class DDNSProviderTwoDNS(DDNSProviderDynDNS):
 		return data
 
 
+class DDNSProviderUdmedia(DDNSProviderDynDNS):
+	INFO = {
+		"handle"    : "udmedia.de",
+		"name"      : "Udmedia GmbH",
+		"website"   : "http://www.udmedia.de",
+		"protocols" : ["ipv4",]
+	}
+
+	# Information about the request can be found here
+	# http://www.udmedia.de/faq/content/47/288/de/wie-lege-ich-einen-dyndns_eintrag-an.html
+
+	url = "https://www.udmedia.de/nic/update"
+
+
 class DDNSProviderVariomedia(DDNSProviderDynDNS):
 	INFO = {
 		"handle"   : "variomedia.de",

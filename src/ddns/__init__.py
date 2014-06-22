@@ -108,6 +108,7 @@ class DDNSCore(object):
 			DDNSProviderSPDNS,
 			DDNSProviderStrato,
 			DDNSProviderTwoDNS,
+			DDNSProviderUdmedia,
 			DDNSProviderVariomedia,
 		):
 			self.register_provider(provider)
