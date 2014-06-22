@@ -247,15 +247,52 @@ class DDNSSystem(object):
 		# Check if the external IP address should be guessed from
 		# a remote server.
 		guess_ip = self.core.settings.get("guess_external_ip", "true")
+		guess_ip = guess_ip in ("true", "yes", "1")
 
-		# If the external IP address should be used, we just do
-		# that.
-		if guess_ip in ("true", "yes", "1"):
+		# If the external IP address should be used, we just do that.
+		if guess_ip:
 			return self.guess_external_ip_address(proto)
 
-		# Get the local IP addresses.
-		else:
-			return self.get_local_ip_address(proto)
+		# Get the local IP address.
+		local_ip_address = self.get_local_ip_address(proto)
+
+		# If the local IP address is not usable, we must guess
+		# the correct IP address...
+		if not self._is_usable_ip_address(proto, local_ip_address):
+			local_ip_address = self.guess_external_ip_address(proto)
+
+		return local_ip_address
+
+	def _is_usable_ip_address(self, proto, address):
+		"""
+			Returns True is the local IP address is usable
+			for dynamic DNS (i.e. is not a RFC1918 address or similar).
+		"""
+		if proto == "ipv4":
+			# This is not the most perfect solution to match
+			# these addresses, but instead of pulling in an entire
+			# library to handle the IP addresses better, we match
+			# with regular expressions instead.
+			matches = (
+				# RFC1918 address space
+				r"^10\.\d+\.\d+\.\d+$",
+				r"^192\.168\.\d+\.\d+$",
+				r"^172\.(1[6-9]|2[0-9]|31)\.\d+\.\d+$",
+
+				# Dual Stack Lite address space
+				r"^100\.(6[4-9]|[7-9][0-9]|1[01][0-9]|12[0-7])\.\d+\.\d+",
+			)
+
+			for match in matches:
+				m = re.match(match, address)
+				if m is None:
+					continue
+
+				# Found a match. IP address is not usable.
+				return False
+
+		# In all other cases, return OK.
+		return True
 
 	def resolve(self, hostname, proto=None):
 		addresses = []
