@@ -110,6 +110,7 @@ class DDNSCore(object):
 			DDNSProviderTwoDNS,
 			DDNSProviderUdmedia,
 			DDNSProviderVariomedia,
+			DDNSProviderZoneedit,
 		):
 			self.register_provider(provider)
 
