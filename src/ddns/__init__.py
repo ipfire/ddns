@@ -78,17 +78,14 @@ class DDNSCore(object):
 		"""
 		assert issubclass(provider, DDNSProvider)
 
-		provider_handle = provider.INFO.get("handle")
-		assert provider_handle
+		if not all((provider.handle, provider.name, provider.website)):
+			raise DDNSError(_("Provider is not properly configured"))
 
-		assert not self.providers.has_key(provider_handle), \
-			"Provider '%s' has already been registered" % provider_handle
+		assert not self.providers.has_key(provider.handle), \
+			"Provider '%s' has already been registered" % provider.handle
 
-		provider_name = provider.INFO.get("name")
-		assert provider_name
-
-		logger.debug("Registered new provider: %s (%s)" % (provider_name, provider_handle))
-		self.providers[provider_handle] = provider
+		logger.debug("Registered new provider: %s (%s)" % (provider.name, provider.handle))
+		self.providers[provider.handle] = provider
 
 	def register_all_providers(self):
 		"""

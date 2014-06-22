@@ -32,21 +32,19 @@ logger = logging.getLogger("ddns.providers")
 logger.propagate = 1
 
 class DDNSProvider(object):
-	INFO = {
-		# A short string that uniquely identifies
-		# this provider.
-		"handle"    : None,
+	# A short string that uniquely identifies
+	# this provider.
+	handle = None
 
-		# The full name of the provider.
-		"name"      : None,
+	# The full name of the provider.
+	name = None
 
-		# A weburl to the homepage of the provider.
-		# (Where to register a new account?)
-		"website"   : None,
+	# A weburl to the homepage of the provider.
+	# (Where to register a new account?)
+	website = None
 
-		# A list of supported protocols.
-		"protocols" : ["ipv6", "ipv4"],
-	}
+	# A list of supported protocols.
+	protocols = ("ipv6", "ipv4")
 
 	DEFAULT_SETTINGS = {}
 
@@ -63,28 +61,6 @@ class DDNSProvider(object):
 
 	def __cmp__(self, other):
 		return cmp(self.hostname, other.hostname)
-
-	@property
-	def name(self):
-		"""
-			Returns the name of the provider.
-		"""
-		return self.INFO.get("name")
-
-	@property
-	def website(self):
-		"""
-			Returns the website URL of the provider
-			or None if that is not available.
-		"""
-		return self.INFO.get("website", None)
-
-	@property
-	def handle(self):
-		"""
-			Returns the handle of this provider.
-		"""
-		return self.INFO.get("handle")
 
 	def get(self, key, default=None):
 		"""
@@ -112,10 +88,6 @@ class DDNSProvider(object):
 			Fast access to the password.
 		"""
 		return self.get("password")
-
-	@property
-	def protocols(self):
-		return self.INFO.get("protocols")
 
 	@property
 	def token(self):
@@ -175,12 +147,10 @@ class DDNSProvider(object):
 
 
 class DDNSProviderAllInkl(DDNSProvider):
-	INFO = {
-		"handle"    : "all-inkl.com",
-		"name"      : "All-inkl.com",
-		"website"   : "http://all-inkl.com/",
-		"protocols" : ["ipv4",]
-	}
+	handle    = "all-inkl.com"
+	name      = "All-inkl.com"
+	website   = "http://all-inkl.com/"
+	protocols = ("ipv4",)
 
 	# There are only information provided by the vendor how to
 	# perform an update on a FRITZ Box. Grab requried informations
@@ -206,12 +176,10 @@ class DDNSProviderAllInkl(DDNSProvider):
 
 
 class DDNSProviderDHS(DDNSProvider):
-	INFO = {
-		"handle"    : "dhs.org",
-		"name"      : "DHS International",
-		"website"   : "http://dhs.org/",
-		"protocols" : ["ipv4",]
-	}
+	handle    = "dhs.org"
+	name      = "DHS International"
+	website   = "http://dhs.org/"
+	protocols = ("ipv4",)
 
 	# No information about the used update api provided on webpage,
 	# grabed from source code of ez-ipudate.
@@ -239,12 +207,10 @@ class DDNSProviderDHS(DDNSProvider):
 
 
 class DDNSProviderDNSpark(DDNSProvider):
-	INFO = {
-		"handle"    : "dnspark.com",
-		"name"      : "DNS Park",
-		"website"   : "http://dnspark.com/",
-		"protocols" : ["ipv4",]
-	}
+	handle    = "dnspark.com"
+	name      = "DNS Park"
+	website   = "http://dnspark.com/"
+	protocols = ("ipv4",)
 
 	# Informations to the used api can be found here:
 	# https://dnspark.zendesk.com/entries/31229348-Dynamic-DNS-API-Documentation
@@ -288,12 +254,10 @@ class DDNSProviderDNSpark(DDNSProvider):
 
 
 class DDNSProviderDtDNS(DDNSProvider):
-	INFO = {
-		"handle"    : "dtdns.com",
-		"name"      : "DtDNS",
-		"website"   : "http://dtdns.com/",
-		"protocols" : ["ipv4",]
-		}
+	handle    = "dtdns.com"
+	name      = "DtDNS"
+	website   = "http://dtdns.com/"
+	protocols = ("ipv4",)
 
 	# Information about the format of the HTTPS request is to be found
 	# http://www.dtdns.com/dtsite/updatespec
@@ -343,12 +307,10 @@ class DDNSProviderDtDNS(DDNSProvider):
 
 
 class DDNSProviderDynDNS(DDNSProvider):
-	INFO = {
-		"handle"    : "dyndns.org",
-		"name"      : "Dyn",
-		"website"   : "http://dyn.com/dns/",
-		"protocols" : ["ipv4",]
-	}
+	handle    = "dyndns.org"
+	name      = "Dyn"
+	website   = "http://dyn.com/dns/"
+	protocols = ("ipv4",)
 
 	# Information about the format of the request is to be found
 	# http://http://dyn.com/support/developers/api/perform-update/
@@ -396,13 +358,10 @@ class DDNSProviderDynDNS(DDNSProvider):
 
 
 class DDNSProviderDynU(DDNSProviderDynDNS):
-	INFO = {
-		"handle"    : "dynu.com",
-		"name"      : "Dynu",
-		"website"   : "http://dynu.com/",
-		"protocols" : ["ipv6", "ipv4",]
-	}
-
+	handle    = "dynu.com"
+	name      = "Dynu"
+	website   = "http://dynu.com/"
+	protocols = ("ipv6", "ipv4",)
 
 	# Detailed information about the request and response codes
 	# are available on the providers webpage.
@@ -422,12 +381,9 @@ class DDNSProviderDynU(DDNSProviderDynDNS):
 
 
 class DDNSProviderEasyDNS(DDNSProviderDynDNS):
-	INFO = {
-		"handle"    : "easydns.com",
-		"name"      : "EasyDNS",
-		"website"   : "http://www.easydns.com/",
-		"protocols" : ["ipv4",]
-	}
+	handle  = "easydns.com"
+	name    = "EasyDNS"
+	website = "http://www.easydns.com/"
 
 	# There is only some basic documentation provided by the vendor,
 	# also searching the web gain very poor results.
@@ -437,12 +393,9 @@ class DDNSProviderEasyDNS(DDNSProviderDynDNS):
 
 
 class DDNSProviderFreeDNSAfraidOrg(DDNSProvider):
-	INFO = {
-		"handle"    : "freedns.afraid.org",
-		"name"      : "freedns.afraid.org",
-		"website"   : "http://freedns.afraid.org/",
-		"protocols" : ["ipv6", "ipv4",]
-		}
+	handle    = "freedns.afraid.org"
+	name      = "freedns.afraid.org"
+	website   = "http://freedns.afraid.org/"
 
 	# No information about the request or response could be found on the vendor
 	# page. All used values have been collected by testing.
@@ -476,12 +429,9 @@ class DDNSProviderFreeDNSAfraidOrg(DDNSProvider):
 
 
 class DDNSProviderLightningWireLabs(DDNSProvider):
-	INFO = {
-		"handle"    : "dns.lightningwirelabs.com",
-		"name"      : "Lightning Wire Labs",
-		"website"   : "http://dns.lightningwirelabs.com/",
-		"protocols" : ["ipv6", "ipv4",]
-	}
+	handle    = "dns.lightningwirelabs.com"
+	name      = "Lightning Wire Labs"
+	website   = "http://dns.lightningwirelabs.com/"
 
 	# Information about the format of the HTTPS request is to be found
 	# https://dns.lightningwirelabs.com/knowledge-base/api/ddns
@@ -533,12 +483,10 @@ class DDNSProviderLightningWireLabs(DDNSProvider):
 
 
 class DDNSProviderNamecheap(DDNSProvider):
-	INFO = {
-		"handle"    : "namecheap.com",
-		"name"      : "Namecheap",
-		"website"   : "http://namecheap.com",
-		"protocols" : ["ipv4",]
-	}
+	handle    = "namecheap.com"
+	name      = "Namecheap"
+	website   = "http://namecheap.com"
+	protocols = ("ipv4",)
 
 	# Information about the format of the HTTP request is to be found
 	# https://www.namecheap.com/support/knowledgebase/article.aspx/9249/0/nc-dynamic-dns-to-dyndns-adapter
@@ -604,12 +552,9 @@ class DDNSProviderNamecheap(DDNSProvider):
 
 
 class DDNSProviderNOIP(DDNSProviderDynDNS):
-	INFO = {
-		"handle"    : "no-ip.com",
-		"name"      : "No-IP",
-		"website"   : "http://www.no-ip.com/",
-		"protocols" : ["ipv4",]
-	}
+	handle  = "no-ip.com"
+	name    = "No-IP"
+	website = "http://www.no-ip.com/"
 
 	# Information about the format of the HTTP request is to be found
 	# here: http://www.no-ip.com/integrate/request and
@@ -627,12 +572,9 @@ class DDNSProviderNOIP(DDNSProviderDynDNS):
 
 
 class DDNSProviderOVH(DDNSProviderDynDNS):
-	INFO = {
-		"handle"    : "ovh.com",
-		"name"      : "OVH",
-		"website"   : "http://www.ovh.com/",
-		"protocols" : ["ipv4",]
-	}
+	handle  = "ovh.com"
+	name    = "OVH"
+	website = "http://www.ovh.com/"
 
 	# OVH only provides very limited information about how to
 	# update a DynDNS host. They only provide the update url
@@ -652,12 +594,9 @@ class DDNSProviderOVH(DDNSProviderDynDNS):
 
 
 class DDNSProviderRegfish(DDNSProvider):
-	INFO = {
-		"handle"    : "regfish.com",
-		"name"      : "Regfish GmbH",
-		"website"   : "http://www.regfish.com/",
-		"protocols" : ["ipv6", "ipv4",]
-	}
+	handle  = "regfish.com"
+	name    = "Regfish GmbH"
+	website = "http://www.regfish.com/"
 
 	# A full documentation to the providers api can be found here
 	# but is only available in german.
@@ -726,12 +665,9 @@ class DDNSProviderRegfish(DDNSProvider):
 
 
 class DDNSProviderSelfhost(DDNSProviderDynDNS):
-	INFO = {
-		"handle"    : "selfhost.de",
-		"name"      : "Selfhost.de",
-		"website"   : "http://www.selfhost.de/",
-		"protocols" : ["ipv4",],
-	}
+	handle    = "selfhost.de"
+	name      = "Selfhost.de"
+	website   = "http://www.selfhost.de/"
 
 	url = "https://carol.selfhost.de/nic/update"
 
@@ -745,12 +681,9 @@ class DDNSProviderSelfhost(DDNSProviderDynDNS):
 
 
 class DDNSProviderSPDNS(DDNSProviderDynDNS):
-	INFO = {
-		"handle"    : "spdns.org",
-		"name"      : "SPDNS",
-		"website"   : "http://spdns.org/",
-		"protocols" : ["ipv4",]
-	}
+	handle  = "spdns.org"
+	name    = "SPDNS"
+	website = "http://spdns.org/"
 
 	# Detailed information about request and response codes are provided
 	# by the vendor. They are using almost the same mechanism and status
@@ -763,12 +696,9 @@ class DDNSProviderSPDNS(DDNSProviderDynDNS):
 
 
 class DDNSProviderStrato(DDNSProviderDynDNS):
-	INFO = {
-		"handle"    : "strato.com",
-		"name"      : "Strato AG",
-		"website"   : "http:/www.strato.com/",
-		"protocols" : ["ipv4",]
-	}
+	handle  = "strato.com"
+	name    = "Strato AG"
+	website = "http:/www.strato.com/"
 
 	# Information about the request and response can be obtained here:
 	# http://www.strato-faq.de/article/671/So-einfach-richten-Sie-DynDNS-f%C3%BCr-Ihre-Domains-ein.html
@@ -777,12 +707,9 @@ class DDNSProviderStrato(DDNSProviderDynDNS):
 
 
 class DDNSProviderTwoDNS(DDNSProviderDynDNS):
-	INFO = {
-		"handle"    : "twodns.de",
-		"name"      : "TwoDNS",
-		"website"   : "http://www.twodns.de",
-		"protocols" : ["ipv4",]
-	}
+	handle  = "twodns.de"
+	name    = "TwoDNS"
+	website = "http://www.twodns.de"
 
 	# Detailed information about the request can be found here
 	# http://twodns.de/en/faqs
@@ -800,12 +727,9 @@ class DDNSProviderTwoDNS(DDNSProviderDynDNS):
 
 
 class DDNSProviderUdmedia(DDNSProviderDynDNS):
-	INFO = {
-		"handle"    : "udmedia.de",
-		"name"      : "Udmedia GmbH",
-		"website"   : "http://www.udmedia.de",
-		"protocols" : ["ipv4",]
-	}
+	handle  = "udmedia.de"
+	name    = "Udmedia GmbH"
+	website = "http://www.udmedia.de"
 
 	# Information about the request can be found here
 	# http://www.udmedia.de/faq/content/47/288/de/wie-lege-ich-einen-dyndns_eintrag-an.html
@@ -814,12 +738,10 @@ class DDNSProviderUdmedia(DDNSProviderDynDNS):
 
 
 class DDNSProviderVariomedia(DDNSProviderDynDNS):
-	INFO = {
-		"handle"   : "variomedia.de",
-		"name"     : "Variomedia",
-		"website"  : "http://www.variomedia.de/",
-		"protocols" : ["ipv6", "ipv4",]
-	}
+	handle    = "variomedia.de"
+	name      = "Variomedia"
+	website   = "http://www.variomedia.de/"
+	protocols = ("ipv6", "ipv4",)
 
 	# Detailed information about the request can be found here
 	# https://dyndns.variomedia.de/
@@ -840,12 +762,9 @@ class DDNSProviderVariomedia(DDNSProviderDynDNS):
 
 
 class DDNSProviderZoneedit(DDNSProvider):
-	INFO = {
-		"handle"    : "zoneedit.com",
-		"name"      : "Zoneedit",
-		"website"   : "http://www.zoneedit.com",
-		"protocols" : ["ipv6", "ipv4",]
-	}
+	handle  = "zoneedit.com"
+	name    = "Zoneedit"
+	website = "http://www.zoneedit.com"
 
 	# Detailed information about the request and the response codes can be
 	# obtained here:
