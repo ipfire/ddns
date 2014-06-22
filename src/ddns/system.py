@@ -191,6 +191,8 @@ class DDNSSystem(object):
 				# Network Unreachable (e.g. no IPv6 access)
 				if e.reason.errno == 101:
 					raise DDNSNetworkUnreachableError
+
+				# Connection Refused
 				elif e.reason.errno == 111:
 					raise DDNSConnectionRefusedError
 
