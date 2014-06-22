@@ -61,6 +61,24 @@ class DDNSSystem(object):
 
 		return proxy
 
+	def get_local_ipv6_address(self):
+		return # XXX TODO
+
+	def get_local_ipv4_address(self):
+		if self.distro == "ipfire-2":
+			try:
+				with open("/var/ipfire/red/local-ipaddress") as f:
+					return f.readline()
+
+			except IOError, e:
+				# File not found
+				if e.errno == 2:
+					return
+
+				raise
+
+		return # XXX TODO
+
 	def _guess_external_ip_address(self, url, timeout=10):
 		"""
 			Sends a request to an external web server
@@ -213,8 +231,12 @@ class DDNSSystem(object):
 			elif proto == "ipv4":
 				return self.guess_external_ipv4_address()
 
-		# XXX TODO
-		assert False
+		# Get the local IP addresses.
+		else:
+			if proto == "ipv6":
+				return self.get_local_ipv6_address()
+			elif proto == "ipv4":
+				return self.get_local_ipv4_address()
 
 	def resolve(self, hostname, proto=None):
 		addresses = []
