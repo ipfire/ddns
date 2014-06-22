@@ -54,8 +54,6 @@ class DDNSCore(object):
 		if debug:
 			rootlogger = logging.getLogger("ddns")
 			rootlogger.setLevel(logging.DEBUG)
-			for handler in rootlogger.handlers:
-				handler.setLevel(logging.DEBUG)
 
 			logger.debug(_("Debugging mode enabled"))
 
