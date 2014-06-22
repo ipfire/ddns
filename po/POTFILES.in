@@ -1,3 +1,4 @@
 src/ddns/__init__.py
+src/ddns/errors.py
 src/ddns/providers.py
 src/ddns/system.py
