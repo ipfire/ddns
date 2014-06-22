@@ -47,6 +47,10 @@ class DDNSSystem(object):
 		# Connection to the core of the program.
 		self.core = core
 
+		# Find out on which distribution we are running.
+		self.distro = self._get_distro_identifier()
+		logger.debug(_("Running on distribution: %s") % self.distro)
+
 	@property
 	def proxy(self):
 		proxy = self.core.settings.get("proxy")
@@ -257,3 +261,73 @@ class DDNSSystem(object):
 				addresses.append(address)
 
 		return addresses
+
+	def _get_distro_identifier(self):
+		"""
+			Returns a unique identifier for the distribution
+			we are running on.
+		"""
+		os_release = self.__parse_os_release()
+		if os_release:
+			return os_release
+
+		system_release = self.__parse_system_release()
+		if system_release:
+			return system_release
+
+		# If nothing else could be found, we return
+		# just "unknown".
+		return "unknown"
+
+	def __parse_os_release(self):
+		"""
+			Tries to parse /etc/os-release and
+			returns a unique distribution identifier
+			if the file exists.
+		"""
+		try:
+			f = open("/etc/os-release", "r")
+		except IOError, e:
+			# File not found
+			if e.errno == 2:
+				return
+
+			raise
+
+		os_release = {}
+		with f:
+			for line in f.readlines():
+				m = re.match(r"^([A-Z\_]+)=(.*)$", line)
+				if m is None:
+					continue
+
+				os_release[m.group(1)] = m.group(2)
+
+		try:
+			return "%(ID)s-%(VERSION_ID)s" % os_release
+		except KeyError:
+			return
+
+	def __parse_system_release(self):
+		"""
+			Tries to parse /etc/system-release and
+			returns a unique distribution identifier
+			if the file exists.
+		"""
+		try:
+			f = open("/etc/system-release", "r")
+		except IOError, e:
+			# File not found
+			if e.errno == 2:
+				return
+
+			raise
+
+		with f:
+			# Read first line
+			line = f.readline()
+
+			# Check for IPFire systems
+			m = re.match(r"^IPFire (\d).(\d+)", line)
+			if m:
+				return "ipfire-%s" % m.group(1)
