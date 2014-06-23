@@ -183,6 +183,7 @@ class DDNSProviderDHS(DDNSProvider):
 
 	# No information about the used update api provided on webpage,
 	# grabed from source code of ez-ipudate.
+
 	url = "http://members.dhs.org/nic/hosts"
 
 	def update(self):
@@ -214,6 +215,7 @@ class DDNSProviderDNSpark(DDNSProvider):
 
 	# Informations to the used api can be found here:
 	# https://dnspark.zendesk.com/entries/31229348-Dynamic-DNS-API-Documentation
+
 	url = "https://control.dnspark.com/api/dynamic/update.php"
 
 	def update(self):
@@ -261,6 +263,7 @@ class DDNSProviderDtDNS(DDNSProvider):
 
 	# Information about the format of the HTTPS request is to be found
 	# http://www.dtdns.com/dtsite/updatespec
+
 	url = "https://www.dtdns.com/api/autodns.cfm"
 
 	def update(self):
@@ -315,6 +318,7 @@ class DDNSProviderDynDNS(DDNSProvider):
 	# Information about the format of the request is to be found
 	# http://http://dyn.com/support/developers/api/perform-update/
 	# http://dyn.com/support/developers/api/return-codes/
+
 	url = "https://members.dyndns.org/nic/update"
 
 	def _prepare_request_data(self):
@@ -438,6 +442,7 @@ class DDNSProviderLightningWireLabs(DDNSProvider):
 
 	# Information about the format of the HTTPS request is to be found
 	# https://dns.lightningwirelabs.com/knowledge-base/api/ddns
+
 	url = "https://dns.lightningwirelabs.com/update"
 
 	def update(self):
