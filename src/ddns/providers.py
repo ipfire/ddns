@@ -427,6 +427,9 @@ class DDNSProviderFreeDNSAfraidOrg(DDNSProvider):
 		elif "is an invalid IP address" in output:
 			raise DDNSRequestError(_("Invalid IP address has been sent."))
 
+		# If we got here, some other update error happened.
+		raise DDNSUpdateError
+
 
 class DDNSProviderLightningWireLabs(DDNSProvider):
 	handle    = "dns.lightningwirelabs.com"
