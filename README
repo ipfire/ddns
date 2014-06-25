@@ -1,0 +1,70 @@
+ddns
+
+A simple, extensible, cross-distribution, cross-platform dynamic DNS updater
+written in Python.
+
+WEB HOME:
+	http://git.ipfire.org/?p=ddns.git;a=summary
+
+BUGTRACKER:
+	https://bugzilla.ipfire.org/
+
+	Product: DDNS Updater
+
+LICENSE:
+	The authors licensed their work as free software under the terms of
+	the
+
+		GNU GENERAL PUBLIC LICENSE v3.0+
+
+	Any content besides source code (images, etc.) is licensed under the
+	terms of the
+
+		Creative Commons Attribution ShareAlike 3.0 Unported
+
+	license.
+
+INSTALLATION:
+	REQUIREMENTS:
+		ddns is written in Python and does not require any third-party
+		modules. The minumum version of Python that has been tested
+		is Python 2.7.
+
+		Building the program from source code requires:
+			* GNU make
+			* intltool
+
+		Building from the source repository additionally requires:
+			* autoconf
+			* automake
+
+	INSTRUCTIONS:
+		If the configure script does not exist, please run:
+			./autogen.sh
+
+		Then run:
+			./configure --prefix=/usr --sysconfdir=/etc
+			make
+			make install
+
+SUPPORTED PROVIDERS:
+	all-inkl.com
+	dhs.org
+	dns.lightningwirelabs.com
+	dnspark.com
+	dtdns.com
+	dyndns.org
+	dynu.com
+	easydns.com
+	freedns.afraid.org
+	namecheap.com
+	no-ip.com
+	ovh.com
+	regfish.com
+	selfhost.de
+	spdns.org
+	strato.com
+	twodns.de
+	udmedia.de
+	variomedia.de
+	zoneedit.com
