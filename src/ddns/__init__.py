@@ -28,7 +28,8 @@ from i18n import _
 logger = logging.getLogger("ddns.core")
 logger.propagate = 1
 
-from .providers import *
+import providers
+
 from .system import DDNSSystem
 
 # Setup the logger.
@@ -61,57 +62,16 @@ class DDNSCore(object):
 		self.settings = {}
 
 		# Dict with all providers, that are supported.
-		self.providers = {}
-		self.register_all_providers()
+		self.providers = providers.get()
+
+		for handle, provider in sorted(self.providers.items()):
+			logger.debug("Registered new provider: %s (%s)" % (provider.name, provider.handle))
 
 		# List of configuration entries.
 		self.entries = []
 
 		# Add the system class.
 		self.system = DDNSSystem(self)
-
-	def register_provider(self, provider):
-		"""
-			Registers a new provider.
-		"""
-		assert issubclass(provider, DDNSProvider)
-
-		if not all((provider.handle, provider.name, provider.website)):
-			raise DDNSError(_("Provider is not properly configured"))
-
-		assert not self.providers.has_key(provider.handle), \
-			"Provider '%s' has already been registered" % provider.handle
-
-		logger.debug("Registered new provider: %s (%s)" % (provider.name, provider.handle))
-		self.providers[provider.handle] = provider
-
-	def register_all_providers(self):
-		"""
-			Simply registers all providers.
-		"""
-		for provider in (
-			DDNSProviderAllInkl,
-			DDNSProviderDHS,
-			DDNSProviderDNSpark,
-			DDNSProviderDtDNS,
-			DDNSProviderDynDNS,
-			DDNSProviderDynU,
-			DDNSProviderEasyDNS,
-			DDNSProviderFreeDNSAfraidOrg,
-			DDNSProviderNamecheap,
-			DDNSProviderNOIP,
-			DDNSProviderLightningWireLabs,
-			DDNSProviderOVH,
-			DDNSProviderRegfish,
-			DDNSProviderSelfhost,
-			DDNSProviderSPDNS,
-			DDNSProviderStrato,
-			DDNSProviderTwoDNS,
-			DDNSProviderUdmedia,
-			DDNSProviderVariomedia,
-			DDNSProviderZoneedit,
-		):
-			self.register_provider(provider)
 
 	def get_provider_names(self):
 		"""

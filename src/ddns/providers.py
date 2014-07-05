@@ -31,6 +31,14 @@ from .errors import *
 logger = logging.getLogger("ddns.providers")
 logger.propagate = 1
 
+_providers = {}
+
+def get():
+	"""
+		Returns a dict with all automatically registered providers.
+	"""
+	return _providers.copy()
+
 class DDNSProvider(object):
 	# A short string that uniquely identifies
 	# this provider.
@@ -47,6 +55,24 @@ class DDNSProvider(object):
 	protocols = ("ipv6", "ipv4")
 
 	DEFAULT_SETTINGS = {}
+
+	# Automatically register all providers.
+	class __metaclass__(type):
+		def __init__(provider, name, bases, dict):
+			type.__init__(provider, name, bases, dict)
+
+			# The main class from which is inherited is not registered
+			# as a provider.
+			if name == "DDNSProvider":
+				return
+
+			if not all((provider.handle, provider.name, provider.website)):
+				raise DDNSError(_("Provider is not properly configured"))
+
+			assert not _providers.has_key(provider.handle), \
+				"Provider '%s' has already been registered" % provider.handle
+
+			_providers[provider.handle] = provider
 
 	def __init__(self, core, **settings):
 		self.core = core
