@@ -155,7 +155,7 @@ class DDNSProtocolDynDNS2(object):
 	"""
 
 	# Information about the format of the request is to be found
-	# http://http://dyn.com/support/developers/api/perform-update/
+	# http://dyn.com/support/developers/api/perform-update/
 	# http://dyn.com/support/developers/api/return-codes/
 
 	def _prepare_request_data(self):
