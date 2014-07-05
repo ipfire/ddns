@@ -146,6 +146,58 @@ class DDNSProvider(object):
 		return self.core.system.get_address(proto) or default
 
 
+class DDNSProtocolDynDNS2(object):
+	"""
+		This is an abstract class that implements the DynDNS updater
+		protocol version 2. As this is a popular way to update dynamic
+		DNS records, this class is supposed make the provider classes
+		shorter and simpler.
+	"""
+
+	# Information about the format of the request is to be found
+	# http://http://dyn.com/support/developers/api/perform-update/
+	# http://dyn.com/support/developers/api/return-codes/
+
+	def _prepare_request_data(self):
+		data = {
+			"hostname" : self.hostname,
+			"myip"     : self.get_address("ipv4"),
+		}
+
+		return data
+
+	def update(self):
+		data = self._prepare_request_data()
+
+		# Send update to the server.
+		response = self.send_request(self.url, data=data,
+			username=self.username, password=self.password)
+
+		# Get the full response message.
+		output = response.read()
+
+		# Handle success messages.
+		if output.startswith("good") or output.startswith("nochg"):
+			return
+
+		# Handle error codes.
+		if output == "badauth":
+			raise DDNSAuthenticationError
+		elif output == "aduse":
+			raise DDNSAbuseError
+		elif output == "notfqdn":
+			raise DDNSRequestError(_("No valid FQDN was given."))
+		elif output == "nohost":
+			raise DDNSRequestError(_("Specified host does not exist."))
+		elif output == "911":
+			raise DDNSInternalServerError
+		elif output == "dnserr":
+			raise DDNSInternalServerError(_("DNS error encountered."))
+
+		# If we got here, some other update error happened.
+		raise DDNSUpdateError(_("Server response: %s") % output)
+
+
 class DDNSProviderAllInkl(DDNSProvider):
 	handle    = "all-inkl.com"
 	name      = "All-inkl.com"
@@ -309,7 +361,7 @@ class DDNSProviderDtDNS(DDNSProvider):
 		raise DDNSUpdateError
 
 
-class DDNSProviderDynDNS(DDNSProvider):
+class DDNSProviderDynDNS(DDNSProtocolDynDNS2, DDNSProvider):
 	handle    = "dyndns.org"
 	name      = "Dyn"
 	website   = "http://dyn.com/dns/"
@@ -321,47 +373,8 @@ class DDNSProviderDynDNS(DDNSProvider):
 
 	url = "https://members.dyndns.org/nic/update"
 
-	def _prepare_request_data(self):
-		data = {
-			"hostname" : self.hostname,
-			"myip"     : self.get_address("ipv4"),
-		}
 
-		return data
-
-	def update(self):
-		data = self._prepare_request_data()
-
-		# Send update to the server.
-		response = self.send_request(self.url, data=data,
-			username=self.username, password=self.password)
-
-		# Get the full response message.
-		output = response.read()
-
-		# Handle success messages.
-		if output.startswith("good") or output.startswith("nochg"):
-			return
-
-		# Handle error codes.
-		if output == "badauth":
-			raise DDNSAuthenticationError
-		elif output == "aduse":
-			raise DDNSAbuseError
-		elif output == "notfqdn":
-			raise DDNSRequestError(_("No valid FQDN was given."))
-		elif output == "nohost":
-			raise DDNSRequestError(_("Specified host does not exist."))
-		elif output == "911":
-			raise DDNSInternalServerError
-		elif output == "dnserr":
-			raise DDNSInternalServerError(_("DNS error encountered."))
-
-		# If we got here, some other update error happened.
-		raise DDNSUpdateError(_("Server response: %s") % output)
-
-
-class DDNSProviderDynU(DDNSProviderDynDNS):
+class DDNSProviderDynU(DDNSProtocolDynDNS2, DDNSProvider):
 	handle    = "dynu.com"
 	name      = "Dynu"
 	website   = "http://dynu.com/"
@@ -384,10 +397,11 @@ class DDNSProviderDynU(DDNSProviderDynDNS):
 		return data
 
 
-class DDNSProviderEasyDNS(DDNSProviderDynDNS):
-	handle  = "easydns.com"
-	name    = "EasyDNS"
-	website = "http://www.easydns.com/"
+class DDNSProviderEasyDNS(DDNSProtocolDynDNS2, DDNSProvider):
+	handle    = "easydns.com"
+	name      = "EasyDNS"
+	website   = "http://www.easydns.com/"
+	protocols = ("ipv4",)
 
 	# There is only some basic documentation provided by the vendor,
 	# also searching the web gain very poor results.
@@ -547,10 +561,11 @@ class DDNSProviderNamecheap(DDNSProvider):
 		raise DDNSUpdateError
 
 
-class DDNSProviderNOIP(DDNSProviderDynDNS):
-	handle  = "no-ip.com"
-	name    = "No-IP"
-	website = "http://www.no-ip.com/"
+class DDNSProviderNOIP(DDNSProtocolDynDNS2, DDNSProvider):
+	handle    = "no-ip.com"
+	name      = "No-IP"
+	website   = "http://www.no-ip.com/"
+	protocols = ("ipv4",)
 
 	# Information about the format of the HTTP request is to be found
 	# here: http://www.no-ip.com/integrate/request and
@@ -567,10 +582,11 @@ class DDNSProviderNOIP(DDNSProviderDynDNS):
 		return data
 
 
-class DDNSProviderOVH(DDNSProviderDynDNS):
-	handle  = "ovh.com"
-	name    = "OVH"
-	website = "http://www.ovh.com/"
+class DDNSProviderOVH(DDNSProtocolDynDNS2, DDNSProvider):
+	handle    = "ovh.com"
+	name      = "OVH"
+	website   = "http://www.ovh.com/"
+	protocols = ("ipv4",)
 
 	# OVH only provides very limited information about how to
 	# update a DynDNS host. They only provide the update url
@@ -581,7 +597,7 @@ class DDNSProviderOVH(DDNSProviderDynDNS):
 	url = "https://www.ovh.com/nic/update"
 
 	def _prepare_request_data(self):
-		data = DDNSProviderDynDNS._prepare_request_data(self)
+		data = DDNSProtocolDynDNS2._prepare_request_data(self)
 		data.update({
 			"system" : "dyndns",
 		})
@@ -660,10 +676,11 @@ class DDNSProviderRegfish(DDNSProvider):
 		raise DDNSUpdateError
 
 
-class DDNSProviderSelfhost(DDNSProviderDynDNS):
+class DDNSProviderSelfhost(DDNSProtocolDynDNS2, DDNSProvider):
 	handle    = "selfhost.de"
 	name      = "Selfhost.de"
 	website   = "http://www.selfhost.de/"
+	protocols = ("ipv4",)
 
 	url = "https://carol.selfhost.de/nic/update"
 
@@ -676,10 +693,11 @@ class DDNSProviderSelfhost(DDNSProviderDynDNS):
 		return data
 
 
-class DDNSProviderSPDNS(DDNSProviderDynDNS):
-	handle  = "spdns.org"
-	name    = "SPDNS"
-	website = "http://spdns.org/"
+class DDNSProviderSPDNS(DDNSProtocolDynDNS2, DDNSProvider):
+	handle    = "spdns.org"
+	name      = "SPDNS"
+	website   = "http://spdns.org/"
+	protocols = ("ipv4",)
 
 	# Detailed information about request and response codes are provided
 	# by the vendor. They are using almost the same mechanism and status
@@ -691,10 +709,11 @@ class DDNSProviderSPDNS(DDNSProviderDynDNS):
 	url = "https://update.spdns.de/nic/update"
 
 
-class DDNSProviderStrato(DDNSProviderDynDNS):
-	handle  = "strato.com"
-	name    = "Strato AG"
-	website = "http:/www.strato.com/"
+class DDNSProviderStrato(DDNSProtocolDynDNS2, DDNSProvider):
+	handle    = "strato.com"
+	name      = "Strato AG"
+	website   = "http:/www.strato.com/"
+	protocols = ("ipv4",)
 
 	# Information about the request and response can be obtained here:
 	# http://www.strato-faq.de/article/671/So-einfach-richten-Sie-DynDNS-f%C3%BCr-Ihre-Domains-ein.html
@@ -702,10 +721,11 @@ class DDNSProviderStrato(DDNSProviderDynDNS):
 	url = "https://dyndns.strato.com/nic/update"
 
 
-class DDNSProviderTwoDNS(DDNSProviderDynDNS):
-	handle  = "twodns.de"
-	name    = "TwoDNS"
-	website = "http://www.twodns.de"
+class DDNSProviderTwoDNS(DDNSProtocolDynDNS2, DDNSProvider):
+	handle    = "twodns.de"
+	name      = "TwoDNS"
+	website   = "http://www.twodns.de"
+	protocols = ("ipv4",)
 
 	# Detailed information about the request can be found here
 	# http://twodns.de/en/faqs
@@ -722,10 +742,11 @@ class DDNSProviderTwoDNS(DDNSProviderDynDNS):
 		return data
 
 
-class DDNSProviderUdmedia(DDNSProviderDynDNS):
-	handle  = "udmedia.de"
-	name    = "Udmedia GmbH"
-	website = "http://www.udmedia.de"
+class DDNSProviderUdmedia(DDNSProtocolDynDNS2, DDNSProvider):
+	handle    = "udmedia.de"
+	name      = "Udmedia GmbH"
+	website   = "http://www.udmedia.de"
+	protocols = ("ipv4",)
 
 	# Information about the request can be found here
 	# http://www.udmedia.de/faq/content/47/288/de/wie-lege-ich-einen-dyndns_eintrag-an.html
@@ -733,7 +754,7 @@ class DDNSProviderUdmedia(DDNSProviderDynDNS):
 	url = "https://www.udmedia.de/nic/update"
 
 
-class DDNSProviderVariomedia(DDNSProviderDynDNS):
+class DDNSProviderVariomedia(DDNSProtocolDynDNS2, DDNSProvider):
 	handle    = "variomedia.de"
 	name      = "Variomedia"
 	website   = "http://www.variomedia.de/"
@@ -757,10 +778,11 @@ class DDNSProviderVariomedia(DDNSProviderDynDNS):
 		return data
 
 
-class DDNSProviderZoneedit(DDNSProvider):
-	handle  = "zoneedit.com"
-	name    = "Zoneedit"
-	website = "http://www.zoneedit.com"
+class DDNSProviderZoneedit(DDNSProtocolDynDNS2, DDNSProvider):
+	handle    = "zoneedit.com"
+	name      = "Zoneedit"
+	website   = "http://www.zoneedit.com"
+	protocols = ("ipv4",)
 
 	# Detailed information about the request and the response codes can be
 	# obtained here:
