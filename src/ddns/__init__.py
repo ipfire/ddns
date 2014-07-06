@@ -86,8 +86,13 @@ class DDNSCore(object):
 		configs.read([filename,])
 
 		# First apply all global configuration settings.
-		for k, v in configs.items("config"):
-			self.settings[k] = v
+		try:
+			for k, v in configs.items("config"):
+				self.settings[k] = v
+
+		# Allow missing config section
+		except ConfigParser.NoSectionError:
+			pass
 
 		for entry in configs.sections():
 			# Skip the special config section.
