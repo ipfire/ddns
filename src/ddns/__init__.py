@@ -30,6 +30,7 @@ logger.propagate = 1
 
 import providers
 
+from .errors import *
 from .system import DDNSSystem
 
 # Setup the logger.
