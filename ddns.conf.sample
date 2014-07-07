@@ -20,6 +20,15 @@
 # username = user
 # password = pass
 
+# [test.bind.nsupdate]
+# provider = nsupdate
+#
+# (optional)
+# server = 1.2.3.4
+# key = name
+# secret = XYZ
+# ttl = 60
+
 # [test.dhs.org]
 # provider = dhs.org
 # username = user

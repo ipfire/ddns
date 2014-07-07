@@ -20,6 +20,7 @@
 ###############################################################################
 
 import logging
+import subprocess
 import urllib2
 import xml.dom.minidom
 
@@ -251,6 +252,72 @@ class DDNSProviderAllInkl(DDNSProvider):
 
 		# If we got here, some other update error happened.
 		raise DDNSUpdateError
+
+
+class DDNSProviderBindNsupdate(DDNSProvider):
+	handle  = "nsupdate"
+	name    = "BIND nsupdate utility"
+	website = "http://en.wikipedia.org/wiki/Nsupdate"
+
+	DEFAULT_TTL = 60
+
+	def update(self):
+		scriptlet = self.__make_scriptlet()
+
+		# -v enables TCP hence we transfer keys and other data that may
+		# exceed the size of one packet.
+		# -t sets the timeout
+		command = ["nsupdate", "-v", "-t", "60"]
+
+		p = subprocess.Popen(command, shell=True,
+			stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+		)
+		stdout, stderr = p.communicate(scriptlet)
+
+		if p.returncode == 0:
+			return
+
+		raise DDNSError("nsupdate terminated with error code: %s\n  %s" % (p.returncode, stderr))
+
+	def __make_scriptlet(self):
+		scriptlet = []
+
+		# Set a different server the update is sent to.
+		server = self.get("server", None)
+		if server:
+			scriptlet.append("server %s" % server)
+
+		key = self.get("key", None)
+		if key:
+			secret = self.get("secret")
+
+			scriptlet.append("key %s %s" % (key, secret))
+
+		ttl = self.get("ttl", self.DEFAULT_TTL)
+
+		# Perform an update for each supported protocol.
+		for rrtype, proto in (("AAAA", "ipv6"), ("A", "ipv4")):
+			address = self.get_address(proto)
+			if not address:
+				continue
+
+			scriptlet.append("update delete %s. %s" % (self.hostname, rrtype))
+			scriptlet.append("update add %s. %s %s %s" % \
+				(self.hostname, ttl, rrtype, address))
+
+		# Send the actions to the server.
+		scriptlet.append("send")
+		scriptlet.append("quit")
+
+		logger.debug(_("Scriptlet:"))
+		for line in scriptlet:
+			# Masquerade the line with the secret key.
+			if line.startswith("key"):
+				line = "key **** ****"
+
+			logger.debug("  %s" % line)
+
+		return "\n".join(scriptlet)
 
 
 class DDNSProviderDHS(DDNSProvider):
