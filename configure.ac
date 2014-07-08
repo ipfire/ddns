@@ -70,7 +70,10 @@ AC_CONFIG_FILES([
 
 AC_OUTPUT
 AC_MSG_RESULT([
-	$PACKAGE_NAME $VERSION
+	${PACKAGE_NAME} ${VERSION}
 
-	nsupdate: ${NSUPDATE}
+	prefix            : ${prefix}
+	sysconfdir        : ${sysconfdir}
+
+	nsupdate          : ${NSUPDATE}
 ])
