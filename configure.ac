@@ -54,6 +54,12 @@ AC_PROG_SED
 # Python
 AM_PATH_PYTHON([2.7])
 
+# BIND nsupdate
+AC_CHECK_TOOL([NSUPDATE], [nsupdate])
+if test -z "${NSUPDATE}"; then
+	AC_MSG_ERROR([*** nsupdate not found])
+fi
+
 save_LIBS="$LIBS"
 
 AC_CONFIG_FILES([
@@ -66,4 +72,5 @@ AC_OUTPUT
 AC_MSG_RESULT([
 	$PACKAGE_NAME $VERSION
 
+	nsupdate: ${NSUPDATE}
 ])
