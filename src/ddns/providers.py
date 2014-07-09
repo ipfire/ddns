@@ -225,6 +225,35 @@ class DDNSProtocolDynDNS2(object):
 		raise DDNSUpdateError(_("Server response: %s") % output)
 
 
+class DDNSResponseParserXML(object):
+	"""
+		This class provides a parser for XML responses which
+		will be sent by various providers. This class uses the python
+		shipped XML minidom module to walk through the XML tree and return
+		a requested element.
+        """
+
+	def get_xml_tag_value(self, document, content):
+		# Send input to the parser.
+		xmldoc = xml.dom.minidom.parseString(document)
+
+		# Get XML elements by the given content.
+		element = xmldoc.getElementsByTagName(content)
+
+		# If no element has been found, we directly can return None.
+		if not element:
+			return None
+
+		# Only get the first child from an element, even there are more than one.
+		firstchild = element[0].firstChild
+
+		# Get the value of the child.
+		value = firstchild.nodeValue
+
+		# Return the value.
+		return value
+
+
 class DDNSProviderAllInkl(DDNSProvider):
 	handle    = "all-inkl.com"
 	name      = "All-inkl.com"
@@ -585,7 +614,7 @@ class DDNSProviderLightningWireLabs(DDNSProvider):
 		raise DDNSUpdateError
 
 
-class DDNSProviderNamecheap(DDNSProvider):
+class DDNSProviderNamecheap(DDNSResponseParserXML, DDNSProvider):
 	handle    = "namecheap.com"
 	name      = "Namecheap"
 	website   = "http://namecheap.com"
@@ -597,26 +626,6 @@ class DDNSProviderNamecheap(DDNSProvider):
 
 	url = "https://dynamicdns.park-your-domain.com/update"
 
-	def parse_xml(self, document, content):
-		# Send input to the parser.
-		xmldoc = xml.dom.minidom.parseString(document)
-
-		# Get XML elements by the given content.
-		element = xmldoc.getElementsByTagName(content)
-
-		# If no element has been found, we directly can return None.
-		if not element:
-			return None
-
-		# Only get the first child from an element, even there are more than one.
-		firstchild = element[0].firstChild
-
-		# Get the value of the child.
-		value = firstchild.nodeValue
-
-		# Return the value.
-		return value
-		
 	def update(self):
 		# Namecheap requires the hostname splitted into a host and domain part.
 		host, domain = self.hostname.split(".", 1)
@@ -635,11 +644,11 @@ class DDNSProviderNamecheap(DDNSProvider):
 		output = response.read()
 
 		# Handle success messages.
-		if self.parse_xml(output, "IP") == self.get_address("ipv4"):
+		if self.get_xml_tag_value(output, "IP") == self.get_address("ipv4"):
 			return
 
 		# Handle error codes.
-		errorcode = self.parse_xml(output, "ResponseNumber")
+		errorcode = self.get_xml_tag_value(output, "ResponseNumber")
 
 		if errorcode == "304156":
 			raise DDNSAuthenticationError
