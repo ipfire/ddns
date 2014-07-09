@@ -532,6 +532,48 @@ class DDNSProviderEasyDNS(DDNSProtocolDynDNS2, DDNSProvider):
 	url = "http://api.cp.easydns.com/dyn/tomato.php"
 
 
+class DDNSProviderEnomCom(DDNSResponseParserXML, DDNSProvider):
+	handle    = "enom.com"
+	name      = "eNom Inc."
+	website   = "http://www.enom.com/"
+
+	# There are very detailed information about how to send an update request and
+	# the respone codes.
+	# http://www.enom.com/APICommandCatalog/
+
+	url = "https://dynamic.name-services.com/interface.asp"
+
+	def update(self):
+		data = {
+			"command"        : "setdnshost",
+			"responsetype"   : "xml",
+			"address"        : self.get_address("ipv4"),
+			"domainpassword" : self.password,
+			"zone"           : self.hostname
+		}
+
+		# Send update to the server.
+		response = self.send_request(self.url, data=data)
+
+		# Get the full response message.
+		output = response.read()
+
+		# Handle success messages.
+		if self.get_xml_tag_value(output, "ErrCount") == "0":
+			return
+
+		# Handle error codes.
+		errorcode = self.get_xml_tag_value(output, "ResponseNumber")
+
+		if errorcode == "304155":
+			raise DDNSAuthenticationError
+		elif errorcode == "304153":
+			raise DDNSRequestError(_("Domain not found."))
+
+		# If we got here, some other update error happened.
+		raise DDNSUpdateError
+
+
 class DDNSProviderFreeDNSAfraidOrg(DDNSProvider):
 	handle    = "freedns.afraid.org"
 	name      = "freedns.afraid.org"

@@ -58,6 +58,11 @@
 # username = user
 # password = pass
 
+# [test.enom.com]
+# provider = enom.com
+# username = user
+# password = pass
+
 # [test.freedns.afraid.org]
 # provider = freedns.afraid.org
 # token = token
