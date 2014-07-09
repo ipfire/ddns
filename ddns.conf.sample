@@ -77,6 +77,11 @@
 # username = user
 # password = pass
 
+# [test.nsupdate.info]
+# provider = nsupdate.info
+# secret = secret
+# proto = ipv4 OR ipv6
+
 # [test.ovh.com]
 # provider = ovh.com
 # username = user
