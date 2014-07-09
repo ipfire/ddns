@@ -600,6 +600,10 @@ class DDNSProviderFreeDNSAfraidOrg(DDNSProvider):
 		# Send update to the server.
 		response = self.send_request(url, data=data)
 
+		# Get the full response message.
+		output = response.read()
+
+		# Handle success messages.
 		if output.startswith("Updated") or "has not changed" in output:
 			return
 
