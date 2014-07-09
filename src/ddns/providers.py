@@ -675,6 +675,48 @@ class DDNSProviderNOIP(DDNSProtocolDynDNS2, DDNSProvider):
 		return data
 
 
+class DDNSProviderNsupdateINFO(DDNSProtocolDynDNS2, DDNSProvider):
+	handle    = "nsupdate.info"
+	name      = "nsupdate.info"
+	website   = "http://www.nsupdate.info/"
+	protocols = ("ipv6", "ipv4",)
+
+	# Information about the format of the HTTP request can be found
+	# after login on the provider user intrface and here:
+	# http://nsupdateinfo.readthedocs.org/en/latest/user.html
+
+	# Nsupdate.info uses the hostname as user part for the HTTP basic auth,
+	# and for the password a so called secret.
+	@property
+	def username(self):
+		return self.get("hostname")
+
+	@property
+	def password(self):
+		return self.get("secret")
+
+	@property
+	def proto(self):
+		return self.get("proto")
+
+	@property
+	def url(self):
+		# The update URL is different by the used protocol.
+		if self.proto == "ipv4":
+			return "https://ipv4.nsupdate.info/nic/update"
+		elif self.proto == "ipv6":
+			return "https://ipv6.nsupdate.info/nic/update"
+		else:
+			raise DDNSUpdateError(_("Invalid protocol has been given"))
+
+	def _prepare_request_data(self):
+		data = {
+			"myip" : self.get_address(self.proto),
+		}
+
+		return data
+
+
 class DDNSProviderOVH(DDNSProtocolDynDNS2, DDNSProvider):
 	handle    = "ovh.com"
 	name      = "OVH"
