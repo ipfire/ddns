@@ -63,6 +63,10 @@
 # username = user
 # password = pass
 
+# [test.entrydns.net]
+# provider = entrydns.net
+# token = token
+
 # [test.freedns.afraid.org]
 # provider = freedns.afraid.org
 # token = token

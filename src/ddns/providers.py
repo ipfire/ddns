@@ -574,6 +574,46 @@ class DDNSProviderEnomCom(DDNSResponseParserXML, DDNSProvider):
 		raise DDNSUpdateError
 
 
+class DDNSProviderEntryDNS(DDNSProvider):
+	handle    = "entrydns.net"
+	name      = "EntryDNS"
+	website   = "http://entrydns.net/"
+	protocols = ("ipv4",)
+
+	# Some very tiny details about their so called "Simple API" can be found
+	# here: https://entrydns.net/help
+	url = "https://entrydns.net/records/modify"
+
+	def update(self):
+		data = {
+			"ip" : self.get_address("ipv4")
+		}
+
+		# Add auth token to the update url.
+		url = "%s/%s" % (self.url, self.token)
+
+		# Send update to the server.
+		try:
+			response = self.send_request(url, method="PUT", data=data)
+
+		# Handle error codes
+		except urllib2.HTTPError, e:
+			if e.code == 404:
+				raise DDNSAuthenticationError
+
+			elif e.code == 422:
+				raise DDNSRequestError(_("An invalid IP address was submitted"))
+
+			raise
+
+		# Handle success messages.
+		if response.code == 200:
+			return
+
+		# If we got here, some other update error happened.
+		raise DDNSUpdateError
+
+
 class DDNSProviderFreeDNSAfraidOrg(DDNSProvider):
 	handle    = "freedns.afraid.org"
 	name      = "freedns.afraid.org"
