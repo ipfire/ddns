@@ -772,6 +772,30 @@ class DDNSProviderNsupdateINFO(DDNSProtocolDynDNS2, DDNSProvider):
 		return data
 
 
+class DDNSProviderOpenDNS(DDNSProtocolDynDNS2, DDNSProvider):
+	handle    = "opendns.com"
+	name      = "OpenDNS"
+	website   = "http://www.opendns.com"
+
+	# Detailed information about the update request and possible
+	# response codes can be obtained from here:
+	# https://support.opendns.com/entries/23891440
+
+	url = "https://updates.opendns.com/nic/update"
+
+	@property
+	def proto(self):
+		return self.get("proto")
+
+	def _prepare_request_data(self):
+		data = {
+			"hostname" : self.hostname,
+			"myip"     : self.get_address(self.proto)
+		}
+
+		return data
+
+
 class DDNSProviderOVH(DDNSProtocolDynDNS2, DDNSProvider):
 	handle    = "ovh.com"
 	name      = "OVH"

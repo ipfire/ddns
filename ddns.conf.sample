@@ -82,6 +82,12 @@
 # secret = secret
 # proto = ipv4 OR ipv6
 
+# [test.opendns.com]
+# handle = opendns.com
+# username = user
+# password = pass
+# proto = ipv4 OR ipv6
+
 # [test.ovh.com]
 # provider = ovh.com
 # username = user
