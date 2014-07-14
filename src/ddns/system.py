@@ -166,6 +166,11 @@ class DDNSSystem(object):
 			return resp
 
 		except urllib2.HTTPError, e:
+			# Log response header.
+			logger.debug(_("Response header (Status Code %s):") % e.code)
+			for k, v in e.hdrs.items():
+				logger.debug("  %s: %s" % (k, v))
+
 			# 400 - Bad request
 			if e.code == 400:
 				raise DDNSRequestError(e.reason)
