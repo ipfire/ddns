@@ -129,11 +129,15 @@ class DDNSProvider(object):
 
 		# Check if we actually need to update this host.
 		elif self.is_uptodate(self.protocols):
-			logger.debug(_("%s is already up to date") % self.hostname)
+			logger.info(_("The dynamic host %(hostname)s (%(provider)s) is already up to date") % \
+				{ "hostname" : self.hostname, "provider" : self.name })
 			return
 
 		# Execute the update.
 		self.update()
+
+		logger.info(_("Dynamic DNS update for %(hostname)s (%(provider)s) successful") % \
+			{ "hostname" : self.hostname, "provider" : self.name })
 
 	def update(self):
 		raise NotImplementedError
