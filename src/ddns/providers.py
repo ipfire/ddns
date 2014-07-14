@@ -513,7 +513,7 @@ class DDNSProviderDynU(DDNSProtocolDynDNS2, DDNSProvider):
 	url = "https://api.dynu.com/nic/update"
 
 	def _prepare_request_data(self):
-		data = DDNSProviderDynDNS._prepare_request_data(self)
+		data = DDNSProtocolDynDNS2._prepare_request_data(self)
 
 		# This one supports IPv6
 		data.update({
@@ -943,7 +943,7 @@ class DDNSProviderSelfhost(DDNSProtocolDynDNS2, DDNSProvider):
 	url = "https://carol.selfhost.de/nic/update"
 
 	def _prepare_request_data(self):
-		data = DDNSProviderDynDNS._prepare_request_data(self)
+		data = DDNSProtocolDynDNS2._prepare_request_data(self)
 		data.update({
 			"hostname" : "1",
 		})
