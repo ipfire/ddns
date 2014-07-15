@@ -598,7 +598,7 @@ class DDNSProviderEntryDNS(DDNSProvider):
 
 		# Send update to the server.
 		try:
-			response = self.send_request(url, method="PUT", data=data)
+			response = self.send_request(url, data=data)
 
 		# Handle error codes
 		except urllib2.HTTPError, e:
