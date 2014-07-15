@@ -516,9 +516,11 @@ class DDNSProviderDynU(DDNSProtocolDynDNS2, DDNSProvider):
 		data = DDNSProtocolDynDNS2._prepare_request_data(self)
 
 		# This one supports IPv6
-		data.update({
-			"myipv6"   : self.get_address("ipv6"),
-		})
+		myipv6 = self.get_address("ipv6")
+
+		# Add update information if we have an IPv6 address.
+		if myipv6:
+			data["myipv6"] = myipv6
 
 		return data
 
