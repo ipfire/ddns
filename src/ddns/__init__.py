@@ -42,6 +42,8 @@ def setup_logging():
 	handler = logging.handlers.SysLogHandler(address="/dev/log",
 		facility=logging.handlers.SysLogHandler.LOG_DAEMON
 	)
+	formatter = logging.Formatter("ddns[%(process)d]: %(message)s")
+	handler.setFormatter(formatter)
 	handler.setLevel(logging.INFO)
 	rootlogger.addHandler(handler)
 
