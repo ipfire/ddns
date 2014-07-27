@@ -1,0 +1,262 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS/DTD DocBook XML V4.2//EN"
+	"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+
+<refentry id="ddns">
+	<refentryinfo>
+		<title>ddns</title>
+		<productname>ddns</productname>
+
+		<authorgroup>
+			<author>
+				<contrib>Developer</contrib>
+				<firstname>Stefan</firstname>
+				<surname>Schantl</surname>
+				<email>stefan.schantl@ipfire.org</email>
+			</author>
+		</authorgroup>
+	</refentryinfo>
+
+	<refmeta>
+		<refentrytitle>ddns</refentrytitle>
+		<manvolnum>1</manvolnum>
+	</refmeta>
+
+	<refnamediv>
+		<refname>ddns</refname>
+		<refpurpose>Dynamic DNS update client</refpurpose>
+	</refnamediv>
+
+	<refsynopsisdiv>
+		<cmdsynopsis>
+			<command>ddns</command>
+			<arg choice="opt" rep="repeat">OPTIONS</arg>
+			<arg choice="plain">COMMAND</arg>
+		</cmdsynopsis>
+	</refsynopsisdiv>
+
+	<refsect1>
+		<title>Description</title>
+
+		<para>
+			<command>ddns</command> is a simple, extensible, cross-distribution,
+			cross-platform dynamic DNS updater written in Python.
+		</para>
+	</refsect1>
+
+	<refsect1>
+		<title>Options</title>
+
+		<para>
+			The following options are understood:
+		</para>
+
+		<variablelist>
+			<varlistentry>
+				<term>
+					<option>-c CONFIG</option>
+				</term>
+				<term>
+					<option>--config CONFIG</option>
+				</term>
+
+				<listitem>
+					<para>
+						Load the specified configuration file.
+						(Default: <filename>/etc/ddns/ddns.conf</filename>)
+					</para>
+
+					<para>
+						For further details of the config file layout, please consult the
+						<citerefentry>
+							<refentrytitle>ddns.conf</refentrytitle>
+							<manvolnum>5</manvolnum>
+						</citerefentry>
+						manual page.
+					</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>
+					<option>-d</option>
+				</term>
+				<term>
+					<option>--debug</option>
+				</term>
+
+				<listitem>
+					<para>
+						Enables the debugging mode.
+						In this mode, there will be debug output on
+						the console and written to the log.
+					</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>
+					<option>-h</option>
+				</term>
+				<term>
+					<option>--help</option>
+				</term>
+
+				<listitem>
+					<para>
+						Shows the help message provided by the program and exit.
+					</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</refsect1>
+
+	<refsect1>
+		<title>Commands</title>
+
+		<para>
+			The following commands are understood:
+		</para>
+
+		<variablelist>
+			<varlistentry>
+				<term>
+					<command>update-all</command>
+				</term>
+
+				<listitem>
+					<para>
+						Update all configured dynamic DNS hosts.
+					</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>
+					<command>update <replaceable>HOSTNAME</replaceable></command>
+				</term>
+
+				<listitem>
+					<para>
+						Perform an update for a single host, specified by the
+						given hostname.
+					</para>
+
+					<para>
+						Example: <command>ddns update somehost.provider.com</command>
+					</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>
+					<option>--force</option>
+				</term>
+
+				<listitem>
+					<para>
+						When calling an update, the DDNS client automatically checks
+						if this update is required by testing whether the hostname points
+						to the current public IP address. If this test returns true, the call
+						can be droped and no request will be sent to the provider.
+					</para>
+
+					<para>
+						In cases an update request should be send nevertheless, the update can be
+						forced by using this switch.
+					</para>
+
+					<para>
+						Example: <command>ddns update somehost.provider.com --force</command> or
+						<command>ddns update-all --force</command>
+					</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>
+					<command>guess-ip-addresses</command>
+				</term>
+
+				<listitem>
+					<para>
+						Try to guess and print the hosts IPv4 and IPv6 addresses
+						based on the choosen method in the used config file.
+					</para>
+
+					<para>
+						The addresses can be obtained from the system or by
+						help of an external server. For systems behind a NAT the
+						second method is recommended.
+					</para>
+
+					<para>
+                                                For further details, please consult the
+                                                <citerefentry>
+                                                        <refentrytitle>ddns.conf</refentrytitle>
+                                                        <manvolnum>5</manvolnum>
+                                                </citerefentry>
+                                                manual page.
+                                        </para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>
+					<command>list-providers</command>
+				</term>
+
+				<listitem>
+					<para>
+						This command will print out a list of all
+						supported dynamic DNS providers.
+					</para>
+
+					<para>
+						For details how to add support for new providers,
+						please consult the
+						<citerefentry>
+							<refentrytitle>ddns-devel</refentrytitle>
+							<manvolnum>7</manvolnum>
+						</citerefentry>
+						manual page.
+					</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</refsect1>
+
+	<refsect1>
+		<title>Exit Codes</title>
+
+		<para>
+			<command>ddns</command> will normally exit with code 0.
+			If there has been a problem and the requested action could not be done,
+			the exit code is unequal to zero.
+		</para>
+	</refsect1>
+
+	<refsect1>
+		<title>Bugs</title>
+
+		<para>
+			Please report all bugs to the official bugtracker at
+			http://bugs.ipfire.org/.
+		</para>
+	</refsect1>
+
+	<refsect1>
+		<title>See Also</title>
+
+		<para>
+			<citerefentry>
+				<refentrytitle>ddns.conf</refentrytitle>
+				<manvolnum>5</manvolnum>
+			</citerefentry>, 
+			<citerefentry>
+				<refentrytitle>ddns-devel</refentrytitle>
+				<manvolnum>7</manvolnum>
+			</citerefentry>
+		</para>
+	</refsect1>
+</refentry>
