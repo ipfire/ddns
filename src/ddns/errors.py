@@ -117,6 +117,14 @@ class DDNSRequestError(DDNSError):
 	reason = N_("Request error")
 
 
+class DDNSResolveError(DDNSNetworkError):
+	"""
+		Thrown when a DNS record could not be resolved
+		because of a local error.
+	"""
+	reason = N_("Could not resolve DNS entry")
+
+
 class DDNSServiceUnavailableError(DDNSNetworkError):
 	"""
 		Equivalent to HTTP error code 503.

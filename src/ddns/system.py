@@ -193,6 +193,10 @@ class DDNSSystem(object):
 
 		except urllib2.URLError, e:
 			if e.reason:
+				# Name or service not known
+				if e.reason.errno == -2:
+					raise DDNSResolveError
+
 				# Network Unreachable (e.g. no IPv6 access)
 				if e.reason.errno == 101:
 					raise DDNSNetworkUnreachableError
@@ -320,6 +324,10 @@ class DDNSSystem(object):
 			# Name or service not known
 			if e.errno == -2:
 				return []
+
+			# Temporary failure in name resolution
+			elif e.errno == -3:
+				raise DDNSResolveError(hostname)
 
 			# No record for requested family available (e.g. no AAAA)
 			elif e.errno == -5:
