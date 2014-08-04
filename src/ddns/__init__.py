@@ -85,7 +85,7 @@ class DDNSCore(object):
 	def load_configuration(self, filename):
 		logger.debug(_("Loading configuration file %s") % filename)
 
-		configs = ConfigParser.SafeConfigParser()
+		configs = ConfigParser.RawConfigParser()
 		configs.read([filename,])
 
 		# First apply all global configuration settings.
