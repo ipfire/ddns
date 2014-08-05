@@ -129,7 +129,7 @@ class DDNSProvider(object):
 
 		# Check if we actually need to update this host.
 		elif self.is_uptodate(self.protocols):
-			logger.info(_("The dynamic host %(hostname)s (%(provider)s) is already up to date") % \
+			logger.debug(_("The dynamic host %(hostname)s (%(provider)s) is already up to date") % \
 				{ "hostname" : self.hostname, "provider" : self.name })
 			return
 
