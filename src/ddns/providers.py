@@ -320,6 +320,11 @@ class DDNSProviderBindNsupdate(DDNSProvider):
 		if server:
 			scriptlet.append("server %s" % server)
 
+		# Set the DNS zone the host should be added to.
+		zone = self.get("zone", None)
+		if zone:
+			scriptlet.append("zone %s" % zone)
+
 		key = self.get("key", None)
 		if key:
 			secret = self.get("secret")

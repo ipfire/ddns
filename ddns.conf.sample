@@ -25,6 +25,7 @@
 #
 # (optional)
 # server = 1.2.3.4
+# zone = somezone.bind.nsupdate
 # key = name
 # secret = XYZ
 # ttl = 60
