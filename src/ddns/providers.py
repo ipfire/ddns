@@ -541,6 +541,17 @@ class DDNSProviderEasyDNS(DDNSProtocolDynDNS2, DDNSProvider):
 	url = "http://api.cp.easydns.com/dyn/tomato.php"
 
 
+class DDNSProviderDomopoli(DDNSProtocolDynDNS2, DDNSProvider):
+	handle    = "domopoli.de"
+	name      = "domopoli.de"
+	website   = "http://domopoli.de/"
+	protocols = ("ipv4",)
+
+	# https://www.domopoli.de/?page=howto#DynDns_start
+
+	url = "http://dyndns.domopoli.de/nic/update"
+
+
 class DDNSProviderEnomCom(DDNSResponseParserXML, DDNSProvider):
 	handle    = "enom.com"
 	name      = "eNom Inc."
