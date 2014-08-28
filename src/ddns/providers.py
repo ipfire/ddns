@@ -224,6 +224,8 @@ class DDNSProtocolDynDNS2(object):
 			raise DDNSInternalServerError
 		elif output == "dnserr":
 			raise DDNSInternalServerError(_("DNS error encountered."))
+		elif output == "badagent":
+			raise DDNSBlockedError
 
 		# If we got here, some other update error happened.
 		raise DDNSUpdateError(_("Server response: %s") % output)
