@@ -214,7 +214,7 @@ class DDNSProtocolDynDNS2(object):
 		# Handle error codes.
 		if output == "badauth":
 			raise DDNSAuthenticationError
-		elif output == "aduse":
+		elif output == "abuse":
 			raise DDNSAbuseError
 		elif output == "notfqdn":
 			raise DDNSRequestError(_("No valid FQDN was given."))
@@ -224,6 +224,8 @@ class DDNSProtocolDynDNS2(object):
 			raise DDNSInternalServerError
 		elif output == "dnserr":
 			raise DDNSInternalServerError(_("DNS error encountered."))
+		elif output == "badagent":
+			raise DDNSBlockedError
 
 		# If we got here, some other update error happened.
 		raise DDNSUpdateError(_("Server response: %s") % output)
