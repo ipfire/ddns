@@ -556,6 +556,50 @@ class DDNSProviderDomopoli(DDNSProtocolDynDNS2, DDNSProvider):
 	url = "http://dyndns.domopoli.de/nic/update"
 
 
+class DDNSProviderDynsNet(DDNSProvider):
+	handle    = "dyns.net"
+	name      = "DyNS"
+	website   = "http://www.dyns.net/"
+	protocols = ("ipv4",)
+
+	# There is very detailed informatio about how to send the update request and
+	# the possible response codes. (Currently we are using the v1.1 proto)
+	# http://www.dyns.net/documentation/technical/protocol/
+
+	url = "http://www.dyns.net/postscript011.php"
+
+	def update(self):
+		data = {
+			"ip"       : self.get_address("ipv4"),
+			"host"     : self.hostname,
+			"username" : self.username,
+			"password" : self.password,
+		}
+
+		# Send update to the server.
+		response = self.send_request(self.url, data=data)
+
+		# Get the full response message.
+		output = response.read()
+
+		# Handle success messages.
+		if output.startswith("200"):
+			return
+
+		# Handle error codes.
+		if output.startswith("400"):
+			raise DDNSRequestError(_("Malformed request has been sent."))
+		elif output.startswith("401"):
+			raise DDNSAuthenticationError
+		elif output.startswith("402"):
+			raise DDNSRequestError(_("Too frequent update requests have been sent."))
+		elif output.startswith("403"):
+			raise DDNSInternalServerError
+
+		# If we got here, some other update error happened.
+		raise DDNSUpdateError(_("Server response: %s") % output) 
+
+
 class DDNSProviderEnomCom(DDNSResponseParserXML, DDNSProvider):
 	handle    = "enom.com"
 	name      = "eNom Inc."
