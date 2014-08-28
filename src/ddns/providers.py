@@ -521,9 +521,11 @@ class DDNSProviderDynU(DDNSProtocolDynDNS2, DDNSProvider):
 		data = DDNSProtocolDynDNS2._prepare_request_data(self)
 
 		# This one supports IPv6
-		data.update({
-			"myipv6"   : self.get_address("ipv6"),
-		})
+		myipv6 = self.get_address("ipv6")
+
+		# Add update information if we have an IPv6 address.
+		if myipv6:
+			data["myipv6"] = myipv6
 
 		return data
 
@@ -614,7 +616,7 @@ class DDNSProviderEntryDNS(DDNSProvider):
 
 		# Send update to the server.
 		try:
-			response = self.send_request(url, method="PUT", data=data)
+			response = self.send_request(url, data=data)
 
 		# Handle error codes
 		except urllib2.HTTPError, e:
