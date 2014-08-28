@@ -986,6 +986,14 @@ class DDNSProviderSPDNS(DDNSProtocolDynDNS2, DDNSProvider):
 
 	url = "https://update.spdns.de/nic/update"
 
+	@property
+	def username(self):
+		return self.get("username") or self.hostname
+
+	@property
+	def password(self):
+		return self.get("username") or self.token
+
 
 class DDNSProviderStrato(DDNSProtocolDynDNS2, DDNSProvider):
 	handle    = "strato.com"

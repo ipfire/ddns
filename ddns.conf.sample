@@ -113,6 +113,9 @@
 
 # [test.spdns.org]
 # provider = spdns.org
+
+# Only use one the these two auth options.
+# token = token
 # username = user
 # password = pass
 
