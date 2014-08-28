@@ -214,7 +214,7 @@ class DDNSProtocolDynDNS2(object):
 		# Handle error codes.
 		if output == "badauth":
 			raise DDNSAuthenticationError
-		elif output == "aduse":
+		elif output == "abuse":
 			raise DDNSAbuseError
 		elif output == "notfqdn":
 			raise DDNSRequestError(_("No valid FQDN was given."))
