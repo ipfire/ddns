@@ -49,6 +49,11 @@
 # username = user
 # password = pass
 
+# [text.dyns.net]
+# provider = dyns.net
+# username = user
+# password = pass
+
 # [test.dynu.com]
 # provider = dynu.com
 # username = user
