@@ -841,11 +841,11 @@ class DDNSProviderNOIP(DDNSProtocolDynDNS2, DDNSProvider):
 class DDNSProviderNsupdateINFO(DDNSProtocolDynDNS2, DDNSProvider):
 	handle    = "nsupdate.info"
 	name      = "nsupdate.info"
-	website   = "http://www.nsupdate.info/"
+	website   = "http://nsupdate.info/"
 	protocols = ("ipv6", "ipv4",)
 
 	# Information about the format of the HTTP request can be found
-	# after login on the provider user intrface and here:
+	# after login on the provider user interface and here:
 	# http://nsupdateinfo.readthedocs.org/en/latest/user.html
 
 	# Nsupdate.info uses the hostname as user part for the HTTP basic auth,
