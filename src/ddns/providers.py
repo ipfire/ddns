@@ -1158,7 +1158,7 @@ class DDNSProviderZZZZ(DDNSProvider):
 	handle    = "zzzz.io"
 	name      = "zzzz"
 	website   = "https://zzzz.io"
-	protocols = ("ipv4",)
+	protocols = ("ipv6", "ipv4",)
 
 	# Detailed information about the update request can be found here:
 	# https://zzzz.io/faq/
@@ -1169,10 +1169,20 @@ class DDNSProviderZZZZ(DDNSProvider):
 	url = "https://zzzz.io/api/v1/update"
 
 	def update(self):
+		for protocol in self.protocols:
+			address = self.get_address(protocol)
+
+			if address:
+				self.update_for_protocol(protocol, address)
+
+	def update_for_protocol(self, proto, address):
 		data = {
-			"ip"    : self.get_address("ipv4"),
+			"ip"    : address,
 			"token" : self.token,
 		}
+
+		if proto == "ipv6":
+			data["type"] = "aaaa"
 
 		# zzzz uses the host from the full hostname as part
 		# of the update url.
