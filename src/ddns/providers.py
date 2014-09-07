@@ -1152,3 +1152,49 @@ class DDNSProviderZoneedit(DDNSProtocolDynDNS2, DDNSProvider):
 
 		# If we got here, some other update error happened.
 		raise DDNSUpdateError
+
+
+class DDNSProviderZZZZ(DDNSProvider):
+	handle    = "zzzz.io"
+	name      = "zzzz"
+	website   = "https://zzzz.io"
+	protocols = ("ipv4",)
+
+	# Detailed information about the update request can be found here:
+	# https://zzzz.io/faq/
+
+	# Details about the possible response codes have been provided in the bugtracker:
+	# https://bugzilla.ipfire.org/show_bug.cgi?id=10584#c2
+
+	url = "https://zzzz.io/api/v1/update"
+
+	def update(self):
+		data = {
+			"ip"    : self.get_address("ipv4"),
+			"token" : self.token,
+		}
+
+		# zzzz uses the host from the full hostname as part
+		# of the update url.
+		host, domain = self.hostname.split(".", 1)
+
+		# Add host value to the update url.
+		url = "%s/%s" % (self.url, host)
+
+		# Send update to the server.
+		try:
+			response = self.send_request(url, data=data)
+
+		# Handle error codes.
+		except urllib2.HTTPError, e:
+			if e.code == 404:
+				raise DDNSRequestError(_("Invalid hostname specified."))
+
+			raise
+
+		# Handle success messages.
+		if response.code == 200:
+			return
+
+		# If we got here, some other update error happened.
+		raise DDNSUpdateError

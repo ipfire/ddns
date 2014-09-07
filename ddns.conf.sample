@@ -157,4 +157,7 @@
 # provider = zoneedit.com
 # username = user
 # password = pass
-# proto = ipv4 OR ipv6 
+# proto = ipv4 OR ipv6
+
+# [test.zzzz.io]
+# token = token 

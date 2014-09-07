@@ -74,5 +74,6 @@ SUPPORTED PROVIDERS:
 	udmedia.de
 	variomedia.de
 	zoneedit.com
+	zzzz.io
 
 Also supports DNS updates via the ISC BIND nsupdate utility.
