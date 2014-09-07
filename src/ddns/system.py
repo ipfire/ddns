@@ -180,6 +180,12 @@ class DDNSSystem(object):
 			elif e.code in (401, 403):
 				raise DDNSAuthenticationError(e.reason)
 
+			# 404 - Not found
+			# Either the provider has changed the API, or
+			# there is an error on the server
+			elif e.code == 404:
+				raise DDNSNotFound(e.reason)
+
 			# 500 - Internal Server Error
 			elif e.code == 500:
 				raise DDNSInternalServerError(e.reason)

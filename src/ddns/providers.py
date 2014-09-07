@@ -1186,11 +1186,8 @@ class DDNSProviderZZZZ(DDNSProvider):
 			response = self.send_request(url, data=data)
 
 		# Handle error codes.
-		except urllib2.HTTPError, e:
-			if e.code == 404:
-				raise DDNSRequestError(_("Invalid hostname specified."))
-
-			raise
+		except DDNSNotFound:
+			raise DDNSRequestError(_("Invalid hostname specified"))
 
 		# Handle success messages.
 		if response.code == 200:

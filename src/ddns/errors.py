@@ -109,6 +109,13 @@ class DDNSNetworkUnreachableError(DDNSNetworkError):
 	reason = N_("Network unreachable")
 
 
+class DDNSNotFound(DDNSError):
+	"""
+		Thrown when the called URL has not been found
+	"""
+	reason = N_("Not found")
+
+
 class DDNSRequestError(DDNSError):
 	"""
 		Thrown when a request could
