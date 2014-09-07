@@ -160,4 +160,5 @@
 # proto = ipv4 OR ipv6
 
 # [test.zzzz.io]
+# provider = zzzz.io
 # token = token 
