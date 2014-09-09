@@ -1,0 +1,230 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS/DTD DocBook XML V4.2//EN"
+	"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+
+<refentry id="ddns.conf">
+	<refentryinfo>
+		<title>ddns.conf</title>
+		<productname>ddns</productname>
+
+		<authorgroup>
+			<author>
+				<contrib>Developer</contrib>
+				<firstname>Stefan</firstname>
+				<surname>Schantl</surname>
+				<email>stefan.schantl@ipfire.org</email>
+			</author>
+		</authorgroup>
+	</refentryinfo>
+
+	<refmeta>
+		<refentrytitle>ddns.conf</refentrytitle>
+		<manvolnum>5</manvolnum>
+	</refmeta>
+
+	<refnamediv>
+		<refname>ddns.conf</refname>
+		<refpurpose>Configuration file for the DDNS update client.</refpurpose>
+	</refnamediv>
+
+	<refsect1>
+		<title>Description</title>
+
+		<para>
+			The <filename>ddns.conf</filename> file is the main configuration file for the
+			<command>ddns</command> update client. This file specifies some basic options
+			for the programm and contain multiple sections which imply hostname and auth information
+			for each used provider.
+		</para>
+
+		<para>
+			Lines starting with a hash mark (''#'') and empty lines are ignored.
+		</para>
+	</refsect1>
+
+	<refsect1>
+		<title>Options</title>
+
+		<para>
+			The following options can be configured:
+		</para>
+
+		<variablelist>
+			<varlistentry>
+				<term>
+					<option>proxy = http://IP:PORT</option>
+				</term>
+
+				<listitem>
+					<para>
+						Using this option allows the usage of a proxy server while
+						performing updates.
+					</para>
+
+					<para>
+						The proxy only can be contacted by using the HTTP protocol. The
+						server has to be specified by using its IP address and the used port.
+					</para>
+
+					<para>
+						Example: proxy = http://192.168.180.1:800
+					</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>
+					<option>guess_external_ip = [<emphasis>true</emphasis>|false]</option>
+				</term>
+
+				<listitem>
+					<para>
+						Determine the public IP addresses by using external servers.
+					</para>
+
+					<para>
+						The default value if this setting is not configured is
+						<emphasis>true</emphasis>.
+					</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</refsect1>
+
+	<refsect1>
+		<title>Provider Configuration</title>
+
+		<para>
+			The DDNS client supports the configuration of an unlimited amount of entries on different providers.
+			Each entry has to be configured as an own section which has to be initiated with the choosen FQDN
+			(Fully Qualified Domain Name) inside of squared brackets.
+		</para>
+
+		<variablelist>
+			<varlistentry>
+				<term>
+					<command>[hostname.someprovider.com]</command>
+				</term>
+
+				<listitem>
+					<para>
+						Specifies the choosen FQDN composed of the hostname and the selected domain from the
+						desired dynamic DNS provider.
+					</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>
+					<command>handle = someprovider.com</command>
+				</term>
+
+				<listitem>
+					<para>
+						The provider which is responsible for the configured FQDN.
+					</para>
+
+					<para>
+						A list of all supported providers can be found in the <filename>ddns.conf.sample</filename>
+						or the <filename>README</filename> file shipped by the source code.
+					</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>
+					<command>username = user</command>
+				</term>
+
+				<listitem>
+					<para>
+						The used username to authenticate against your providers update service.
+					</para>
+
+					<para>
+						In most cases this will be the same username which can be used to login on
+						your providers webpage.
+					</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>
+					<command>password = pass</command>
+				</term>
+
+				<listitem>
+					<para>
+						The choosen password for the specified username.
+					</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>
+					<command>token = token</command>
+				</term>
+
+				<listitem>
+					<para>
+						Just the authentication token.
+					</para>
+
+					<para>
+						If your dynamic DNS provider supports token-based auth, this method should
+						be prefered.
+					</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</refsect1>
+
+	<refsect1>
+		<title>Examples</title>
+
+		<example>
+			<title>A provider which uses username and password for client authentication.</title>
+
+			<simplelist>
+				<member>[somehost.provider.com]</member>
+				<member>handle = provider.com</member>
+				<member>username = username</member>
+				<member>password = password</member>
+			</simplelist>
+		</example>
+
+		<example>
+			<title>Provider which supports token based auth.</title>
+
+			<simplelist>
+				<member>[anotherhost.provider.com]</member>
+				<member>handle = provider.com</member>
+				<member>token = token</member>
+			</simplelist>
+		</example>
+	</refsect1>
+
+	<refsect1>
+		<title>Bugs</title>
+
+		<para>
+			Please report all bugs to the official bugtracker at
+			http://bugs.ipfire.org/.
+		</para>
+	</refsect1>
+
+	<refsect1>
+		<title>See Also</title>
+
+		<para>
+			<citerefentry>
+				<refentrytitle>ddns</refentrytitle>
+				<manvolnum>1</manvolnum>
+			</citerefentry>
+			<citerefentry>
+				<refentrytitle>ddns-devel</refentrytitle>
+				<manvolnum>7</manvolnum>
+			</citerefentry>
+		</para>
+	</refsect1>
+</refentry>
