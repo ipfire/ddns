@@ -19,6 +19,7 @@
 #                                                                             #
 ###############################################################################
 
+import datetime
 import logging
 import subprocess
 import urllib2
@@ -57,6 +58,10 @@ class DDNSProvider(object):
 
 	DEFAULT_SETTINGS = {}
 
+	# holdoff time - Number of days no update is performed unless
+	# the IP address has changed.
+	holdoff_days = 30
+
 	# Automatically register all providers.
 	class __metaclass__(type):
 		def __init__(provider, name, bases, dict):
@@ -88,6 +93,10 @@ class DDNSProvider(object):
 
 	def __cmp__(self, other):
 		return cmp(self.hostname, other.hostname)
+
+	@property
+	def db(self):
+		return self.core.db
 
 	def get(self, key, default=None):
 		"""
@@ -127,17 +136,23 @@ class DDNSProvider(object):
 		if force:
 			logger.debug(_("Updating %s forced") % self.hostname)
 
-		# Check if we actually need to update this host.
-		elif self.is_uptodate(self.protocols):
-			logger.debug(_("The dynamic host %(hostname)s (%(provider)s) is already up to date") % \
-				{ "hostname" : self.hostname, "provider" : self.name })
+		# Do nothing if no update is required
+		elif not self.requires_update:
 			return
 
 		# Execute the update.
-		self.update()
+		try:
+			self.update()
+
+		# In case of any errors, log the failed request and
+		# raise the exception.
+		except DDNSError as e:
+			self.core.db.log_failure(self.hostname, e)
+			raise
 
 		logger.info(_("Dynamic DNS update for %(hostname)s (%(provider)s) successful") % \
 			{ "hostname" : self.hostname, "provider" : self.name })
+		self.core.db.log_success(self.hostname)
 
 	def update(self):
 		for protocol in self.protocols:
@@ -157,7 +172,31 @@ class DDNSProvider(object):
 		# Maybe this will raise NotImplementedError at some time
 		#raise NotImplementedError
 
-	def is_uptodate(self, protos):
+	@property
+	def requires_update(self):
+		# If the IP addresses have changed, an update is required
+		if self.ip_address_changed(self.protocols):
+			logger.debug(_("An update for %(hostname)s (%(provider)s)"
+				" is performed because of an IP address change") % \
+				{ "hostname" : self.hostname, "provider" : self.name })
+
+			return True
+
+		# If the holdoff time has expired, an update is required, too
+		if self.holdoff_time_expired():
+			logger.debug(_("An update for %(hostname)s (%(provider)s)"
+				" is performed because the holdoff time has expired") % \
+				{ "hostname" : self.hostname, "provider" : self.name })
+
+			return True
+
+		# Otherwise, we don't need to perform an update
+		logger.debug(_("No update required for %(hostname)s (%(provider)s)") % \
+			{ "hostname" : self.hostname, "provider" : self.name })
+
+		return False
+
+	def ip_address_changed(self, protos):
 		"""
 			Returns True if this host is already up to date
 			and does not need to change the IP address on the
@@ -174,9 +213,39 @@ class DDNSProvider(object):
 				continue
 
 			if not current_address in addresses:
-				return False
+				return True
 
-		return True
+		return False
+
+	def holdoff_time_expired(self):
+		"""
+			Returns true if the holdoff time has expired
+			and the host requires an update
+		"""
+		# If no holdoff days is defined, we cannot go on
+		if not self.holdoff_days:
+			return False
+
+		# Get the timestamp of the last successfull update
+		last_update = self.db.last_update(self.hostname)
+
+		# If no timestamp has been recorded, no update has been
+		# performed. An update should be performed now.
+		if not last_update:
+			return True
+
+		# Determine when the holdoff time ends
+		holdoff_end = last_update + datetime.timedelta(days=self.holdoff_days)
+
+		now = datetime.datetime.utcnow()
+
+		if now >= holdoff_end:
+			logger.debug("The holdoff time has expired for %s" % self.hostname)
+			return True
+		else:
+			logger.debug("Updates for %s are held off until %s" % \
+				(self.hostname, holdoff_end))
+			return False
 
 	def send_request(self, *args, **kwargs):
 		"""

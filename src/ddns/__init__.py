@@ -28,6 +28,7 @@ from i18n import _
 logger = logging.getLogger("ddns.core")
 logger.propagate = 1
 
+import database
 import providers
 
 from .errors import *
@@ -75,6 +76,9 @@ class DDNSCore(object):
 
 		# Add the system class.
 		self.system = DDNSSystem(self)
+
+		# Open the database.
+		self.db = database.DDNSDatabase(self, "/var/lib/ddns.db")
 
 	def get_provider_names(self):
 		"""

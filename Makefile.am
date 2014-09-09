@@ -66,6 +66,7 @@ dist_configs_DATA = \
 ddns_PYTHON = \
 	src/ddns/__init__.py \
 	src/ddns/__version__.py \
+	src/ddns/database.py \
 	src/ddns/errors.py \
 	src/ddns/i18n.py \
 	src/ddns/providers.py \
