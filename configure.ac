@@ -51,6 +51,8 @@ AC_PROG_LN_S
 AC_PROG_MKDIR_P
 AC_PROG_SED
 
+AC_PATH_PROG([XSLTPROC], [xsltproc])
+
 # Python
 AM_PATH_PYTHON([2.7])
 
@@ -61,6 +63,14 @@ if test -z "${NSUPDATE}"; then
 fi
 
 save_LIBS="$LIBS"
+
+# ------------------------------------------------------------------------------
+have_manpages=no
+AC_ARG_ENABLE(manpages, AS_HELP_STRING([--disable-manpages], [disable manpages]))
+AS_IF([test "x$enable_manpages" != xno], [have_manpages=yes])
+AM_CONDITIONAL(ENABLE_MANPAGES, [test "x$have_manpages" = "xyes"])
+
+# ------------------------------------------------------------------------------
 
 AC_CONFIG_FILES([
 	Makefile
@@ -76,4 +86,6 @@ AC_MSG_RESULT([
 	sysconfdir        : ${sysconfdir}
 
 	nsupdate          : ${NSUPDATE}
+
+	Generate manpages : ${have_manpages}
 ])
