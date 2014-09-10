@@ -1040,7 +1040,7 @@ class DDNSProviderSPDNS(DDNSProtocolDynDNS2, DDNSProvider):
 	handle    = "spdns.org"
 	name      = "SPDNS"
 	website   = "http://spdns.org/"
-	protocols = ("ipv4",)
+	protocols = ("ipv4", "ipv6")
 
 	# Detailed information about request and response codes are provided
 	# by the vendor. They are using almost the same mechanism and status
@@ -1050,6 +1050,18 @@ class DDNSProviderSPDNS(DDNSProtocolDynDNS2, DDNSProvider):
 	# http://wiki.securepoint.de/index.php/SPDNS_Update-Tokens
 
 	url = "https://update.spdns.de/nic/update"
+	
+	@property
+	def proto(self):
+		return self.get("proto")
+
+	def _prepare_request_data(self):
+		data = {
+			"hostname" : self.hostname,
+			"myip"     : self.get_address(self.proto)
+		}
+
+		return data
 
 	@property
 	def username(self):
