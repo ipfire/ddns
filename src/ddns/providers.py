@@ -885,7 +885,7 @@ class DDNSProviderNsupdateINFO(DDNSProtocolDynDNS2, DDNSProvider):
 
 	@property
 	def password(self):
-		return self.get("secret")
+		return self.token or self.get("secret")
 
 	@property
 	def url(self):

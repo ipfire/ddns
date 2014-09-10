@@ -88,7 +88,7 @@
 
 # [test.nsupdate.info]
 # provider = nsupdate.info
-# secret = secret
+# token = token
 
 # [test.opendns.com]
 # handle = opendns.com
