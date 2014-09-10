@@ -1040,7 +1040,6 @@ class DDNSProviderSPDNS(DDNSProtocolDynDNS2, DDNSProvider):
 	handle    = "spdns.org"
 	name      = "SPDNS"
 	website   = "http://spdns.org/"
-	protocols = ("ipv4",)
 
 	# Detailed information about request and response codes are provided
 	# by the vendor. They are using almost the same mechanism and status
