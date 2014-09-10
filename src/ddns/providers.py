@@ -140,7 +140,22 @@ class DDNSProvider(object):
 			{ "hostname" : self.hostname, "provider" : self.name })
 
 	def update(self):
+		for protocol in self.protocols:
+			if self.have_address(protocol):
+				self.update_protocol(protocol)
+			else:
+				self.remove_protocol(protocol)
+
+	def update_protocol(self, proto):
 		raise NotImplementedError
+
+	def remove_protocol(self, proto):
+		logger.warning(_("%(hostname)s current resolves to an IP address"
+			" of the %(proto)s protocol which could not be removed by ddns") % \
+			{ "hostname" : self.hostname, "proto" : proto })
+
+		# Maybe this will raise NotImplementedError at some time
+		#raise NotImplementedError
 
 	def is_uptodate(self, protos):
 		"""
@@ -176,6 +191,18 @@ class DDNSProvider(object):
 		"""
 		return self.core.system.get_address(proto) or default
 
+	def have_address(self, proto):
+		"""
+			Returns True if an IP address for the given protocol
+			is known and usable.
+		"""
+		address = self.get_address(proto)
+
+		if address:
+			return True
+
+		return False
+
 
 class DDNSProtocolDynDNS2(object):
 	"""
@@ -189,19 +216,22 @@ class DDNSProtocolDynDNS2(object):
 	# http://dyn.com/support/developers/api/perform-update/
 	# http://dyn.com/support/developers/api/return-codes/
 
-	def _prepare_request_data(self):
+	def prepare_request_data(self, proto):
 		data = {
 			"hostname" : self.hostname,
-			"myip"     : self.get_address("ipv4"),
+			"myip"     : self.get_address(proto),
 		}
 
 		return data
 
-	def update(self):
-		data = self._prepare_request_data()
+	def update_protocol(self, proto):
+		data = self.prepare_request_data(proto)
 
+		return self.send_request(data)
+
+	def send_request(self, data):
 		# Send update to the server.
-		response = self.send_request(self.url, data=data,
+		response = DDNSProvider.send_request(self, self.url, data=data,
 			username=self.username, password=self.password)
 
 		# Get the full response message.
@@ -371,10 +401,10 @@ class DDNSProviderDHS(DDNSProvider):
 
 	url = "http://members.dhs.org/nic/hosts"
 
-	def update(self):
+	def update_protocol(self, proto):
 		data = {
 			"domain"       : self.hostname,
-			"ip"           : self.get_address("ipv4"),
+			"ip"           : self.get_address(proto),
 			"hostcmd"      : "edit",
 			"hostcmdstage" : "2",
 			"type"         : "4",
@@ -403,10 +433,10 @@ class DDNSProviderDNSpark(DDNSProvider):
 
 	url = "https://control.dnspark.com/api/dynamic/update.php"
 
-	def update(self):
+	def update_protocol(self, proto):
 		data = {
 			"domain" : self.hostname,
-			"ip"     : self.get_address("ipv4"),
+			"ip"     : self.get_address(proto),
 		}
 
 		# Send update to the server.
@@ -451,9 +481,9 @@ class DDNSProviderDtDNS(DDNSProvider):
 
 	url = "https://www.dtdns.com/api/autodns.cfm"
 
-	def update(self):
+	def update_protocol(self, proto):
 		data = {
-			"ip" : self.get_address("ipv4"),
+			"ip" : self.get_address(proto),
 			"id" : self.hostname,
 			"pw" : self.password
 		}
@@ -519,8 +549,10 @@ class DDNSProviderDynU(DDNSProtocolDynDNS2, DDNSProvider):
 
 	url = "https://api.dynu.com/nic/update"
 
-	def _prepare_request_data(self):
-		data = DDNSProtocolDynDNS2._prepare_request_data(self)
+	# DynU sends the IPv6 and IPv4 address in one request
+
+	def update(self):
+		data = DDNSProtocolDynDNS2.prepare_request_data(self, "ipv4")
 
 		# This one supports IPv6
 		myipv6 = self.get_address("ipv6")
@@ -529,7 +561,7 @@ class DDNSProviderDynU(DDNSProtocolDynDNS2, DDNSProvider):
 		if myipv6:
 			data["myipv6"] = myipv6
 
-		return data
+		self._send_request(data)
 
 
 class DDNSProviderEasyDNS(DDNSProtocolDynDNS2, DDNSProvider):
@@ -568,9 +600,9 @@ class DDNSProviderDynsNet(DDNSProvider):
 
 	url = "http://www.dyns.net/postscript011.php"
 
-	def update(self):
+	def update_protocol(self, proto):
 		data = {
-			"ip"       : self.get_address("ipv4"),
+			"ip"       : self.get_address(proto),
 			"host"     : self.hostname,
 			"username" : self.username,
 			"password" : self.password,
@@ -604,6 +636,7 @@ class DDNSProviderEnomCom(DDNSResponseParserXML, DDNSProvider):
 	handle    = "enom.com"
 	name      = "eNom Inc."
 	website   = "http://www.enom.com/"
+	protocols = ("ipv4",)
 
 	# There are very detailed information about how to send an update request and
 	# the respone codes.
@@ -611,11 +644,11 @@ class DDNSProviderEnomCom(DDNSResponseParserXML, DDNSProvider):
 
 	url = "https://dynamic.name-services.com/interface.asp"
 
-	def update(self):
+	def update_protocol(self, proto):
 		data = {
 			"command"        : "setdnshost",
 			"responsetype"   : "xml",
-			"address"        : self.get_address("ipv4"),
+			"address"        : self.get_address(proto),
 			"domainpassword" : self.password,
 			"zone"           : self.hostname
 		}
@@ -652,9 +685,9 @@ class DDNSProviderEntryDNS(DDNSProvider):
 	# here: https://entrydns.net/help
 	url = "https://entrydns.net/records/modify"
 
-	def update(self):
+	def update_protocol(self, proto):
 		data = {
-			"ip" : self.get_address("ipv4")
+			"ip" : self.get_address(proto),
 		}
 
 		# Add auth token to the update url.
@@ -691,15 +724,9 @@ class DDNSProviderFreeDNSAfraidOrg(DDNSProvider):
 	# page. All used values have been collected by testing.
 	url = "https://freedns.afraid.org/dynamic/update.php"
 
-	@property
-	def proto(self):
-		return self.get("proto")
-
-	def update(self):
-		address = self.get_address(self.proto)
-
+	def update_protocol(self, proto):
 		data = {
-			"address" : address,
+			"address" : self.get_address(proto),
 		}
 
 		# Add auth token to the update url.
@@ -780,12 +807,12 @@ class DDNSProviderNamecheap(DDNSResponseParserXML, DDNSProvider):
 
 	url = "https://dynamicdns.park-your-domain.com/update"
 
-	def update(self):
+	def update_protocol(self, proto):
 		# Namecheap requires the hostname splitted into a host and domain part.
 		host, domain = self.hostname.split(".", 1)
 
 		data = {
-			"ip"       : self.get_address("ipv4"),
+			"ip"       : self.get_address(proto),
 			"password" : self.password,
 			"host"     : host,
 			"domain"   : domain
@@ -798,7 +825,7 @@ class DDNSProviderNamecheap(DDNSResponseParserXML, DDNSProvider):
 		output = response.read()
 
 		# Handle success messages.
-		if self.get_xml_tag_value(output, "IP") == self.get_address("ipv4"):
+		if self.get_xml_tag_value(output, "IP") == address:
 			return
 
 		# Handle error codes.
@@ -829,10 +856,12 @@ class DDNSProviderNOIP(DDNSProtocolDynDNS2, DDNSProvider):
 
 	url = "http://dynupdate.no-ip.com/nic/update"
 
-	def _prepare_request_data(self):
+	def prepare_request_data(self, proto):
+		assert proto == "ipv4"
+
 		data = {
 			"hostname" : self.hostname,
-			"address"  : self.get_address("ipv4"),
+			"address"  : self.get_address(proto),
 		}
 
 		return data
@@ -859,10 +888,6 @@ class DDNSProviderNsupdateINFO(DDNSProtocolDynDNS2, DDNSProvider):
 		return self.get("secret")
 
 	@property
-	def proto(self):
-		return self.get("proto")
-
-	@property
 	def url(self):
 		# The update URL is different by the used protocol.
 		if self.proto == "ipv4":
@@ -872,9 +897,9 @@ class DDNSProviderNsupdateINFO(DDNSProtocolDynDNS2, DDNSProvider):
 		else:
 			raise DDNSUpdateError(_("Invalid protocol has been given"))
 
-	def _prepare_request_data(self):
+	def prepare_request_data(self, proto):
 		data = {
-			"myip" : self.get_address(self.proto),
+			"myip" : self.get_address(proto),
 		}
 
 		return data
@@ -891,14 +916,10 @@ class DDNSProviderOpenDNS(DDNSProtocolDynDNS2, DDNSProvider):
 
 	url = "https://updates.opendns.com/nic/update"
 
-	@property
-	def proto(self):
-		return self.get("proto")
-
-	def _prepare_request_data(self):
+	def prepare_request_data(self, proto):
 		data = {
 			"hostname" : self.hostname,
-			"myip"     : self.get_address(self.proto)
+			"myip"     : self.get_address(proto),
 		}
 
 		return data
@@ -918,8 +939,8 @@ class DDNSProviderOVH(DDNSProtocolDynDNS2, DDNSProvider):
 
 	url = "https://www.ovh.com/nic/update"
 
-	def _prepare_request_data(self):
-		data = DDNSProtocolDynDNS2._prepare_request_data(self)
+	def prepare_request_data(self, proto):
+		data = DDNSProtocolDynDNS2.prepare_request_data(self, proto)
 		data.update({
 			"system" : "dyndns",
 		})
@@ -1006,8 +1027,8 @@ class DDNSProviderSelfhost(DDNSProtocolDynDNS2, DDNSProvider):
 
 	url = "https://carol.selfhost.de/nic/update"
 
-	def _prepare_request_data(self):
-		data = DDNSProtocolDynDNS2._prepare_request_data(self)
+	def prepare_request_data(self, proto):
+		data = DDNSProtocolDynDNS2.prepare_request_data(self, proto)
 		data.update({
 			"hostname" : "1",
 		})
@@ -1063,9 +1084,11 @@ class DDNSProviderTwoDNS(DDNSProtocolDynDNS2, DDNSProvider):
 
 	url = "https://update.twodns.de/update"
 
-	def _prepare_request_data(self):
+	def prepare_request_data(self, proto):
+		assert proto == "ipv4"
+
 		data = {
-			"ip" : self.get_address("ipv4"),
+			"ip"       : self.get_address(proto),
 			"hostname" : self.hostname
 		}
 
@@ -1095,14 +1118,10 @@ class DDNSProviderVariomedia(DDNSProtocolDynDNS2, DDNSProvider):
 
 	url = "https://dyndns.variomedia.de/nic/update"
 
-	@property
-	def proto(self):
-		return self.get("proto")
-
-	def _prepare_request_data(self):
+	def prepare_request_data(self, proto):
 		data = {
 			"hostname" : self.hostname,
-			"myip"     : self.get_address(self.proto)
+			"myip"     : self.get_address(proto),
 		}
 
 		return data
@@ -1121,13 +1140,9 @@ class DDNSProviderZoneedit(DDNSProtocolDynDNS2, DDNSProvider):
 
 	url = "https://dynamic.zoneedit.com/auth/dynamic.html"
 
-	@property
-	def proto(self):
-		return self.get("proto")
-
-	def update(self):
+	def update_protocol(self, proto):
 		data = {
-			"dnsto" : self.get_address(self.proto),
+			"dnsto" : self.get_address(proto),
 			"host"  : self.hostname
 		}
 
@@ -1168,16 +1183,9 @@ class DDNSProviderZZZZ(DDNSProvider):
 
 	url = "https://zzzz.io/api/v1/update"
 
-	def update(self):
-		for protocol in self.protocols:
-			address = self.get_address(protocol)
-
-			if address:
-				self.update_for_protocol(protocol, address)
-
-	def update_for_protocol(self, proto, address):
+	def update_protocol(self, proto):
 		data = {
-			"ip"    : address,
+			"ip"    : self.get_address(proto),
 			"token" : self.token,
 		}
 
