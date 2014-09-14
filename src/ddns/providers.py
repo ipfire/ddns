@@ -795,6 +795,25 @@ class DDNSProviderLightningWireLabs(DDNSProvider):
 		raise DDNSUpdateError
 
 
+class DDNSProviderMyOnlinePortal(DDNSProtocolDynDNS2, DDNSProvider):
+	handle    = "myonlineportal.net"
+	name      = "myonlineportal.net"
+	website   = "https:/myonlineportal.net/"
+
+	# Information about the request and response can be obtained here:
+	# https://myonlineportal.net/howto_dyndns
+
+	url = "https://myonlineportal.net/updateddns"
+
+	def prepare_request_data(self, proto):
+		data = {
+			"hostname" : self.hostname,
+			"ip"     : self.get_address(proto),
+		}
+
+		return data
+
+
 class DDNSProviderNamecheap(DDNSResponseParserXML, DDNSProvider):
 	handle    = "namecheap.com"
 	name      = "Namecheap"

@@ -77,6 +77,11 @@
 # provider = freedns.afraid.org
 # token = token
 
+# [test.myonlineportal.net]
+# provider = myonlineportal.net
+# username = user
+# password = pass
+
 # [test.namecheap.com]
 # provider = namecheap.com
 # password = pass
