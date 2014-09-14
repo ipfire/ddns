@@ -1006,6 +1006,8 @@ class DDNSProviderNsupdateINFO(DDNSProtocolDynDNS2, DDNSProvider):
 	# after login on the provider user interface and here:
 	# http://nsupdateinfo.readthedocs.org/en/latest/user.html
 
+	url = "https://nsupdate.info/nic/update"
+
 	# TODO nsupdate.info can actually do this, but the functionality
 	# has not been implemented here, yet.
 	can_remove_records = False
@@ -1019,16 +1021,6 @@ class DDNSProviderNsupdateINFO(DDNSProtocolDynDNS2, DDNSProvider):
 	@property
 	def password(self):
 		return self.token or self.get("secret")
-
-	@property
-	def url(self):
-		# The update URL is different by the used protocol.
-		if self.proto == "ipv4":
-			return "https://ipv4.nsupdate.info/nic/update"
-		elif self.proto == "ipv6":
-			return "https://ipv6.nsupdate.info/nic/update"
-		else:
-			raise DDNSUpdateError(_("Invalid protocol has been given"))
 
 	def prepare_request_data(self, proto):
 		data = {
