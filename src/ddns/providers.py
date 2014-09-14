@@ -62,6 +62,10 @@ class DDNSProvider(object):
 	# the IP address has changed.
 	holdoff_days = 30
 
+	# True if the provider is able to remove records, too.
+	# Required to remove AAAA records if IPv6 is absent again.
+	can_remove_records = True
+
 	# Automatically register all providers.
 	class __metaclass__(type):
 		def __init__(provider, name, bases, dict):
@@ -158,19 +162,17 @@ class DDNSProvider(object):
 		for protocol in self.protocols:
 			if self.have_address(protocol):
 				self.update_protocol(protocol)
-			else:
+			elif self.can_remove_records:
 				self.remove_protocol(protocol)
 
 	def update_protocol(self, proto):
 		raise NotImplementedError
 
 	def remove_protocol(self, proto):
-		logger.warning(_("%(hostname)s current resolves to an IP address"
-			" of the %(proto)s protocol which could not be removed by ddns") % \
-			{ "hostname" : self.hostname, "proto" : proto })
+		if not self.can_remove_records:
+			raise RuntimeError, "can_remove_records is enabled, but remove_protocol() not implemented"
 
-		# Maybe this will raise NotImplementedError at some time
-		#raise NotImplementedError
+		raise NotImplementedError
 
 	@property
 	def requires_update(self):
@@ -204,12 +206,17 @@ class DDNSProvider(object):
 		"""
 		for proto in protos:
 			addresses = self.core.system.resolve(self.hostname, proto)
-
 			current_address = self.get_address(proto)
 
-			# If no addresses for the given protocol exist, we
-			# are fine...
-			if current_address is None and not addresses:
+			# Handle if the system has not got any IP address from a protocol
+			# (i.e. had full dual-stack connectivity which it has not any more)
+			if current_address is None:
+				# If addresses still exists in the DNS system and if this provider
+				# is able to remove records, we will do that.
+				if addresses and self.can_remove_records:
+					return True
+
+				# Otherwise, we cannot go on...
 				continue
 
 			if not current_address in addresses:
@@ -284,6 +291,9 @@ class DDNSProtocolDynDNS2(object):
 	# Information about the format of the request is to be found
 	# http://dyn.com/support/developers/api/perform-update/
 	# http://dyn.com/support/developers/api/return-codes/
+
+	# The DynDNS protocol version 2 does not allow to remove records
+	can_remove_records = False
 
 	def prepare_request_data(self, proto):
 		data = {
@@ -371,6 +381,7 @@ class DDNSProviderAllInkl(DDNSProvider):
 	# http://all-inkl.goetze.it/v01/ddns-mit-einfachen-mitteln/
 
 	url = "http://dyndns.kasserver.com"
+	can_remove_records = False
 
 	def update(self):
 		# There is no additional data required so we directly can
@@ -469,6 +480,7 @@ class DDNSProviderDHS(DDNSProvider):
 	# grabed from source code of ez-ipudate.
 
 	url = "http://members.dhs.org/nic/hosts"
+	can_remove_records = False
 
 	def update_protocol(self, proto):
 		data = {
@@ -501,6 +513,7 @@ class DDNSProviderDNSpark(DDNSProvider):
 	# https://dnspark.zendesk.com/entries/31229348-Dynamic-DNS-API-Documentation
 
 	url = "https://control.dnspark.com/api/dynamic/update.php"
+	can_remove_records = False
 
 	def update_protocol(self, proto):
 		data = {
@@ -549,6 +562,7 @@ class DDNSProviderDtDNS(DDNSProvider):
 	# http://www.dtdns.com/dtsite/updatespec
 
 	url = "https://www.dtdns.com/api/autodns.cfm"
+	can_remove_records = False
 
 	def update_protocol(self, proto):
 		data = {
@@ -662,6 +676,7 @@ class DDNSProviderDynsNet(DDNSProvider):
 	name      = "DyNS"
 	website   = "http://www.dyns.net/"
 	protocols = ("ipv4",)
+	can_remove_records = False
 
 	# There is very detailed informatio about how to send the update request and
 	# the possible response codes. (Currently we are using the v1.1 proto)
@@ -712,6 +727,7 @@ class DDNSProviderEnomCom(DDNSResponseParserXML, DDNSProvider):
 	# http://www.enom.com/APICommandCatalog/
 
 	url = "https://dynamic.name-services.com/interface.asp"
+	can_remove_records = False
 
 	def update_protocol(self, proto):
 		data = {
@@ -753,6 +769,7 @@ class DDNSProviderEntryDNS(DDNSProvider):
 	# Some very tiny details about their so called "Simple API" can be found
 	# here: https://entrydns.net/help
 	url = "https://entrydns.net/records/modify"
+	can_remove_records = False
 
 	def update_protocol(self, proto):
 		data = {
@@ -792,6 +809,7 @@ class DDNSProviderFreeDNSAfraidOrg(DDNSProvider):
 	# No information about the request or response could be found on the vendor
 	# page. All used values have been collected by testing.
 	url = "https://freedns.afraid.org/dynamic/update.php"
+	can_remove_records = False
 
 	def update_protocol(self, proto):
 		data = {
@@ -894,6 +912,7 @@ class DDNSProviderNamecheap(DDNSResponseParserXML, DDNSProvider):
 	# https://community.namecheap.com/forums/viewtopic.php?f=6&t=6772
 
 	url = "https://dynamicdns.park-your-domain.com/update"
+	can_remove_records = False
 
 	def update_protocol(self, proto):
 		# Namecheap requires the hostname splitted into a host and domain part.
@@ -964,6 +983,10 @@ class DDNSProviderNsupdateINFO(DDNSProtocolDynDNS2, DDNSProvider):
 	# Information about the format of the HTTP request can be found
 	# after login on the provider user interface and here:
 	# http://nsupdateinfo.readthedocs.org/en/latest/user.html
+
+	# TODO nsupdate.info can actually do this, but the functionality
+	# has not been implemented here, yet.
+	can_remove_records = False
 
 	# Nsupdate.info uses the hostname as user part for the HTTP basic auth,
 	# and for the password a so called secret.
@@ -1046,6 +1069,7 @@ class DDNSProviderRegfish(DDNSProvider):
 	# https://www.regfish.de/domains/dyndns/dokumentation
 
 	url = "https://dyndns.regfish.de/"
+	can_remove_records = False
 
 	def update(self):
 		data = {
@@ -1269,6 +1293,7 @@ class DDNSProviderZZZZ(DDNSProvider):
 	# https://bugzilla.ipfire.org/show_bug.cgi?id=10584#c2
 
 	url = "https://zzzz.io/api/v1/update"
+	can_remove_records = False
 
 	def update_protocol(self, proto):
 		data = {
