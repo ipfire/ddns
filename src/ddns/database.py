@@ -1,0 +1,110 @@
+#!/usr/bin/python
+###############################################################################
+#                                                                             #
+# ddns - A dynamic DNS client for IPFire                                      #
+# Copyright (C) 2014 IPFire development team                                  #
+#                                                                             #
+# This program is free software: you can redistribute it and/or modify        #
+# it under the terms of the GNU General Public License as published by        #
+# the Free Software Foundation, either version 3 of the License, or           #
+# (at your option) any later version.                                         #
+#                                                                             #
+# This program is distributed in the hope that it will be useful,             #
+# but WITHOUT ANY WARRANTY; without even the implied warranty of              #
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               #
+# GNU General Public License for more details.                                #
+#                                                                             #
+# You should have received a copy of the GNU General Public License           #
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.       #
+#                                                                             #
+###############################################################################
+
+import datetime
+import os.path
+import sqlite3
+
+# Initialize the logger.
+import logging
+logger = logging.getLogger("ddns.database")
+logger.propagate = 1
+
+class DDNSDatabase(object):
+	def __init__(self, core, path):
+		self.core = core
+
+		# Open the database file
+		self._db = self._open_database(path)
+
+	def __del__(self):
+		self._close_database()
+
+	def _open_database(self, path):
+		logger.debug("Opening database %s" % path)
+
+		exists = os.path.exists(path)
+
+		conn = sqlite3.connect(path, detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES)
+		conn.isolation_level = None
+
+		if not exists:
+			logger.debug("Initialising database layout")
+			c = conn.cursor()
+			c.executescript("""
+				CREATE TABLE updates (
+					hostname  TEXT NOT NULL,
+					status    TEXT NOT NULL,
+					message   TEXT,
+					timestamp timestamp NOT NULL
+				);
+
+				CREATE TABLE settings (
+					k TEXT NOT NULL,
+					v TEXT NOT NULL
+				);
+			""")
+			c.execute("INSERT INTO settings(k, v) VALUES(?, ?)", ("version", "1"))
+
+		return conn
+
+	def _close_database(self):
+		if self._db:
+			self._db_close()
+			self._db = None
+
+	def _execute(self, query, *parameters):
+		c = self._db.cursor()
+		try:
+			c.execute(query, parameters)
+		finally:
+			c.close()
+
+	def add_update(self, hostname, status, message=None):
+		self._execute("INSERT INTO updates(hostname, status, message, timestamp) \
+			VALUES(?, ?, ?, ?)", hostname, status, message, datetime.datetime.utcnow())
+
+	def log_success(self, hostname):
+		logger.debug("Logging successful update for %s" % hostname)
+
+		return self.add_update(hostname, "success")
+
+	def log_failure(self, hostname, exception):
+		if exception:
+			message = "%s: %s" % (exception.__class__.__name__, exception.reason)
+		else:
+			message = None
+
+		logger.debug("Logging failed update for %s: %s" % (hostname, message or ""))
+
+		return self.add_update(hostname, "failure", message=message)
+
+	def last_update(self, hostname, status="success"):
+		c = self._db.cursor()
+
+		try:
+			c.execute("SELECT timestamp FROM updates WHERE hostname = ? AND status = ? \
+				ORDER BY timestamp DESC LIMIT 1", (hostname, status))
+
+			for row in c:
+				return row[0]
+		finally:
+			c.close()
