@@ -21,6 +21,7 @@
 
 import datetime
 import logging
+import os
 import subprocess
 import urllib2
 import xml.dom.minidom
@@ -83,6 +84,14 @@ class DDNSProvider(object):
 				"Provider '%s' has already been registered" % provider.handle
 
 			_providers[provider.handle] = provider
+
+	@staticmethod
+	def supported():
+		"""
+			Should be overwritten to check if the system the code is running
+			on has all the required tools to support this provider.
+		"""
+		return True
 
 	def __init__(self, core, **settings):
 		self.core = core
@@ -405,6 +414,19 @@ class DDNSProviderBindNsupdate(DDNSProvider):
 	website = "http://en.wikipedia.org/wiki/Nsupdate"
 
 	DEFAULT_TTL = 60
+
+	@staticmethod
+	def supported():
+		# Search if the nsupdate utility is available
+		paths = os.environ.get("PATH")
+
+		for path in paths.split(":"):
+			executable = os.path.join(path, "nsupdate")
+
+			if os.path.exists(executable):
+				return True
+
+		return False
 
 	def update(self):
 		scriptlet = self.__make_scriptlet()

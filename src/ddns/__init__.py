@@ -124,6 +124,12 @@ class DDNSCore(object):
 				logger.warning("Could not find provider '%s' for entry '%s'." % (provider, entry))
 				continue
 
+			# Check if the provider is actually supported and if there are
+			# some dependencies missing on this system.
+			if not provider.supported():
+				logger.warning("Provider '%s' is known, but not supported on this machine" % (provider.name))
+				continue
+
 			# Create an instance of the provider object with settings from the
 			# configuration file.
 			entry = provider(self, **settings)
