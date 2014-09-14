@@ -666,7 +666,7 @@ class DDNSProviderDynU(DDNSProtocolDynDNS2, DDNSProvider):
 		if myipv6:
 			data["myipv6"] = myipv6
 
-		self._send_request(data)
+		self.send_request(data)
 
 
 class DDNSProviderEasyDNS(DDNSProtocolDynDNS2, DDNSProvider):
