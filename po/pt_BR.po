@@ -1,24 +1,24 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
 # André Felipe Morro <andre@andremorro.com>, 2012
 # André Felipe Morro <andre@andremorro.com>, 2014
 # Flávio Veras <flaviove@gmail.com>, 2014
+# Leandro Luquetti Basilio da Silva <leandroluquetti@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: IPFire Project\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-04 14:54+0000\n"
-"PO-Revision-Date: 2014-07-04 10:46+0000\n"
-"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/"
-"ipfire/language/pt_BR/)\n"
-"Language: pt_BR\n"
+"PO-Revision-Date: 2014-08-18 18:27+0000\n"
+"Last-Translator: Leandro Luquetti Basilio da Silva <leandroluquetti@gmail.com>\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/ipfire/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: ../src/ddns/__init__.py:62
@@ -44,9 +44,7 @@ msgstr "Atualização de DNS Dinâmico para %(hostname)s (%(provider)s) falhou:"
 msgid ""
 "Dynamic DNS update for %(hostname)s (%(provider)s) throwed an unhandled "
 "exception:"
-msgstr ""
-"Atualização de DNS Dinâmico para %(hostname)s (%(provider)s) teve uma "
-"exceção não tratada:"
+msgstr "Atualização de DNS Dinâmico para %(hostname)s (%(provider)s) teve uma exceção não tratada:"
 
 #: ../src/ddns/errors.py:29
 msgid "Error"
@@ -54,13 +52,12 @@ msgstr "Erro"
 
 #: ../src/ddns/errors.py:39
 msgid "Network error"
-msgstr "Erro na rede"
+msgstr "Erro de rede"
 
 #: ../src/ddns/errors.py:47
 msgid ""
 "The server denied processing the request because account abuse is suspected"
-msgstr ""
-"O servidor negou o processamento do pedido, por suspeita de abuso na conta"
+msgstr "O servidor negou o processamento do pedido, por suspeita de abuso na conta"
 
 #: ../src/ddns/errors.py:55
 msgid "Authentication against the server has failed"
@@ -68,7 +65,7 @@ msgstr "Autenticação contra o servidor falhou"
 
 #: ../src/ddns/errors.py:64
 msgid "The server denies any updates from this client"
-msgstr "O servidor nega todas as atualizações deste cliente"
+msgstr "O servidor nega quaisquer atualizações deste cliente"
 
 #: ../src/ddns/errors.py:72
 msgid "The configuration file has errors"
@@ -100,7 +97,7 @@ msgstr "Erro de requisição"
 
 #: ../src/ddns/errors.py:125
 msgid "Could not resolve DNS entry"
-msgstr ""
+msgstr "Não foi possível resolver a entrada DNS"
 
 #: ../src/ddns/errors.py:132
 msgid "Service unavailable"
@@ -112,7 +109,7 @@ msgstr "A atualizalçao não pode ser realizada"
 
 #: ../src/ddns/providers.py:71
 msgid "Provider is not properly configured"
-msgstr ""
+msgstr "Provedor não está configurado corretamente"
 
 #: ../src/ddns/providers.py:128
 #, python-format
@@ -120,15 +117,14 @@ msgid "Updating %s forced"
 msgstr "Atualição de %s forçada"
 
 #: ../src/ddns/providers.py:132
-#, fuzzy, python-format
+#, python-format
 msgid "The dynamic host %(hostname)s (%(provider)s) is already up to date"
-msgstr "Atualização de DNS Dinâmico para %(hostname)s (%(provider)s) falhou:"
+msgstr "O hospedeiro dinamico %(hostname)s (%(provider)s) já está atualizado."
 
 #: ../src/ddns/providers.py:139
 #, python-format
 msgid "Dynamic DNS update for %(hostname)s (%(provider)s) successful"
-msgstr ""
-"Atualização de DNS Dinâmico para %(hostname)s (%(provider)s) bem sucedida"
+msgstr "Atualização de DNS Dinâmico para %(hostname)s (%(provider)s) bem sucedida"
 
 #: ../src/ddns/providers.py:220 ../src/ddns/providers.py:424
 #: ../src/ddns/providers.py:929 ../src/ddns/providers.py:1077
@@ -168,7 +164,7 @@ msgstr "Endereço IP inválido foi enviado."
 
 #: ../src/ddns/providers.py:469
 msgid "No hostname specified."
-msgstr "Nenhum nome de host foi espacificado."
+msgstr "Nenhum hostname foi espacificado."
 
 #: ../src/ddns/providers.py:478
 msgid "Account has been disabled."
@@ -176,42 +172,40 @@ msgstr "A conta foi desabilitada."
 
 #: ../src/ddns/providers.py:484
 msgid "Too many failed requests."
-msgstr "Falha em muitas rwequisições."
+msgstr "Muitas requisições falhas."
 
 #: ../src/ddns/providers.py:575 ../src/ddns/providers.py:746
 msgid "Domain not found."
 msgstr "Domínio não encontrado."
 
 #: ../src/ddns/providers.py:609
-#, fuzzy
 msgid "An invalid IP address was submitted"
-msgstr "Endereço IP inválido foi enviado."
+msgstr "Um endereço IP inválido foi submetido"
 
 #: ../src/ddns/providers.py:748
 msgid "Domain not active."
 msgstr "Domínio não está ativo."
 
 #: ../src/ddns/providers.py:809
-#, fuzzy
 msgid "Invalid protocol has been given"
-msgstr "Endereço IP inválido foi enviado."
+msgstr "Um protocolo Inválido foi dado"
 
 #: ../src/ddns/providers.py:903
 msgid "No Auth details specified."
-msgstr "Nenhum detalhe de Autor especificado."
+msgstr "Nenhum detalhe de autenticação especificado."
 
 #: ../src/ddns/providers.py:925
 msgid "Invalid IPv4 address has been sent."
-msgstr "Endereço IPv4 inválido foi enviado."
+msgstr "Endereço IPv4 enviado é inválido."
 
 #: ../src/ddns/providers.py:927
 msgid "Invalid IPv6 address has been sent."
-msgstr "Endereço IPv6 inválido foi enviado."
+msgstr "Endereço IPv6 enviado é inválido."
 
 #: ../src/ddns/system.py:55
 #, python-format
 msgid "Running on distribution: %s"
-msgstr "Em execução na distribuição: %s"
+msgstr "Rodando na distribuição: %s"
 
 #: ../src/ddns/system.py:153
 msgid "Request header:"
@@ -222,6 +216,3 @@ msgstr "Header solicitada:"
 #, python-format
 msgid "Response header (Status Code %s):"
 msgstr "Cabeçalho de resposta (código de status %s):"
-
-#~ msgid "%s is already up to date"
-#~ msgstr "%s já está atualizado"

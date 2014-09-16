@@ -1,32 +1,32 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
+# Henrik Simonsen <cybermaze@gmail.com>, 2014
 # Henrik Simonsen <cybermaze@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: IPFire Project\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-04 14:54+0000\n"
-"PO-Revision-Date: 2014-06-23 08:45+0000\n"
-"Last-Translator: Michael Tremer <michael.tremer@ipfire.org>\n"
-"Language-Team: Danish (http://www.transifex.com/projects/p/ipfire/language/"
-"da/)\n"
-"Language: da\n"
+"PO-Revision-Date: 2014-08-09 12:03+0000\n"
+"Last-Translator: Henrik Simonsen <cybermaze@gmail.com>\n"
+"Language-Team: Danish (http://www.transifex.com/projects/p/ipfire/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../src/ddns/__init__.py:62
 msgid "Debugging mode enabled"
-msgstr ""
+msgstr "Fejlsøgning aktiveret"
 
 #: ../src/ddns/__init__.py:86
 #, python-format
 msgid "Loading configuration file %s"
-msgstr ""
+msgstr "Indlæser konfigurationsfil %s"
 
 #: ../src/ddns/__init__.py:146
 msgid "Found no entries in the configuration file. Exiting."
@@ -42,84 +42,82 @@ msgstr "Dynamisk DNS opdatering af %(hostname)s (%(provider)s) fejlede:"
 msgid ""
 "Dynamic DNS update for %(hostname)s (%(provider)s) throwed an unhandled "
 "exception:"
-msgstr ""
-"Dynamisk DNS opdatering af %(hostname)s (%(provider)s) kastede en ubehandlet "
-"undtagelse:"
+msgstr "Dynamisk DNS opdatering af %(hostname)s (%(provider)s) returnerede en ubehandlet undtagelse:"
 
 #: ../src/ddns/errors.py:29
 msgid "Error"
-msgstr ""
+msgstr "Fejl"
 
 #: ../src/ddns/errors.py:39
 msgid "Network error"
-msgstr ""
+msgstr "Netværksfejl"
 
 #: ../src/ddns/errors.py:47
 msgid ""
 "The server denied processing the request because account abuse is suspected"
-msgstr ""
+msgstr "Serveren nægtede at modtage forespørgslen på grund af mistanke om misbrug af brugerkontoen"
 
 #: ../src/ddns/errors.py:55
 msgid "Authentication against the server has failed"
-msgstr ""
+msgstr "Serveren godtog ikke autentifikationen"
 
 #: ../src/ddns/errors.py:64
 msgid "The server denies any updates from this client"
-msgstr ""
+msgstr "Serveren nægter alle opdateringer fra denne klient"
 
 #: ../src/ddns/errors.py:72
 msgid "The configuration file has errors"
-msgstr ""
+msgstr "Konfigurationsfilen indeholder fejl"
 
 #: ../src/ddns/errors.py:79
 msgid "Connection refused"
-msgstr ""
+msgstr "Forbindelse nægtet"
 
 #: ../src/ddns/errors.py:86 ../src/ddns/system.py:212
 msgid "Connection timeout"
-msgstr ""
+msgstr "Forbindelsen udløb"
 
 #: ../src/ddns/errors.py:94
 msgid "The host could not be found in the configuration file"
-msgstr ""
+msgstr "Værten kunne ikke findes i konfigurationsfilen"
 
 #: ../src/ddns/errors.py:102
 msgid "Internal server error"
-msgstr ""
+msgstr "Intern server fejl"
 
 #: ../src/ddns/errors.py:109
 msgid "Network unreachable"
-msgstr ""
+msgstr "Netværket kan ikke nås"
 
 #: ../src/ddns/errors.py:117
 msgid "Request error"
-msgstr ""
+msgstr "Forespørgsel fejl"
 
 #: ../src/ddns/errors.py:125
 msgid "Could not resolve DNS entry"
-msgstr ""
+msgstr "Kunne ikke løse DNS indgang"
 
 #: ../src/ddns/errors.py:132
 msgid "Service unavailable"
-msgstr ""
+msgstr "Service ikke tilgængelig"
 
 #: ../src/ddns/errors.py:140
 msgid "The update could not be performed"
-msgstr ""
+msgstr "Opdateringen kunne ikke udføres"
 
 #: ../src/ddns/providers.py:71
 msgid "Provider is not properly configured"
-msgstr ""
+msgstr "Værten er ikke opsat korrekt"
 
 #: ../src/ddns/providers.py:128
 #, python-format
 msgid "Updating %s forced"
-msgstr ""
+msgstr "Opdaterer %s tvunget"
 
 #: ../src/ddns/providers.py:132
-#, fuzzy, python-format
+#, python-format
 msgid "The dynamic host %(hostname)s (%(provider)s) is already up to date"
-msgstr "Dynamisk DNS opdatering af %(hostname)s (%(provider)s) fejlede:"
+msgstr "Den dynamiske vært %(hostname)s (%(provider)s) er allerede opdateret"
 
 #: ../src/ddns/providers.py:139
 #, python-format
@@ -129,90 +127,90 @@ msgstr "Dynamisk DNS opdatering af %(hostname)s (%(provider)s) succesfuld"
 #: ../src/ddns/providers.py:220 ../src/ddns/providers.py:424
 #: ../src/ddns/providers.py:929 ../src/ddns/providers.py:1077
 msgid "No valid FQDN was given."
-msgstr ""
+msgstr "Ingen gyldig FQDN angivet."
 
 #: ../src/ddns/providers.py:222
 msgid "Specified host does not exist."
-msgstr ""
+msgstr "Den angivne vært findes ikke."
 
 #: ../src/ddns/providers.py:226
 msgid "DNS error encountered."
-msgstr ""
+msgstr "DNS fejl opstod."
 
 #. If we got here, some other update error happened.
 #: ../src/ddns/providers.py:229
 #, python-format
 msgid "Server response: %s"
-msgstr ""
+msgstr "Server svar: %s"
 
 #: ../src/ddns/providers.py:345
 msgid "Scriptlet:"
-msgstr ""
+msgstr "Scriptlet:"
 
 #: ../src/ddns/providers.py:426 ../src/ddns/providers.py:472
 msgid "Invalid hostname specified."
-msgstr ""
+msgstr "Ugyldig værtsnavn angivet."
 
 #: ../src/ddns/providers.py:428
 msgid "Hostname not marked as a dynamic host."
-msgstr ""
+msgstr "Værtsnavn er ikke angivet som dynamisk vært."
 
 #: ../src/ddns/providers.py:430 ../src/ddns/providers.py:481
 #: ../src/ddns/providers.py:658
 msgid "Invalid IP address has been sent."
-msgstr ""
+msgstr "Ugyldig IP adresse er sendt."
 
 #: ../src/ddns/providers.py:469
 msgid "No hostname specified."
-msgstr ""
+msgstr "Intet værtsnavn angivet."
 
 #: ../src/ddns/providers.py:478
 msgid "Account has been disabled."
-msgstr ""
+msgstr "Brugerkonto er deaktiveret."
 
 #: ../src/ddns/providers.py:484
 msgid "Too many failed requests."
-msgstr ""
+msgstr "For mange fejlede forespørgsler."
 
 #: ../src/ddns/providers.py:575 ../src/ddns/providers.py:746
 msgid "Domain not found."
-msgstr ""
+msgstr "Domæne ikke fundet."
 
 #: ../src/ddns/providers.py:609
 msgid "An invalid IP address was submitted"
-msgstr ""
+msgstr "En ugyldig IP adresse var angivet"
 
 #: ../src/ddns/providers.py:748
 msgid "Domain not active."
-msgstr ""
+msgstr "Domæne ikke aktivt."
 
 #: ../src/ddns/providers.py:809
 msgid "Invalid protocol has been given"
-msgstr ""
+msgstr "Ugyldig protokol angivet"
 
 #: ../src/ddns/providers.py:903
 msgid "No Auth details specified."
-msgstr ""
+msgstr "Ingen autentifikationsdetaljer angivet."
 
 #: ../src/ddns/providers.py:925
 msgid "Invalid IPv4 address has been sent."
-msgstr ""
+msgstr "Ugyldig IPv4 adresse sendt."
 
 #: ../src/ddns/providers.py:927
 msgid "Invalid IPv6 address has been sent."
-msgstr ""
+msgstr "Ugyldig IPv6 adresse sendt."
 
 #: ../src/ddns/system.py:55
 #, python-format
 msgid "Running on distribution: %s"
-msgstr ""
+msgstr "Kører distribution: %s"
 
 #: ../src/ddns/system.py:153
 msgid "Request header:"
-msgstr "Request header:"
+msgstr "Forespørgsel header:"
 
 #. Log response header.
 #: ../src/ddns/system.py:161 ../src/ddns/system.py:170
 #, python-format
 msgid "Response header (Status Code %s):"
-msgstr ""
+msgstr "Svar header (Status kode %s):"
