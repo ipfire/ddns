@@ -14,6 +14,13 @@
 				<surname>Schantl</surname>
 				<email>stefan.schantl@ipfire.org</email>
 			</author>
+
+			<author>
+				<contrib>Developer</contrib>
+				<firstname>Michael</firstname>
+				<surname>Tremer</surname>
+				<email>michael.tremer@ipfire.org</email>
+			</author>
 		</authorgroup>
 	</refentryinfo>
 
@@ -24,21 +31,24 @@
 
 	<refnamediv>
 		<refname>ddns.conf</refname>
-		<refpurpose>Configuration file for the DDNS update client.</refpurpose>
+		<refpurpose>Configuration file for the DDNS update client</refpurpose>
 	</refnamediv>
 
 	<refsect1>
 		<title>Description</title>
 
 		<para>
-			The <filename>ddns.conf</filename> file is the main configuration file for the
-			<command>ddns</command> update client. This file specifies some basic options
-			for the programm and contain multiple sections which imply hostname and auth information
-			for each used provider.
+			The <filename>ddns.conf</filename> file is the main configuration file of the
+			<command>ddns</command> update client.
+			This file specifies runtime configuration parameters for the programm and
+			contains configurations for dynamic host entries that are managed by
+			<command>ddns</command>.
 		</para>
 
 		<para>
-			Lines starting with a hash mark (''#'') and empty lines are ignored.
+			The syntax of the configuration file is based on the INI configuration
+			file format. Lines starting with hash (#) or semi-colon (;)
+			are ignored.
 		</para>
 	</refsect1>
 
@@ -57,24 +67,21 @@
 
 				<listitem>
 					<para>
-						Using this option allows the usage of a proxy server while
-						performing updates.
+						This option will configure the HTTP proxy server that is used to
+						communicate with the providers HTTP APIs.
 					</para>
 
 					<para>
 						The proxy only can be contacted by using the HTTP protocol. The
-						server has to be specified by using its IP address and the used port.
-					</para>
-
-					<para>
-						Example: proxy = http://192.168.180.1:800
+						server has to be specified by using its IP address and port.
+						For example: <option>proxy = http://192.168.180.1:800</option>
 					</para>
 				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>
-					<option>guess_external_ip = [<emphasis>true</emphasis>|false]</option>
+					<option>guess_external_ip = [true|<emphasis>false</emphasis>]</option>
 				</term>
 
 				<listitem>
@@ -83,8 +90,9 @@
 					</para>
 
 					<para>
-						The default value if this setting is not configured is
-						<emphasis>true</emphasis>.
+						By default, this option is disabled and automatically enabled
+						if the client has only IP addresses defined in RFC1918 or
+						other reserved address space.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -95,9 +103,9 @@
 		<title>Provider Configuration</title>
 
 		<para>
-			The DDNS client supports the configuration of an unlimited amount of entries on different providers.
-			Each entry has to be configured as an own section which has to be initiated with the choosen FQDN
-			(Fully Qualified Domain Name) inside of squared brackets.
+			The DDNS client supports the configuration of an unlimited amount of entries for different providers.
+			Each entry has to be configured as an own section named by the FQDN (Fully Qualified Domain Name)
+			inside squared brackets.
 		</para>
 
 		<variablelist>
@@ -108,8 +116,9 @@
 
 				<listitem>
 					<para>
-						Specifies the choosen FQDN composed of the hostname and the selected domain from the
-						desired dynamic DNS provider.
+						The FQDN of the dynamic host. This name will be resolved
+						by <command>ddns</command> and therfore must not be a handle or something
+						other than a FQDN.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -121,12 +130,12 @@
 
 				<listitem>
 					<para>
-						The provider which is responsible for the configured FQDN.
+						The provider which is responsible for this host.
 					</para>
 
 					<para>
-						A list of all supported providers can be found in the <filename>ddns.conf.sample</filename>
-						or the <filename>README</filename> file shipped by the source code.
+						A list of all supported providers can be looked up by running
+						<command>ddns list-providers</command>.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -138,19 +147,19 @@
 
 				<listitem>
 					<para>
-						The used username to authenticate against your providers update service.
+						The username to authenticate against the provider's update service.
 					</para>
 
 					<para>
 						In most cases this will be the same username which can be used to login on
-						your providers webpage.
+						your provider's web page.
 					</para>
 				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>
-					<command>password = pass</command>
+					<command>password = password</command>
 				</term>
 
 				<listitem>
@@ -167,12 +176,14 @@
 
 				<listitem>
 					<para>
-						Just the authentication token.
+						An authentication token.
 					</para>
 
 					<para>
-						If your dynamic DNS provider supports token-based auth, this method should
-						be prefered.
+						If your dynamic DNS provider supports token-based authentication,
+						this method should be prefered.
+						You do not need to specify the username if token-based authentication
+						is used.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -183,7 +194,7 @@
 		<title>Examples</title>
 
 		<example>
-			<title>A provider which uses username and password for client authentication.</title>
+			<title>For providers which use username and password for client authentication</title>
 
 			<simplelist>
 				<member>[somehost.provider.com]</member>
@@ -194,7 +205,7 @@
 		</example>
 
 		<example>
-			<title>Provider which supports token based auth.</title>
+			<title>For providers which supports token-based authentication</title>
 
 			<simplelist>
 				<member>[anotherhost.provider.com]</member>
@@ -220,10 +231,6 @@
 			<citerefentry>
 				<refentrytitle>ddns</refentrytitle>
 				<manvolnum>1</manvolnum>
-			</citerefentry>
-			<citerefentry>
-				<refentrytitle>ddns-devel</refentrytitle>
-				<manvolnum>7</manvolnum>
 			</citerefentry>
 		</para>
 	</refsect1>

@@ -14,6 +14,13 @@
 				<surname>Schantl</surname>
 				<email>stefan.schantl@ipfire.org</email>
 			</author>
+
+			<author>
+				<contrib>Developer</contrib>
+				<firstname>Michael</firstname>
+				<surname>Tremer</surname>
+				<email>michael.tremer@ipfire.org</email>
+			</author>
 		</authorgroup>
 	</refentryinfo>
 
@@ -87,9 +94,7 @@
 
 				<listitem>
 					<para>
-						Enables the debugging mode.
-						In this mode, there will be debug output on
-						the console and written to the log.
+						Enables the debugging output.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -119,21 +124,10 @@
 		</para>
 
 		<variablelist>
-			<varlistentry>
-				<term>
-					<command>update-all</command>
-				</term>
-
-				<listitem>
-					<para>
-						Update all configured dynamic DNS hosts.
-					</para>
-				</listitem>
-			</varlistentry>
 
 			<varlistentry>
 				<term>
-					<command>update <replaceable>HOSTNAME</replaceable></command>
+					<command>update <option>[--force]</option> <replaceable>HOSTNAME</replaceable></command>
 				</term>
 
 				<listitem>
@@ -143,32 +137,34 @@
 					</para>
 
 					<para>
-						Example: <command>ddns update somehost.provider.com</command>
+						When calling an update, the DDNS client automatically checks
+						if this update is required by testing whether the hostname points
+						to the current public IP address.
+						Therefore it is not guaranteed than an update is performed.
+					</para>
+
+					<para>
+						The <option>--force</option> switch can be used to skip that
+						check and perform an update. Please note that some providers
+						may block your account if unnecessary updates are repeatedly
+						performed.
 					</para>
 				</listitem>
 			</varlistentry>
 
 			<varlistentry>
 				<term>
-					<option>--force</option>
+					<command>update-all <option>[--force]</option></command>
 				</term>
 
 				<listitem>
 					<para>
-						When calling an update, the DDNS client automatically checks
-						if this update is required by testing whether the hostname points
-						to the current public IP address. If this test returns true, the call
-						can be droped and no request will be sent to the provider.
+						Update all configured dynamic DNS hosts when an update is necessary.
 					</para>
 
 					<para>
-						In cases an update request should be send nevertheless, the update can be
-						forced by using this switch.
-					</para>
-
-					<para>
-						Example: <command>ddns update somehost.provider.com --force</command> or
-						<command>ddns update-all --force</command>
+						The <option>--force</option> switch has the same effect as
+						with the <command>update</command> command.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -180,24 +176,9 @@
 
 				<listitem>
 					<para>
-						Try to guess and print the hosts IPv4 and IPv6 addresses
-						based on the choosen method in the used config file.
+						Guesses the public IPv6 and IPv4 addresses with help of an
+						external server and prints them on the conole.
 					</para>
-
-					<para>
-						The addresses can be obtained from the system or by
-						help of an external server. For systems behind a NAT the
-						second method is recommended.
-					</para>
-
-					<para>
-                                                For further details, please consult the
-                                                <citerefentry>
-                                                        <refentrytitle>ddns.conf</refentrytitle>
-                                                        <manvolnum>5</manvolnum>
-                                                </citerefentry>
-                                                manual page.
-                                        </para>
 				</listitem>
 			</varlistentry>
 
@@ -210,16 +191,6 @@
 					<para>
 						This command will print out a list of all
 						supported dynamic DNS providers.
-					</para>
-
-					<para>
-						For details how to add support for new providers,
-						please consult the
-						<citerefentry>
-							<refentrytitle>ddns-devel</refentrytitle>
-							<manvolnum>7</manvolnum>
-						</citerefentry>
-						manual page.
 					</para>
 				</listitem>
 			</varlistentry>
@@ -252,10 +223,6 @@
 			<citerefentry>
 				<refentrytitle>ddns.conf</refentrytitle>
 				<manvolnum>5</manvolnum>
-			</citerefentry>, 
-			<citerefentry>
-				<refentrytitle>ddns-devel</refentrytitle>
-				<manvolnum>7</manvolnum>
 			</citerefentry>
 		</para>
 	</refsect1>
