@@ -66,7 +66,8 @@ save_LIBS="$LIBS"
 
 # ------------------------------------------------------------------------------
 have_manpages=no
-AC_ARG_ENABLE(manpages, AS_HELP_STRING([--disable-manpages], [disable manpages]))
+AC_ARG_ENABLE(manpages, AS_HELP_STRING([--disable-man-pages],
+	[do not install man pages]))
 AS_IF([test "x$enable_manpages" != xno], [have_manpages=yes])
 AM_CONDITIONAL(ENABLE_MANPAGES, [test "x$have_manpages" = "xyes"])
 
@@ -82,10 +83,10 @@ AC_OUTPUT
 AC_MSG_RESULT([
 	${PACKAGE_NAME} ${VERSION}
 
-	prefix            : ${prefix}
-	sysconfdir        : ${sysconfdir}
+	prefix             : ${prefix}
+	sysconfdir         : ${sysconfdir}
 
-	nsupdate          : ${NSUPDATE}
+	nsupdate           : ${NSUPDATE}
 
-	Generate manpages : ${have_manpages}
+	Generate man-pages : ${have_manpages}
 ])
