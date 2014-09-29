@@ -223,6 +223,14 @@ class DDNSProvider(object):
 		if not last_status == "failure":
 			return False
 
+		# If there is no holdoff time, we won't update ever again.
+		if self.holdoff_failure_days is None:
+			logger.warning(_("An update has not been performed because earlier updates failed for %s") \
+				% self.hostname)
+			logger.warning(_("There will be no retries"))
+
+			return True
+
 		# Determine when the holdoff time ends
 		last_update = self.db.last_update(self.hostname, status=last_status)
 		holdoff_end = last_update + datetime.timedelta(days=self.holdoff_failure_days)
@@ -1050,6 +1058,10 @@ class DDNSProviderNsupdateINFO(DDNSProtocolDynDNS2, DDNSProvider):
 	# TODO nsupdate.info can actually do this, but the functionality
 	# has not been implemented here, yet.
 	can_remove_records = False
+
+	# After a failed update, there will be no retries
+	# https://bugzilla.ipfire.org/show_bug.cgi?id=10603
+	holdoff_failure_days = None
 
 	# Nsupdate.info uses the hostname as user part for the HTTP basic auth,
 	# and for the password a so called secret.
