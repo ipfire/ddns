@@ -61,6 +61,8 @@ class DDNSDatabase(object):
 					k TEXT NOT NULL,
 					v TEXT NOT NULL
 				);
+
+				CREATE INDEX idx_updates_hostname ON updates(hostname);
 			""")
 			c.execute("INSERT INTO settings(k, v) VALUES(?, ?)", ("version", "1"))
 
