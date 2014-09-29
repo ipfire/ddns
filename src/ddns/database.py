@@ -97,12 +97,49 @@ class DDNSDatabase(object):
 
 		return self.add_update(hostname, "failure", message=message)
 
-	def last_update(self, hostname, status="success"):
+	def last_update(self, hostname, status=None):
+		"""
+			Returns the timestamp of the last update (with the given status code).
+		"""
 		c = self._db.cursor()
 
 		try:
-			c.execute("SELECT timestamp FROM updates WHERE hostname = ? AND status = ? \
-				ORDER BY timestamp DESC LIMIT 1", (hostname, status))
+			if status:
+				c.execute("SELECT timestamp FROM updates WHERE hostname = ? AND status = ? \
+					ORDER BY timestamp DESC LIMIT 1", (hostname, status))
+			else:
+				c.execute("SELECT timestamp FROM updates WHERE hostname = ? \
+					ORDER BY timestamp DESC LIMIT 1", (hostname,))
+
+			for row in c:
+				return row[0]
+		finally:
+			c.close()
+
+	def last_update_status(self, hostname):
+		"""
+			Returns the update status of the last update.
+		"""
+		c = self._db.cursor()
+
+		try:
+			c.execute("SELECT status FROM updates WHERE hostname = ? \
+				ORDER BY timestamp DESC LIMIT 1", (hostname,))
+
+			for row in c:
+				return row[0]
+		finally:
+			c.close()
+
+	def last_update_failure_message(self, hostname):
+		"""
+			Returns the reason string for the last failed update (if any).
+		"""
+		c = self._db.cursor()
+
+		try:
+			c.execute("SELECT message FROM updates WHERE hostname = ? AND status = ? \
+				ORDER BY timestamp DESC LIMIT 1", (hostname, "failure"))
 
 			for row in c:
 				return row[0]

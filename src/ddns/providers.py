@@ -63,6 +63,10 @@ class DDNSProvider(object):
 	# the IP address has changed.
 	holdoff_days = 30
 
+	# holdoff time for update failures - Number of days no update
+	# is tried after the last one has failed.
+	holdoff_failure_days = 0.5
+
 	# True if the provider is able to remove records, too.
 	# Required to remove AAAA records if IPv6 is absent again.
 	can_remove_records = True
@@ -149,8 +153,8 @@ class DDNSProvider(object):
 		if force:
 			logger.debug(_("Updating %s forced") % self.hostname)
 
-		# Do nothing if no update is required
-		elif not self.requires_update:
+		# Do nothing if the last update has failed or no update is required
+		elif self.has_failure or not self.requires_update:
 			return
 
 		# Execute the update.
@@ -207,6 +211,41 @@ class DDNSProvider(object):
 
 		return False
 
+	@property
+	def has_failure(self):
+		"""
+			Returns True when the last update has failed and no retry
+			should be performed, yet.
+		"""
+		last_status = self.db.last_update_status(self.hostname)
+
+		# Return False if the last update has not failed.
+		if not last_status == "failure":
+			return False
+
+		# Determine when the holdoff time ends
+		last_update = self.db.last_update(self.hostname, status=last_status)
+		holdoff_end = last_update + datetime.timedelta(days=self.holdoff_failure_days)
+
+		now = datetime.datetime.utcnow()
+		if now < holdoff_end:
+			failure_message = self.db.last_update_failure_message(self.hostname)
+
+			logger.warning(_("An update has not been performed because earlier updates failed for %s") \
+				% self.hostname)
+
+			if failure_message:
+				logger.warning(_("Last failure message:"))
+
+				for line in failure_message.splitlines():
+					logger.warning("  %s" % line)
+
+			logger.warning(_("Further updates will be withheld until %s") % holdoff_end)
+
+			return True
+
+		return False
+
 	def ip_address_changed(self, protos):
 		"""
 			Returns True if this host is already up to date
@@ -243,7 +282,7 @@ class DDNSProvider(object):
 			return False
 
 		# Get the timestamp of the last successfull update
-		last_update = self.db.last_update(self.hostname)
+		last_update = self.db.last_update(self.hostname, status="success")
 
 		# If no timestamp has been recorded, no update has been
 		# performed. An update should be performed now.
