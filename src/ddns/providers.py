@@ -1303,6 +1303,26 @@ class DDNSProviderVariomedia(DDNSProtocolDynDNS2, DDNSProvider):
 		return data
 
 
+class DDNSProviderXLhost(DDNSProtocolDynDNS2, DDNSProvider):
+        handle    = "xlhost.de"
+        name	  = "XLhost"
+        website   = "http://xlhost.de/"
+        protocols = ("ipv4",)
+
+        # Information about the format of the HTTP request is to be found
+        # here: https://xlhost.de/faq/index_html?topicId=CQA2ELIPO4SQ
+
+        url = "https://nsupdate.xlhost.de/"
+
+        def _prepare_request_data(self):
+                data = {
+                       	"hostname" : self.hostname,
+                        "address"  : self.get_address("ipv4"),
+                }
+
+                return data
+
+
 class DDNSProviderZoneedit(DDNSProtocolDynDNS2, DDNSProvider):
 	handle    = "zoneedit.com"
 	name      = "Zoneedit"
