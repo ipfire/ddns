@@ -1443,6 +1443,18 @@ class DDNSProviderVariomedia(DDNSProtocolDynDNS2, DDNSProvider):
 		return data
 
 
+class DDNSProviderXLhost(DDNSProtocolDynDNS2, DDNSProvider):
+        handle    = "xlhost.de"
+        name	  = "XLhost"
+        website   = "http://xlhost.de/"
+        protocols = ("ipv4",)
+
+        # Information about the format of the HTTP request is to be found
+        # here: https://xlhost.de/faq/index_html?topicId=CQA2ELIPO4SQ
+
+        url = "https://nsupdate.xlhost.de/"
+
+
 class DDNSProviderZoneedit(DDNSProvider):
 	handle    = "zoneedit.com"
 	name      = "Zoneedit"

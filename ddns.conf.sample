@@ -167,6 +167,11 @@
 # username = user
 # password = pass
 
+# [test.xlhost.de]
+# provider = xlhost.de
+# username = user
+# password = pass
+
 # [test.zoneedit.com]
 # provider = zoneedit.com
 # username = user
