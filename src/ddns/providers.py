@@ -539,6 +539,44 @@ class DDNSProviderBindNsupdate(DDNSProvider):
 		return "\n".join(scriptlet)
 
 
+class DDNSProviderChangeIP(DDNSProvider):
+	handle    = "changeip.com"
+	name      = "ChangeIP.com"
+	website   = "https://changeip.com"
+	protocols = ("ipv4",)
+
+	# Detailed information about the update api can be found here.
+	# http://www.changeip.com/accounts/knowledgebase.php?action=displayarticle&id=34
+
+	url = "https://nic.changeip.com/nic/update"
+	can_remove_records = False
+
+	def update_protocol(self, proto):
+		data = {
+			"hostname" : self.hostname,
+			"myip"     : self.get_address(proto),
+		}
+
+		# Send update to the server.
+		try:
+			response = self.send_request(self.url, username=self.username, password=self.password,
+				data=data)
+
+		# Handle error codes.
+		except urllib2.HTTPError, e:
+			if e.code == 422:
+				raise DDNSRequestError(_("Domain not found."))
+
+			raise
+
+		# Handle success message.
+		if response.code == 200:
+			return
+
+		# If we got here, some other update error happened.
+		raise DDNSUpdateError(_("Server response: %s") % output)
+
+
 class DDNSProviderDHS(DDNSProvider):
 	handle    = "dhs.org"
 	name      = "DHS International"

@@ -30,6 +30,11 @@
 # secret = XYZ
 # ttl = 60
 
+# [test.changeip.com]
+# provider = changeip.com
+# username = user
+# password = pass
+
 # [test.dhs.org]
 # provider = dhs.org
 # username = user
