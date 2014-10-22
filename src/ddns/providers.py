@@ -1303,7 +1303,7 @@ class DDNSProviderVariomedia(DDNSProtocolDynDNS2, DDNSProvider):
 		return data
 
 
-class DDNSProviderZoneedit(DDNSProtocolDynDNS2, DDNSProvider):
+class DDNSProviderZoneedit(DDNSProvider):
 	handle    = "zoneedit.com"
 	name      = "Zoneedit"
 	website   = "http://www.zoneedit.com"
