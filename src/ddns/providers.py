@@ -1271,7 +1271,7 @@ class DDNSProviderSPDNS(DDNSProtocolDynDNS2, DDNSProvider):
 
 	@property
 	def password(self):
-		return self.get("username") or self.token
+		return self.get("password") or self.token
 
 
 class DDNSProviderStrato(DDNSProtocolDynDNS2, DDNSProvider):
