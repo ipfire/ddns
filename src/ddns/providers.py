@@ -754,17 +754,53 @@ class DDNSProviderDynU(DDNSProtocolDynDNS2, DDNSProvider):
 		self.send_request(data)
 
 
-class DDNSProviderEasyDNS(DDNSProtocolDynDNS2, DDNSProvider):
+class DDNSProviderEasyDNS(DDNSProvider):
 	handle    = "easydns.com"
 	name      = "EasyDNS"
 	website   = "http://www.easydns.com/"
 	protocols = ("ipv4",)
 
-	# There is only some basic documentation provided by the vendor,
-	# also searching the web gain very poor results.
-	# http://mediawiki.easydns.com/index.php/Dynamic_DNS
+	# Detailed information about the request and response codes
+	# (API 1.3) are available on the providers webpage.
+	# https://fusion.easydns.com/index.php?/Knowledgebase/Article/View/102/7/dynamic-dns
 
 	url = "http://api.cp.easydns.com/dyn/tomato.php"
+
+	def update_protocol(self, proto):
+		data = {
+			"myip"     : self.get_address(proto, "-"),
+			"hostname" : self.hostname,
+		}
+
+		# Send update to the server.
+		response = self.send_request(self.url, data=data,
+			username=self.username, password=self.password)
+
+		# Get the full response message.
+		output = response.read()
+
+		# Remove all leading and trailing whitespace.
+		output = output.strip()
+
+		# Handle success messages.
+		if output.startswith("NOERROR"):
+			return
+
+		# Handle error codes.
+		if output.startswith("NOACCESS"):
+			raise DDNSAuthenticationError
+
+		elif output.startswith("NOSERVICE"):
+			raise DDNSRequestError(_("Dynamic DNS is not turned on for this domain."))
+
+		elif output.startswith("ILLEGAL INPUT"):
+			raise DDNSRequestError(_("Invalid data has been sent."))
+
+		elif output.startswith("TOOSOON"):
+			raise DDNSRequestError(_("Too frequent update requests have been sent."))
+
+		# If we got here, some other update error happened.
+		raise DDNSUpdateError
 
 
 class DDNSProviderDomopoli(DDNSProtocolDynDNS2, DDNSProvider):
