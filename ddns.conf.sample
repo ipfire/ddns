@@ -35,6 +35,14 @@
 # username = user
 # password = pass
 
+# [test.ddnss.de]
+# provider = ddnss.de
+#
+# Only use one of these two auth options.
+# token = token
+# username = user
+# password = pass
+
 # [test.dhs.org]
 # provider = dhs.org
 # username = user

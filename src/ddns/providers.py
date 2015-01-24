@@ -577,6 +577,72 @@ class DDNSProviderChangeIP(DDNSProvider):
 		raise DDNSUpdateError(_("Server response: %s") % output)
 
 
+class DDNSProviderDDNSS(DDNSProvider):
+	handle    = "ddnss.de"
+	name      = "DDNSS"
+	website   = "http://www.ddnss.de"
+	protocols = ("ipv4",)
+
+	# Detailed information about how to send the update request and possible response
+	# codes can be obtained from here.
+	# http://www.ddnss.de/info.php
+	# http://www.megacomputing.de/2014/08/dyndns-service-response-time/#more-919
+
+	url = "http://www.ddnss.de/upd.php"
+	can_remove_records = False
+
+	def update_protocol(self, proto):
+		data = {
+			"ip"   : self.get_address(proto),
+			"host" : self.hostname,
+		}
+
+		# Check if a token has been set.
+		if self.token:
+			data["key"] = self.token
+
+		# Check if username and hostname are given.
+		elif self.username and self.password:
+			data.update({
+				"user" : self.username,
+				"pwd"  : self.password,
+			})
+
+		# Raise an error if no auth details are given.
+		else:
+			raise DDNSConfigurationError
+
+		# Send update to the server.
+		response = self.send_request(self.url, data=data)
+
+		# This provider sends the response code as part of the header.
+		header = response.info()
+
+		# Get status information from the header.
+		output = header.getheader('ddnss-response')
+
+		# Handle success messages.
+		if output == "good" or output == "nochg":
+			return
+
+		# Handle error codes.
+		if output == "badauth":
+			raise DDNSAuthenticationError
+		elif output == "notfqdn":
+			raise DDNSRequestError(_("No valid FQDN was given."))
+		elif output == "nohost":
+			raise DDNSRequestError(_("Specified host does not exist."))
+		elif output == "911":
+			raise DDNSInternalServerError
+		elif output == "dnserr":
+			raise DDNSInternalServerError(_("DNS error encountered."))
+		elif output == "disabled":
+			raise DDNSRequestError(_("Account disabled or locked."))
+
+		# If we got here, some other update error happened.
+		raise DDNSUpdateError
+
+
 class DDNSProviderDHS(DDNSProvider):
 	handle    = "dhs.org"
 	name      = "DHS International"
