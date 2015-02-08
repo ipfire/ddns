@@ -1,0 +1,229 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS/DTD DocBook XML V4.2//EN"
+	"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+
+<refentry id="ddns">
+	<refentryinfo>
+		<title>ddns</title>
+		<productname>ddns</productname>
+
+		<authorgroup>
+			<author>
+				<contrib>Developer</contrib>
+				<firstname>Stefan</firstname>
+				<surname>Schantl</surname>
+				<email>stefan.schantl@ipfire.org</email>
+			</author>
+
+			<author>
+				<contrib>Developer</contrib>
+				<firstname>Michael</firstname>
+				<surname>Tremer</surname>
+				<email>michael.tremer@ipfire.org</email>
+			</author>
+		</authorgroup>
+	</refentryinfo>
+
+	<refmeta>
+		<refentrytitle>ddns</refentrytitle>
+		<manvolnum>1</manvolnum>
+	</refmeta>
+
+	<refnamediv>
+		<refname>ddns</refname>
+		<refpurpose>Dynamic DNS update client</refpurpose>
+	</refnamediv>
+
+	<refsynopsisdiv>
+		<cmdsynopsis>
+			<command>ddns</command>
+			<arg choice="opt" rep="repeat">OPTIONS</arg>
+			<arg choice="plain">COMMAND</arg>
+		</cmdsynopsis>
+	</refsynopsisdiv>
+
+	<refsect1>
+		<title>Description</title>
+
+		<para>
+			<command>ddns</command> is a simple, extensible, cross-distribution,
+			cross-platform dynamic DNS updater written in Python.
+		</para>
+	</refsect1>
+
+	<refsect1>
+		<title>Options</title>
+
+		<para>
+			The following options are understood:
+		</para>
+
+		<variablelist>
+			<varlistentry>
+				<term>
+					<option>-c CONFIG</option>
+				</term>
+				<term>
+					<option>--config CONFIG</option>
+				</term>
+
+				<listitem>
+					<para>
+						Load the specified configuration file.
+						(Default: <filename>/etc/ddns/ddns.conf</filename>)
+					</para>
+
+					<para>
+						For further details of the config file layout, please consult the
+						<citerefentry>
+							<refentrytitle>ddns.conf</refentrytitle>
+							<manvolnum>5</manvolnum>
+						</citerefentry>
+						manual page.
+					</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>
+					<option>-d</option>
+				</term>
+				<term>
+					<option>--debug</option>
+				</term>
+
+				<listitem>
+					<para>
+						Enables the debugging output.
+					</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>
+					<option>-h</option>
+				</term>
+				<term>
+					<option>--help</option>
+				</term>
+
+				<listitem>
+					<para>
+						Shows the help message provided by the program and exit.
+					</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</refsect1>
+
+	<refsect1>
+		<title>Commands</title>
+
+		<para>
+			The following commands are understood:
+		</para>
+
+		<variablelist>
+
+			<varlistentry>
+				<term>
+					<command>update <option>[--force]</option> <replaceable>HOSTNAME</replaceable></command>
+				</term>
+
+				<listitem>
+					<para>
+						Perform an update for a single host, specified by the
+						given hostname.
+					</para>
+
+					<para>
+						When calling an update, the DDNS client automatically checks
+						if this update is required by testing whether the hostname points
+						to the current public IP address.
+						Therefore it is not guaranteed than an update is performed.
+					</para>
+
+					<para>
+						The <option>--force</option> switch can be used to skip that
+						check and perform an update. Please note that some providers
+						may block your account if unnecessary updates are repeatedly
+						performed.
+					</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>
+					<command>update-all <option>[--force]</option></command>
+				</term>
+
+				<listitem>
+					<para>
+						Update all configured dynamic DNS hosts when an update is necessary.
+					</para>
+
+					<para>
+						The <option>--force</option> switch has the same effect as
+						with the <command>update</command> command.
+					</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>
+					<command>guess-ip-addresses</command>
+				</term>
+
+				<listitem>
+					<para>
+						Guesses the public IPv6 and IPv4 addresses with help of an
+						external server and prints them on the conole.
+					</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>
+					<command>list-providers</command>
+				</term>
+
+				<listitem>
+					<para>
+						This command will print out a list of all
+						supported dynamic DNS providers.
+					</para>
+				</listitem>
+			</varlistentry>
+		</variablelist>
+	</refsect1>
+
+	<refsect1>
+		<title>Exit Codes</title>
+
+		<para>
+			<command>ddns</command> will normally exit with code 0.
+			If there has been a problem and the requested action could not be done,
+			the exit code is unequal to zero.
+		</para>
+	</refsect1>
+
+	<refsect1>
+		<title>Bugs</title>
+
+		<para>
+			Please report all bugs to the official bugtracker at
+			http://bugs.ipfire.org/.
+		</para>
+	</refsect1>
+
+	<refsect1>
+		<title>See Also</title>
+
+		<para>
+			<citerefentry>
+				<refentrytitle>ddns.conf</refentrytitle>
+				<manvolnum>5</manvolnum>
+			</citerefentry>
+		</para>
+	</refsect1>
+</refentry>
