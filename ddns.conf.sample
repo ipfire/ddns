@@ -90,6 +90,11 @@
 # provider = freedns.afraid.org
 # token = token
 
+# [test.loopia.se]
+# provider = loopia.se
+# username = user
+# password = pass
+
 # [test.myonlineportal.net]
 # provider = myonlineportal.net
 # username = user

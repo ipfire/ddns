@@ -1091,6 +1091,18 @@ class DDNSProviderLightningWireLabs(DDNSProvider):
 		raise DDNSUpdateError
 
 
+class DDNSProviderLoopia(DDNSProtocolDynDNS2, DDNSProvider):
+	handle    = "loopia.se"
+	name      = "Loopia AB"
+	website   = "https://www.loopia.com"
+	protocols = ("ipv4",)
+
+	# Information about the format of the HTTP request is to be found
+	# here: https://support.loopia.com/wiki/About_the_DynDNS_support
+
+	url = "https://dns.loopia.se/XDynDNSServer/XDynDNS.php"
+
+
 class DDNSProviderMyOnlinePortal(DDNSProtocolDynDNS2, DDNSProvider):
 	handle    = "myonlineportal.net"
 	name      = "myonlineportal.net"
