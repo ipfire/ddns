@@ -1048,6 +1048,18 @@ class DDNSProviderFreeDNSAfraidOrg(DDNSProvider):
 		raise DDNSUpdateError
 
 
+class DDNSProviderGoogle(DDNSProtocolDynDNS2, DDNSProvider):
+        handle    = "domains.google.com"
+        name      = "Google Domains"
+        website   = "https://domains.google.com/"
+        protocols = ("ipv4",)
+
+        # Information about the format of the HTTP request is to be found
+        # here: https://support.google.com/domains/answer/6147083?hl=en
+
+        url = "https://domains.google.com/nic/update"
+
+
 class DDNSProviderLightningWireLabs(DDNSProvider):
 	handle    = "dns.lightningwirelabs.com"
 	name      = "Lightning Wire Labs DNS Service"
