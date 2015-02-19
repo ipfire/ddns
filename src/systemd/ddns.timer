@@ -1,0 +1,9 @@
+[Unit]
+Description=Periodly execution of the Dynamic DNS update client.
+
+[Timer]
+OnActiveSec=10min
+OnUnitInactiveSec=10min
+
+[Install]
+WantedBy=multi-user.target

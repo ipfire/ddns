@@ -58,12 +58,51 @@ AM_PATH_PYTHON([2.7])
 
 save_LIBS="$LIBS"
 
+# pkg-config
+PKG_PROG_PKG_CONFIG
+# This makes sure pkg.m4 is available.
+m4_pattern_forbid([^_?PKG_[A-Z_]+$],[*** pkg.m4 missing, please install pkg-config])
+
 # ------------------------------------------------------------------------------
 have_manpages=no
 AC_ARG_ENABLE(manpages, AS_HELP_STRING([--disable-man-pages],
 	[do not install man pages]))
 AS_IF([test "x$enable_manpages" != xno], [have_manpages=yes])
 AM_CONDITIONAL(ENABLE_MANPAGES, [test "x$have_manpages" = "xyes"])
+
+# ------------------------------------------------------------------------------
+
+AC_ARG_WITH([systemd],
+	AS_HELP_STRING([--with-systemd], [Enable systemd support.])
+)
+
+AS_IF([test "x$with_systemd" != "xno"],
+      [PKG_CHECK_MODULES(systemd, [libsystemd-daemon],
+      [have_systemd=yes], [have_systemd=no])],
+      [have_systemd=no]
+)
+
+AS_IF([test "x$have_systemd" = "xyes"],
+      [AC_MSG_CHECKING([for systemd system unit directory])
+	AC_ARG_WITH([systemdsystemunitdir],
+		AS_HELP_STRING([--with-systemdsystemunitdir=DIR], [Directory for systemd service files]),
+		[], [with_systemdsystemunitdir=$($PKG_CONFIG --variable=systemdsystemunitdir systemd)]
+	)
+
+	AC_SUBST([systemdsystemunitdir], [$with_systemdsystemunitdir])
+
+	if test -n "$systemdsystemunitdir" -a "x$systemdsystemunitdir" != xno; then
+		AC_MSG_RESULT([$systemdsystemunitdir])
+	else
+		AC_MSG_ERROR([not found (try --with-systemdsystemunitdir)])
+	fi
+      ],
+      [AS_IF([test "x$with_systemd" = "xyes"],
+             [AC_MSG_ERROR([Systemd support is enabled but no systemd has been found.])
+      ])
+])
+
+AM_CONDITIONAL(HAVE_SYSTEMD, [test "x$have_systemd" = "xyes"])
 
 # ------------------------------------------------------------------------------
 
@@ -77,8 +116,9 @@ AC_OUTPUT
 AC_MSG_RESULT([
 	${PACKAGE_NAME} ${VERSION}
 
-	prefix            : ${prefix}
-	sysconfdir        : ${sysconfdir}
+	prefix:			${prefix}
+	sysconfdir:		${sysconfdir}
 
-	Generate man-pages : ${have_manpages}
+	Systemd support		${have_systemd}
+	Generate man-pages:	${have_manpages}
 ])

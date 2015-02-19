@@ -37,6 +37,7 @@ configsdir = $(sysconfdir)/ddns
 CLEANFILES =
 DISTCLEANFILES =
 EXTRA_DIST =
+INSTALL_DIRS =
 noinst_DATA =
 
 @INTLTOOL_POLICY_RULE@
@@ -44,6 +45,9 @@ noinst_DATA =
 .PHONY: update-po
 update-po:
 	$(MAKE) -C po update-po
+
+DISTCHECK_CONFIGURE_FLAGS = \
+	--with-systemdsystemunitdir=$$dc_install_base/$(systemdsystemunitdir)
 
 # ------------------------------------------------------------------------------
 
@@ -135,10 +139,29 @@ endif
 
 # ------------------------------------------------------------------------------
 
+if HAVE_SYSTEMD
+systemdsystemunit_DATA = \
+	src/systemd/ddns.service \
+	src/systemd/ddns.timer
+
+CLEANFILES += \
+	$(systemdsystemunit_DATA)
+
+INSTALL_DIRS += \
+	$(systemdsystemunitdir)
+endif
+
+EXTRA_DIST += \
+	src/systemd/ddns.service.in \
+	src/systemd/ddns.timer
+
+# ------------------------------------------------------------------------------
+
 substitutions = \
 	'|PACKAGE_NAME=$(PACKAGE_NAME)|' \
 	'|PACKAGE_VERSION=$(PACKAGE_VERSION)|' \
-	'|configsdir=$(configsdir)|'
+	'|configsdir=$(configsdir)|' \
+	'|bindir=$(bindir)|'
 
 SED_PROCESS = \
 	$(AM_V_GEN)$(MKDIR_P) $(dir $@) && \
@@ -146,4 +169,7 @@ SED_PROCESS = \
 		< $< > $@
 
 ddns: ddns.in Makefile
+	$(SED_PROCESS)
+
+src/systemd/%: src/systemd/%.in Makefile
 	$(SED_PROCESS)
