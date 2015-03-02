@@ -1411,6 +1411,15 @@ class DDNSProviderStrato(DDNSProtocolDynDNS2, DDNSProvider):
 
 	url = "https://dyndns.strato.com/nic/update"
 
+	def prepare_request_data(self, proto):
+		data = DDNSProtocolDynDNS2.prepare_request_data(self, proto)
+		data.update({
+			"mx" : "NOCHG",
+			"backupmx" : "NOCHG"
+		})
+
+		return data
+
 
 class DDNSProviderTwoDNS(DDNSProtocolDynDNS2, DDNSProvider):
 	handle    = "twodns.de"
