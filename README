@@ -49,9 +49,12 @@ INSTALLATION:
 
 SUPPORTED PROVIDERS:
 	all-inkl.com
+	changeip.com
+	ddnss.de
 	dhs.org
 	dns.lightningwirelabs.com
 	dnspark.com
+	domains.google.com
 	domopoli.de
 	dtdns.com
 	dyndns.org
@@ -61,6 +64,7 @@ SUPPORTED PROVIDERS:
 	enom.com
 	entrydns.net
 	freedns.afraid.org
+	loopia.se
 	myonlineportal.net
 	namecheap.com
 	no-ip.com
@@ -74,6 +78,7 @@ SUPPORTED PROVIDERS:
 	twodns.de
 	udmedia.de
 	variomedia.de
+	xlhost.de
 	zoneedit.com
 	zzzz.io
 

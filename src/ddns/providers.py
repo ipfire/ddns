@@ -63,6 +63,10 @@ class DDNSProvider(object):
 	# the IP address has changed.
 	holdoff_days = 30
 
+	# holdoff time for update failures - Number of days no update
+	# is tried after the last one has failed.
+	holdoff_failure_days = 0.5
+
 	# True if the provider is able to remove records, too.
 	# Required to remove AAAA records if IPv6 is absent again.
 	can_remove_records = True
@@ -149,8 +153,8 @@ class DDNSProvider(object):
 		if force:
 			logger.debug(_("Updating %s forced") % self.hostname)
 
-		# Do nothing if no update is required
-		elif not self.requires_update:
+		# Do nothing if the last update has failed or no update is required
+		elif self.has_failure or not self.requires_update:
 			return
 
 		# Execute the update.
@@ -207,6 +211,49 @@ class DDNSProvider(object):
 
 		return False
 
+	@property
+	def has_failure(self):
+		"""
+			Returns True when the last update has failed and no retry
+			should be performed, yet.
+		"""
+		last_status = self.db.last_update_status(self.hostname)
+
+		# Return False if the last update has not failed.
+		if not last_status == "failure":
+			return False
+
+		# If there is no holdoff time, we won't update ever again.
+		if self.holdoff_failure_days is None:
+			logger.warning(_("An update has not been performed because earlier updates failed for %s") \
+				% self.hostname)
+			logger.warning(_("There will be no retries"))
+
+			return True
+
+		# Determine when the holdoff time ends
+		last_update = self.db.last_update(self.hostname, status=last_status)
+		holdoff_end = last_update + datetime.timedelta(days=self.holdoff_failure_days)
+
+		now = datetime.datetime.utcnow()
+		if now < holdoff_end:
+			failure_message = self.db.last_update_failure_message(self.hostname)
+
+			logger.warning(_("An update has not been performed because earlier updates failed for %s") \
+				% self.hostname)
+
+			if failure_message:
+				logger.warning(_("Last failure message:"))
+
+				for line in failure_message.splitlines():
+					logger.warning("  %s" % line)
+
+			logger.warning(_("Further updates will be withheld until %s") % holdoff_end)
+
+			return True
+
+		return False
+
 	def ip_address_changed(self, protos):
 		"""
 			Returns True if this host is already up to date
@@ -243,7 +290,7 @@ class DDNSProvider(object):
 			return False
 
 		# Get the timestamp of the last successfull update
-		last_update = self.db.last_update(self.hostname)
+		last_update = self.db.last_update(self.hostname, status="success")
 
 		# If no timestamp has been recorded, no update has been
 		# performed. An update should be performed now.
@@ -492,6 +539,110 @@ class DDNSProviderBindNsupdate(DDNSProvider):
 		return "\n".join(scriptlet)
 
 
+class DDNSProviderChangeIP(DDNSProvider):
+	handle    = "changeip.com"
+	name      = "ChangeIP.com"
+	website   = "https://changeip.com"
+	protocols = ("ipv4",)
+
+	# Detailed information about the update api can be found here.
+	# http://www.changeip.com/accounts/knowledgebase.php?action=displayarticle&id=34
+
+	url = "https://nic.changeip.com/nic/update"
+	can_remove_records = False
+
+	def update_protocol(self, proto):
+		data = {
+			"hostname" : self.hostname,
+			"myip"     : self.get_address(proto),
+		}
+
+		# Send update to the server.
+		try:
+			response = self.send_request(self.url, username=self.username, password=self.password,
+				data=data)
+
+		# Handle error codes.
+		except urllib2.HTTPError, e:
+			if e.code == 422:
+				raise DDNSRequestError(_("Domain not found."))
+
+			raise
+
+		# Handle success message.
+		if response.code == 200:
+			return
+
+		# If we got here, some other update error happened.
+		raise DDNSUpdateError(_("Server response: %s") % output)
+
+
+class DDNSProviderDDNSS(DDNSProvider):
+	handle    = "ddnss.de"
+	name      = "DDNSS"
+	website   = "http://www.ddnss.de"
+	protocols = ("ipv4",)
+
+	# Detailed information about how to send the update request and possible response
+	# codes can be obtained from here.
+	# http://www.ddnss.de/info.php
+	# http://www.megacomputing.de/2014/08/dyndns-service-response-time/#more-919
+
+	url = "http://www.ddnss.de/upd.php"
+	can_remove_records = False
+
+	def update_protocol(self, proto):
+		data = {
+			"ip"   : self.get_address(proto),
+			"host" : self.hostname,
+		}
+
+		# Check if a token has been set.
+		if self.token:
+			data["key"] = self.token
+
+		# Check if username and hostname are given.
+		elif self.username and self.password:
+			data.update({
+				"user" : self.username,
+				"pwd"  : self.password,
+			})
+
+		# Raise an error if no auth details are given.
+		else:
+			raise DDNSConfigurationError
+
+		# Send update to the server.
+		response = self.send_request(self.url, data=data)
+
+		# This provider sends the response code as part of the header.
+		header = response.info()
+
+		# Get status information from the header.
+		output = header.getheader('ddnss-response')
+
+		# Handle success messages.
+		if output == "good" or output == "nochg":
+			return
+
+		# Handle error codes.
+		if output == "badauth":
+			raise DDNSAuthenticationError
+		elif output == "notfqdn":
+			raise DDNSRequestError(_("No valid FQDN was given."))
+		elif output == "nohost":
+			raise DDNSRequestError(_("Specified host does not exist."))
+		elif output == "911":
+			raise DDNSInternalServerError
+		elif output == "dnserr":
+			raise DDNSInternalServerError(_("DNS error encountered."))
+		elif output == "disabled":
+			raise DDNSRequestError(_("Account disabled or locked."))
+
+		# If we got here, some other update error happened.
+		raise DDNSUpdateError
+
+
 class DDNSProviderDHS(DDNSProvider):
 	handle    = "dhs.org"
 	name      = "DHS International"
@@ -669,17 +820,53 @@ class DDNSProviderDynU(DDNSProtocolDynDNS2, DDNSProvider):
 		self.send_request(data)
 
 
-class DDNSProviderEasyDNS(DDNSProtocolDynDNS2, DDNSProvider):
+class DDNSProviderEasyDNS(DDNSProvider):
 	handle    = "easydns.com"
 	name      = "EasyDNS"
 	website   = "http://www.easydns.com/"
 	protocols = ("ipv4",)
 
-	# There is only some basic documentation provided by the vendor,
-	# also searching the web gain very poor results.
-	# http://mediawiki.easydns.com/index.php/Dynamic_DNS
+	# Detailed information about the request and response codes
+	# (API 1.3) are available on the providers webpage.
+	# https://fusion.easydns.com/index.php?/Knowledgebase/Article/View/102/7/dynamic-dns
 
 	url = "http://api.cp.easydns.com/dyn/tomato.php"
+
+	def update_protocol(self, proto):
+		data = {
+			"myip"     : self.get_address(proto, "-"),
+			"hostname" : self.hostname,
+		}
+
+		# Send update to the server.
+		response = self.send_request(self.url, data=data,
+			username=self.username, password=self.password)
+
+		# Get the full response message.
+		output = response.read()
+
+		# Remove all leading and trailing whitespace.
+		output = output.strip()
+
+		# Handle success messages.
+		if output.startswith("NOERROR"):
+			return
+
+		# Handle error codes.
+		if output.startswith("NOACCESS"):
+			raise DDNSAuthenticationError
+
+		elif output.startswith("NOSERVICE"):
+			raise DDNSRequestError(_("Dynamic DNS is not turned on for this domain."))
+
+		elif output.startswith("ILLEGAL INPUT"):
+			raise DDNSRequestError(_("Invalid data has been sent."))
+
+		elif output.startswith("TOOSOON"):
+			raise DDNSRequestError(_("Too frequent update requests have been sent."))
+
+		# If we got here, some other update error happened.
+		raise DDNSUpdateError
 
 
 class DDNSProviderDomopoli(DDNSProtocolDynDNS2, DDNSProvider):
@@ -861,6 +1048,18 @@ class DDNSProviderFreeDNSAfraidOrg(DDNSProvider):
 		raise DDNSUpdateError
 
 
+class DDNSProviderGoogle(DDNSProtocolDynDNS2, DDNSProvider):
+        handle    = "domains.google.com"
+        name      = "Google Domains"
+        website   = "https://domains.google.com/"
+        protocols = ("ipv4",)
+
+        # Information about the format of the HTTP request is to be found
+        # here: https://support.google.com/domains/answer/6147083?hl=en
+
+        url = "https://domains.google.com/nic/update"
+
+
 class DDNSProviderLightningWireLabs(DDNSProvider):
 	handle    = "dns.lightningwirelabs.com"
 	name      = "Lightning Wire Labs DNS Service"
@@ -902,6 +1101,18 @@ class DDNSProviderLightningWireLabs(DDNSProvider):
 
 		# If we got here, some other update error happened.
 		raise DDNSUpdateError
+
+
+class DDNSProviderLoopia(DDNSProtocolDynDNS2, DDNSProvider):
+	handle    = "loopia.se"
+	name      = "Loopia AB"
+	website   = "https://www.loopia.com"
+	protocols = ("ipv4",)
+
+	# Information about the format of the HTTP request is to be found
+	# here: https://support.loopia.com/wiki/About_the_DynDNS_support
+
+	url = "https://dns.loopia.se/XDynDNSServer/XDynDNS.php"
 
 
 class DDNSProviderMyOnlinePortal(DDNSProtocolDynDNS2, DDNSProvider):
@@ -1011,6 +1222,10 @@ class DDNSProviderNsupdateINFO(DDNSProtocolDynDNS2, DDNSProvider):
 	# TODO nsupdate.info can actually do this, but the functionality
 	# has not been implemented here, yet.
 	can_remove_records = False
+
+	# After a failed update, there will be no retries
+	# https://bugzilla.ipfire.org/show_bug.cgi?id=10603
+	holdoff_failure_days = None
 
 	# Nsupdate.info uses the hostname as user part for the HTTP basic auth,
 	# and for the password a so called secret.
@@ -1182,7 +1397,7 @@ class DDNSProviderSPDNS(DDNSProtocolDynDNS2, DDNSProvider):
 
 	@property
 	def password(self):
-		return self.get("username") or self.token
+		return self.get("password") or self.token
 
 
 class DDNSProviderStrato(DDNSProtocolDynDNS2, DDNSProvider):
@@ -1195,6 +1410,15 @@ class DDNSProviderStrato(DDNSProtocolDynDNS2, DDNSProvider):
 	# http://www.strato-faq.de/article/671/So-einfach-richten-Sie-DynDNS-f%C3%BCr-Ihre-Domains-ein.html
 
 	url = "https://dyndns.strato.com/nic/update"
+
+	def prepare_request_data(self, proto):
+		data = DDNSProtocolDynDNS2.prepare_request_data(self, proto)
+		data.update({
+			"mx" : "NOCHG",
+			"backupmx" : "NOCHG"
+		})
+
+		return data
 
 
 class DDNSProviderTwoDNS(DDNSProtocolDynDNS2, DDNSProvider):
@@ -1252,7 +1476,19 @@ class DDNSProviderVariomedia(DDNSProtocolDynDNS2, DDNSProvider):
 		return data
 
 
-class DDNSProviderZoneedit(DDNSProtocolDynDNS2, DDNSProvider):
+class DDNSProviderXLhost(DDNSProtocolDynDNS2, DDNSProvider):
+        handle    = "xlhost.de"
+        name	  = "XLhost"
+        website   = "http://xlhost.de/"
+        protocols = ("ipv4",)
+
+        # Information about the format of the HTTP request is to be found
+        # here: https://xlhost.de/faq/index_html?topicId=CQA2ELIPO4SQ
+
+        url = "https://nsupdate.xlhost.de/"
+
+
+class DDNSProviderZoneedit(DDNSProvider):
 	handle    = "zoneedit.com"
 	name      = "Zoneedit"
 	website   = "http://www.zoneedit.com"

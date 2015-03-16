@@ -1,0 +1,8 @@
+[Unit]
+Description=Dynamic DNS update client
+After=network-online.target
+Requires=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=@bindir@/ddns update-all

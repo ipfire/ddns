@@ -2,6 +2,8 @@
 /build-aux
 /ddns
 /ddns.conf
+/man/*.[0-9]
+/man/*.html
 /missing
 /src/ddns/__version__.py
 /tmp

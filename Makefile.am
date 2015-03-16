@@ -37,12 +37,23 @@ configsdir = $(sysconfdir)/ddns
 CLEANFILES =
 DISTCLEANFILES =
 EXTRA_DIST =
+INSTALL_DIRS =
+noinst_DATA =
 
 @INTLTOOL_POLICY_RULE@
 
 .PHONY: update-po
 update-po:
 	$(MAKE) -C po update-po
+
+DISTCHECK_CONFIGURE_FLAGS = \
+	--with-systemdsystemunitdir=$$dc_install_base/$(systemdsystemunitdir)
+
+# ------------------------------------------------------------------------------
+
+AM_V_XSLT   = $(AM_V_XSLT_$(V))
+AM_V_XSLT_  = $(AM_V_XSLT_$(AM_DEFAULT_VERBOSITY))
+AM_V_XSLT_0 = @echo "  XSLT    " $@;
 
 # ------------------------------------------------------------------------------
 
@@ -76,10 +87,81 @@ ddnsdir = $(pythondir)/ddns
 
 # ------------------------------------------------------------------------------
 
+if ENABLE_MANPAGES
+MANPAGES = \
+	man/ddns.1 \
+	man/ddns.conf.5
+
+MANPAGES_XML  = $(patsubst %.1,%.xml,$(patsubst %.5,%.xml,$(MANPAGES)))
+MANPAGES_HTML = $(patsubst %.xml,%.html,$(MANPAGES_XML))
+
+man: $(MANPAGES) $(MANPAGES_HTML)
+
+man_MANS = \
+	$(MANPAGES)
+
+noinst_DATA += \
+	$(MANPAGES_HTML)
+
+CLEANFILES += \
+	$(man_MANS) \
+	$(MANPAGES_HTML)
+
+EXTRA_DIST += \
+	$(MANPAGES_XML) \
+	man/custom-html.xsl
+
+XSLTPROC_FLAGS = \
+	--nonet \
+	--stringparam man.output.quietly 1 \
+	--stringparam funcsynopsis.style ansi \
+	--stringparam man.th.extra1.suppress 1 \
+	--stringparam man.authors.section.enabled 1 \
+	--stringparam man.copyright.section.enabled 1
+
+XSLTPROC_COMMAND_MAN = \
+	$(AM_V_XSLT)$(XSLTPROC) -o $@ $(XSLTPROC_FLAGS) \
+		http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl $<
+
+XSLTPROC_COMMAND_HTML = \
+	$(AM_V_XSLT)$(XSLTPROC) -o $@ $(XSLTPROC_FLAGS) $(srcdir)/man/custom-html.xsl $<
+
+man/%.1: man/%.xml
+	$(XSLTPROC_COMMAND_MAN)
+
+man/%.5: man/%.xml
+	$(XSLTPROC_COMMAND_MAN)
+
+man/%.html: man/%.xml man/custom-html.xsl
+	$(XSLTPROC_COMMAND_HTML)
+
+endif
+
+# ------------------------------------------------------------------------------
+
+if HAVE_SYSTEMD
+systemdsystemunit_DATA = \
+	src/systemd/ddns.service \
+	src/systemd/ddns.timer
+
+CLEANFILES += \
+	$(systemdsystemunit_DATA)
+
+INSTALL_DIRS += \
+	$(systemdsystemunitdir)
+endif
+
+EXTRA_DIST += \
+	src/systemd/ddns.service.in \
+	src/systemd/ddns.timer
+
+# ------------------------------------------------------------------------------
+
 substitutions = \
 	'|PACKAGE_NAME=$(PACKAGE_NAME)|' \
 	'|PACKAGE_VERSION=$(PACKAGE_VERSION)|' \
-	'|configsdir=$(configsdir)|'
+	'|configsdir=$(configsdir)|' \
+	'|bindir=$(bindir)|'
 
 SED_PROCESS = \
 	$(AM_V_GEN)$(MKDIR_P) $(dir $@) && \
@@ -87,4 +169,7 @@ SED_PROCESS = \
 		< $< > $@
 
 ddns: ddns.in Makefile
+	$(SED_PROCESS)
+
+src/systemd/%: src/systemd/%.in Makefile
 	$(SED_PROCESS)

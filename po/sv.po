@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IPFire Project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-04 14:54+0000\n"
-"PO-Revision-Date: 2014-06-23 08:45+0000\n"
+"POT-Creation-Date: 2014-09-29 14:20+0000\n"
+"PO-Revision-Date: 2014-09-29 14:25+0000\n"
 "Last-Translator: Michael Tremer <michael.tremer@ipfire.org>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/ipfire/language/"
 "sv/)\n"
@@ -19,25 +19,25 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src/ddns/__init__.py:62
+#: ../src/ddns/__init__.py:63
 msgid "Debugging mode enabled"
 msgstr ""
 
-#: ../src/ddns/__init__.py:86
+#: ../src/ddns/__init__.py:90
 #, python-format
 msgid "Loading configuration file %s"
 msgstr ""
 
-#: ../src/ddns/__init__.py:146
+#: ../src/ddns/__init__.py:156
 msgid "Found no entries in the configuration file. Exiting."
 msgstr "Hittade inte några inlägg i konfigurations filen. Avslutar."
 
-#: ../src/ddns/__init__.py:157
+#: ../src/ddns/__init__.py:167
 #, python-format
 msgid "Dynamic DNS update for %(hostname)s (%(provider)s) failed:"
 msgstr ""
 
-#: ../src/ddns/__init__.py:164
+#: ../src/ddns/__init__.py:174
 #, python-format
 msgid ""
 "Dynamic DNS update for %(hostname)s (%(provider)s) throwed an unhandled "
@@ -73,7 +73,7 @@ msgstr ""
 msgid "Connection refused"
 msgstr ""
 
-#: ../src/ddns/errors.py:86 ../src/ddns/system.py:212
+#: ../src/ddns/errors.py:86 ../src/ddns/system.py:218
 msgid "Connection timeout"
 msgstr ""
 
@@ -89,115 +89,160 @@ msgstr ""
 msgid "Network unreachable"
 msgstr ""
 
-#: ../src/ddns/errors.py:117
+#: ../src/ddns/errors.py:116
+msgid "Not found"
+msgstr ""
+
+#: ../src/ddns/errors.py:124
 msgid "Request error"
 msgstr ""
 
-#: ../src/ddns/errors.py:125
+#: ../src/ddns/errors.py:132
 msgid "Could not resolve DNS entry"
 msgstr ""
 
-#: ../src/ddns/errors.py:132
+#: ../src/ddns/errors.py:139
 msgid "Service unavailable"
 msgstr ""
 
-#: ../src/ddns/errors.py:140
+#: ../src/ddns/errors.py:147
 msgid "The update could not be performed"
 msgstr ""
 
-#: ../src/ddns/providers.py:71
+#: ../src/ddns/providers.py:85
 msgid "Provider is not properly configured"
 msgstr ""
 
-#: ../src/ddns/providers.py:128
+#: ../src/ddns/providers.py:154
 #, python-format
 msgid "Updating %s forced"
 msgstr ""
 
-#: ../src/ddns/providers.py:132
-#, python-format
-msgid "The dynamic host %(hostname)s (%(provider)s) is already up to date"
-msgstr ""
-
-#: ../src/ddns/providers.py:139
+#: ../src/ddns/providers.py:170
 #, python-format
 msgid "Dynamic DNS update for %(hostname)s (%(provider)s) successful"
 msgstr ""
 
-#: ../src/ddns/providers.py:220 ../src/ddns/providers.py:424
-#: ../src/ddns/providers.py:929 ../src/ddns/providers.py:1077
+#: ../src/ddns/providers.py:194
+#, python-format
+msgid ""
+"An update for %(hostname)s (%(provider)s) is performed because of an IP "
+"address change"
+msgstr ""
+
+#: ../src/ddns/providers.py:202
+#, python-format
+msgid ""
+"An update for %(hostname)s (%(provider)s) is performed because the holdoff "
+"time has expired"
+msgstr ""
+
+#. Otherwise, we don't need to perform an update
+#: ../src/ddns/providers.py:209
+#, python-format
+msgid "No update required for %(hostname)s (%(provider)s)"
+msgstr ""
+
+#: ../src/ddns/providers.py:228 ../src/ddns/providers.py:242
+#, python-format
+msgid "An update has not been performed because earlier updates failed for %s"
+msgstr ""
+
+#: ../src/ddns/providers.py:230
+msgid "There will be no retries"
+msgstr ""
+
+#: ../src/ddns/providers.py:246
+msgid "Last failure message:"
+msgstr ""
+
+#: ../src/ddns/providers.py:251
+#, python-format
+msgid "Further updates will be withheld until %s"
+msgstr ""
+
+#: ../src/ddns/providers.py:385 ../src/ddns/providers.py:612
+#: ../src/ddns/providers.py:1191 ../src/ddns/providers.py:1340
 msgid "No valid FQDN was given."
 msgstr ""
 
-#: ../src/ddns/providers.py:222
+#: ../src/ddns/providers.py:387
 msgid "Specified host does not exist."
 msgstr ""
 
-#: ../src/ddns/providers.py:226
+#: ../src/ddns/providers.py:391
 msgid "DNS error encountered."
 msgstr ""
 
 #. If we got here, some other update error happened.
-#: ../src/ddns/providers.py:229
+#: ../src/ddns/providers.py:396 ../src/ddns/providers.py:785
 #, python-format
 msgid "Server response: %s"
 msgstr ""
 
-#: ../src/ddns/providers.py:345
+#: ../src/ddns/providers.py:531
 msgid "Scriptlet:"
 msgstr ""
 
-#: ../src/ddns/providers.py:426 ../src/ddns/providers.py:472
+#: ../src/ddns/providers.py:614 ../src/ddns/providers.py:661
 msgid "Invalid hostname specified."
 msgstr ""
 
-#: ../src/ddns/providers.py:428
+#: ../src/ddns/providers.py:616
 msgid "Hostname not marked as a dynamic host."
 msgstr ""
 
-#: ../src/ddns/providers.py:430 ../src/ddns/providers.py:481
-#: ../src/ddns/providers.py:658
+#: ../src/ddns/providers.py:618 ../src/ddns/providers.py:670
+#: ../src/ddns/providers.py:905
 msgid "Invalid IP address has been sent."
 msgstr ""
 
-#: ../src/ddns/providers.py:469
+#: ../src/ddns/providers.py:658
 msgid "No hostname specified."
 msgstr ""
 
-#: ../src/ddns/providers.py:478
+#: ../src/ddns/providers.py:667
 msgid "Account has been disabled."
 msgstr ""
 
-#: ../src/ddns/providers.py:484
+#: ../src/ddns/providers.py:673
 msgid "Too many failed requests."
 msgstr ""
 
-#: ../src/ddns/providers.py:575 ../src/ddns/providers.py:746
+#: ../src/ddns/providers.py:776
+msgid "Malformed request has been sent."
+msgstr ""
+
+#: ../src/ddns/providers.py:780
+msgid "Too frequent update requests have been sent."
+msgstr ""
+
+#: ../src/ddns/providers.py:826 ../src/ddns/providers.py:1013
 msgid "Domain not found."
 msgstr ""
 
-#: ../src/ddns/providers.py:609
+#: ../src/ddns/providers.py:861
 msgid "An invalid IP address was submitted"
 msgstr ""
 
-#: ../src/ddns/providers.py:748
+#: ../src/ddns/providers.py:1015
 msgid "Domain not active."
 msgstr ""
 
-#: ../src/ddns/providers.py:809
-msgid "Invalid protocol has been given"
-msgstr ""
-
-#: ../src/ddns/providers.py:903
+#: ../src/ddns/providers.py:1165
 msgid "No Auth details specified."
 msgstr ""
 
-#: ../src/ddns/providers.py:925
+#: ../src/ddns/providers.py:1187
 msgid "Invalid IPv4 address has been sent."
 msgstr ""
 
-#: ../src/ddns/providers.py:927
+#: ../src/ddns/providers.py:1189
 msgid "Invalid IPv6 address has been sent."
+msgstr ""
+
+#: ../src/ddns/providers.py:1385
+msgid "Invalid hostname specified"
 msgstr ""
 
 #: ../src/ddns/system.py:55
