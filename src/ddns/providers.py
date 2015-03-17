@@ -1048,6 +1048,19 @@ class DDNSProviderFreeDNSAfraidOrg(DDNSProvider):
 		raise DDNSUpdateError
 
 
+class DDNSProviderJoker(DDNSProtocolDynDNS2, DDNSProvider):
+		handle  = "joker.com"
+		name    = "Joker.com Dynamic DNS"
+		website = "https://joker.com/"
+		protocols = ("ipv4",)
+
+		# Information about the request can be found here:
+		# https://joker.com/faq/content/11/427/en/what-is-dynamic-dns-dyndns.html
+		# Using DynDNS V2 protocol over HTTPS here
+
+		url = "https://svc.joker.com/nic/update"
+
+
 class DDNSProviderGoogle(DDNSProtocolDynDNS2, DDNSProvider):
         handle    = "domains.google.com"
         name      = "Google Domains"
