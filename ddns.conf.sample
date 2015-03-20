@@ -90,6 +90,11 @@
 # provider = freedns.afraid.org
 # token = token
 
+# [test.joker.com]
+# provider = joker.com
+# username = user
+# password = pass
+
 # [test.google.com]
 # provider = domains.google.com
 # username = user
