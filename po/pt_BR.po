@@ -1,25 +1,27 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
 # André Felipe Morro <andre@andremorro.com>, 2012
 # André Felipe Morro <andre@andremorro.com>, 2014
+# Evertton de Lima <e.everttonlima@gmail.com>, 2015
 # Flávio Veras <flaviove@gmail.com>, 2014
 # Leandro Luquetti Basilio da Silva <leandroluquetti@gmail.com>, 2014
+# Moisés Bites Borges de Castro <moisesbites@gmail.com>, 2015
+# Rafael Tavares <rafael@ibinetwork.com.br>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: IPFire Project\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-29 14:20+0000\n"
-"PO-Revision-Date: 2014-09-29 14:25+0000\n"
-"Last-Translator: Michael Tremer <michael.tremer@ipfire.org>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/"
-"ipfire/language/pt_BR/)\n"
-"Language: pt_BR\n"
+"PO-Revision-Date: 2015-03-24 21:15+0000\n"
+"Last-Translator: Moisés Bites Borges de Castro <moisesbites@gmail.com>\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/ipfire/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: ../src/ddns/__init__.py:63
@@ -45,9 +47,7 @@ msgstr "Atualização de DNS Dinâmico para %(hostname)s (%(provider)s) falhou:"
 msgid ""
 "Dynamic DNS update for %(hostname)s (%(provider)s) throwed an unhandled "
 "exception:"
-msgstr ""
-"Atualização de DNS Dinâmico para %(hostname)s (%(provider)s) teve uma "
-"exceção não tratada:"
+msgstr "Atualização de DNS Dinâmico para %(hostname)s (%(provider)s) teve uma exceção não tratada:"
 
 #: ../src/ddns/errors.py:29
 msgid "Error"
@@ -60,8 +60,7 @@ msgstr "Erro de rede"
 #: ../src/ddns/errors.py:47
 msgid ""
 "The server denied processing the request because account abuse is suspected"
-msgstr ""
-"O servidor negou o processamento do pedido, por suspeita de abuso na conta"
+msgstr "O servidor negou o processamento do pedido, por suspeita de abuso na conta"
 
 #: ../src/ddns/errors.py:55
 msgid "Authentication against the server has failed"
@@ -96,9 +95,8 @@ msgid "Network unreachable"
 msgstr "Rede inacessível"
 
 #: ../src/ddns/errors.py:116
-#, fuzzy
 msgid "Not found"
-msgstr "Domínio não encontrado."
+msgstr "Não encontrado"
 
 #: ../src/ddns/errors.py:124
 msgid "Request error"
@@ -106,7 +104,7 @@ msgstr "Erro de requisição"
 
 #: ../src/ddns/errors.py:132
 msgid "Could not resolve DNS entry"
-msgstr ""
+msgstr "Não foi possível resolver a entrada DNS"
 
 #: ../src/ddns/errors.py:139
 msgid "Service unavailable"
@@ -118,7 +116,7 @@ msgstr "A atualizalçao não pode ser realizada"
 
 #: ../src/ddns/providers.py:85
 msgid "Provider is not properly configured"
-msgstr ""
+msgstr "Provedor não está configurado corretamente"
 
 #: ../src/ddns/providers.py:154
 #, python-format
@@ -128,50 +126,45 @@ msgstr "Atualição de %s forçada"
 #: ../src/ddns/providers.py:170
 #, python-format
 msgid "Dynamic DNS update for %(hostname)s (%(provider)s) successful"
-msgstr ""
-"Atualização de DNS Dinâmico para %(hostname)s (%(provider)s) bem sucedida"
+msgstr "Atualização de DNS Dinâmico para %(hostname)s (%(provider)s) bem sucedida"
 
 #: ../src/ddns/providers.py:194
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "An update for %(hostname)s (%(provider)s) is performed because of an IP "
 "address change"
-msgstr ""
-"Atualização de DNS Dinâmico para %(hostname)s (%(provider)s) teve uma "
-"exceção não tratada:"
+msgstr "Uma atualização para %(hostname)s (%(provider)s) é realizada por causa da mudança de endereço IP"
 
 #: ../src/ddns/providers.py:202
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "An update for %(hostname)s (%(provider)s) is performed because the holdoff "
 "time has expired"
-msgstr ""
-"Atualização de DNS Dinâmico para %(hostname)s (%(provider)s) teve uma "
-"exceção não tratada:"
+msgstr "Uma atualização para %(hostname)s (%(provider)s) é realizada porque o tempo de interrupção expirou"
 
 #. Otherwise, we don't need to perform an update
 #: ../src/ddns/providers.py:209
-#, fuzzy, python-format
+#, python-format
 msgid "No update required for %(hostname)s (%(provider)s)"
-msgstr "Atualização de DNS Dinâmico para %(hostname)s (%(provider)s) falhou:"
+msgstr "Nenhuma atualização requerida para %(hostname)s (%(provider)s)"
 
 #: ../src/ddns/providers.py:228 ../src/ddns/providers.py:242
 #, python-format
 msgid "An update has not been performed because earlier updates failed for %s"
-msgstr ""
+msgstr "Uma atualização não foi executada porque as anteriores falharam para %s"
 
 #: ../src/ddns/providers.py:230
 msgid "There will be no retries"
-msgstr ""
+msgstr "Não haveram novas tentativas"
 
 #: ../src/ddns/providers.py:246
 msgid "Last failure message:"
-msgstr ""
+msgstr "Última mensagem de falha:"
 
 #: ../src/ddns/providers.py:251
 #, python-format
 msgid "Further updates will be withheld until %s"
-msgstr ""
+msgstr "Novas atualizações serão retidas até que %s"
 
 #: ../src/ddns/providers.py:385 ../src/ddns/providers.py:612
 #: ../src/ddns/providers.py:1191 ../src/ddns/providers.py:1340
@@ -194,7 +187,7 @@ msgstr "Resposta do servidor: %s"
 
 #: ../src/ddns/providers.py:531
 msgid "Scriptlet:"
-msgstr ""
+msgstr "Scriptlet:"
 
 #: ../src/ddns/providers.py:614 ../src/ddns/providers.py:661
 msgid "Invalid hostname specified."
@@ -222,22 +215,20 @@ msgid "Too many failed requests."
 msgstr "Muitas requisições falhas."
 
 #: ../src/ddns/providers.py:776
-#, fuzzy
 msgid "Malformed request has been sent."
-msgstr "Endereço IP inválido foi enviado."
+msgstr "Solicitação malformada foi enviada."
 
 #: ../src/ddns/providers.py:780
 msgid "Too frequent update requests have been sent."
-msgstr ""
+msgstr "Solicitações de atualização tem sido enviadas muito frequentemente."
 
 #: ../src/ddns/providers.py:826 ../src/ddns/providers.py:1013
 msgid "Domain not found."
 msgstr "Domínio não encontrado."
 
 #: ../src/ddns/providers.py:861
-#, fuzzy
 msgid "An invalid IP address was submitted"
-msgstr "Endereço IP inválido foi enviado."
+msgstr "Um endereço IP inválido foi enviado"
 
 #: ../src/ddns/providers.py:1015
 msgid "Domain not active."
@@ -256,9 +247,8 @@ msgid "Invalid IPv6 address has been sent."
 msgstr "Endereço IPv6 enviado é inválido."
 
 #: ../src/ddns/providers.py:1385
-#, fuzzy
 msgid "Invalid hostname specified"
-msgstr "Hostname especificado inválido."
+msgstr "Hostname especificado inválido"
 
 #: ../src/ddns/system.py:55
 #, python-format

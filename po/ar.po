@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
 # Jasem Elayeb <j.elayeb@itech.ly>, 2014
 msgid ""
@@ -9,16 +9,14 @@ msgstr ""
 "Project-Id-Version: IPFire Project\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-29 14:20+0000\n"
-"PO-Revision-Date: 2014-09-29 14:25+0000\n"
+"PO-Revision-Date: 2014-09-30 12:28+0000\n"
 "Last-Translator: Michael Tremer <michael.tremer@ipfire.org>\n"
-"Language-Team: Arabic (http://www.transifex.com/projects/p/ipfire/language/"
-"ar/)\n"
-"Language: ar\n"
+"Language-Team: Arabic (http://www.transifex.com/projects/p/ipfire/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
-"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"Language: ar\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
 #: ../src/ddns/__init__.py:63
 msgid "Debugging mode enabled"
@@ -43,8 +41,7 @@ msgstr "فشل عملية تحديث ال DynDNS لل  %(hostname)s (%(provider)
 msgid ""
 "Dynamic DNS update for %(hostname)s (%(provider)s) throwed an unhandled "
 "exception:"
-msgstr ""
-"تحديث الDyndDNS لل  %(hostname)s (%(provider)s)  انتجت استثناء غير معالج:"
+msgstr "تحديث الDyndDNS لل  %(hostname)s (%(provider)s)  انتجت استثناء غير معالج:"
 
 #: ../src/ddns/errors.py:29
 msgid "Error"
@@ -126,26 +123,24 @@ msgid "Dynamic DNS update for %(hostname)s (%(provider)s) successful"
 msgstr "نجاح تحديث ال DynDNS لل  %(hostname)s (%(provider)s)  "
 
 #: ../src/ddns/providers.py:194
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "An update for %(hostname)s (%(provider)s) is performed because of an IP "
 "address change"
 msgstr ""
-"تحديث الDyndDNS لل  %(hostname)s (%(provider)s)  انتجت استثناء غير معالج:"
 
 #: ../src/ddns/providers.py:202
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "An update for %(hostname)s (%(provider)s) is performed because the holdoff "
 "time has expired"
 msgstr ""
-"تحديث الDyndDNS لل  %(hostname)s (%(provider)s)  انتجت استثناء غير معالج:"
 
 #. Otherwise, we don't need to perform an update
 #: ../src/ddns/providers.py:209
-#, fuzzy, python-format
+#, python-format
 msgid "No update required for %(hostname)s (%(provider)s)"
-msgstr "فشل عملية تحديث ال DynDNS لل  %(hostname)s (%(provider)s) :"
+msgstr ""
 
 #: ../src/ddns/providers.py:228 ../src/ddns/providers.py:242
 #, python-format

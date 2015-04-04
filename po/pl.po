@@ -1,33 +1,32 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
 # Jakub Ratajczak <j.ratajczak@eqba.pl>, 2013
+# Przemysław Karpeta <przemyslaw.karpeta@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: IPFire Project\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-29 14:20+0000\n"
-"PO-Revision-Date: 2014-09-29 14:25+0000\n"
-"Last-Translator: Michael Tremer <michael.tremer@ipfire.org>\n"
-"Language-Team: Polish (http://www.transifex.com/projects/p/ipfire/language/"
-"pl/)\n"
-"Language: pl\n"
+"PO-Revision-Date: 2014-11-03 14:53+0000\n"
+"Last-Translator: Przemysław Karpeta <przemyslaw.karpeta@gmail.com>\n"
+"Language-Team: Polish (http://www.transifex.com/projects/p/ipfire/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2);\n"
+"Language: pl\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: ../src/ddns/__init__.py:63
 msgid "Debugging mode enabled"
-msgstr ""
+msgstr "Tryb debugowania włączony"
 
 #: ../src/ddns/__init__.py:90
 #, python-format
 msgid "Loading configuration file %s"
-msgstr ""
+msgstr "Wczytuję plik konfiguracyjny %s"
 
 #: ../src/ddns/__init__.py:156
 msgid "Found no entries in the configuration file. Exiting."
@@ -36,229 +35,220 @@ msgstr "Nie znaleziono żadnych wpisów w pliku configuracyjnym. Kończenie."
 #: ../src/ddns/__init__.py:167
 #, python-format
 msgid "Dynamic DNS update for %(hostname)s (%(provider)s) failed:"
-msgstr ""
-"Aktualizacja dynamicznago DNS dla %(hostname)s (%(provider)s) nieudana:"
+msgstr "Aktualizacja dynamicznago DNS dla %(hostname)s (%(provider)s) nieudana:"
 
 #: ../src/ddns/__init__.py:174
 #, python-format
 msgid ""
 "Dynamic DNS update for %(hostname)s (%(provider)s) throwed an unhandled "
 "exception:"
-msgstr ""
-"Aktualizacja dynamicznago DNS dla %(hostname)s (%(provider)s) wywołała "
-"nieobsługiwany błąd: "
+msgstr "Aktualizacja dynamicznago DNS dla %(hostname)s (%(provider)s) wywołała nieobsługiwany błąd: "
 
 #: ../src/ddns/errors.py:29
 msgid "Error"
-msgstr ""
+msgstr "Błąd"
 
 #: ../src/ddns/errors.py:39
 msgid "Network error"
-msgstr ""
+msgstr "Błąd sieci"
 
 #: ../src/ddns/errors.py:47
 msgid ""
 "The server denied processing the request because account abuse is suspected"
-msgstr ""
+msgstr "Serwer odmówił obsłużenia żądania z powodu podejrzenia nadużycia konta"
 
 #: ../src/ddns/errors.py:55
 msgid "Authentication against the server has failed"
-msgstr ""
+msgstr "Uwierzytelnienie do serwera nie powiodło się"
 
 #: ../src/ddns/errors.py:64
 msgid "The server denies any updates from this client"
-msgstr ""
+msgstr "Serwer odmawia jakichkolwiek aktualizacji od tego klienta"
 
 #: ../src/ddns/errors.py:72
 msgid "The configuration file has errors"
-msgstr ""
+msgstr "Plik konfiguracyjny zawiera błędy"
 
 #: ../src/ddns/errors.py:79
 msgid "Connection refused"
-msgstr ""
+msgstr "Połączenie odrzucone"
 
 #: ../src/ddns/errors.py:86 ../src/ddns/system.py:218
 msgid "Connection timeout"
-msgstr ""
+msgstr "Upłynął limit czasu połączenia"
 
 #: ../src/ddns/errors.py:94
 msgid "The host could not be found in the configuration file"
-msgstr ""
+msgstr "Nie znaleziono hosta w  pliku konfiguracyjnym"
 
 #: ../src/ddns/errors.py:102
 msgid "Internal server error"
-msgstr ""
+msgstr "Wewnętrzny błąd serwera"
 
 #: ../src/ddns/errors.py:109
 msgid "Network unreachable"
-msgstr ""
+msgstr "Sieć jest nieosiągalna"
 
 #: ../src/ddns/errors.py:116
 msgid "Not found"
-msgstr ""
+msgstr "Nie znaleziono"
 
 #: ../src/ddns/errors.py:124
 msgid "Request error"
-msgstr ""
+msgstr "Błąd żądania"
 
 #: ../src/ddns/errors.py:132
 msgid "Could not resolve DNS entry"
-msgstr ""
+msgstr "Nie można rozwiązać wpisu w DNS"
 
 #: ../src/ddns/errors.py:139
 msgid "Service unavailable"
-msgstr ""
+msgstr "Usługa niedostępna"
 
 #: ../src/ddns/errors.py:147
 msgid "The update could not be performed"
-msgstr ""
+msgstr "Aktualizacja nie mogła zostać wykonana"
 
 #: ../src/ddns/providers.py:85
 msgid "Provider is not properly configured"
-msgstr ""
+msgstr "Dostawca nie jest poprawnie skonfigurowany"
 
 #: ../src/ddns/providers.py:154
 #, python-format
 msgid "Updating %s forced"
-msgstr ""
+msgstr "Aktualizowanie %s wymuszone"
 
 #: ../src/ddns/providers.py:170
 #, python-format
 msgid "Dynamic DNS update for %(hostname)s (%(provider)s) successful"
-msgstr ""
-"Aktualizacja dynamicznago DNS dla %(hostname)s (%(provider)s) poprawna:"
+msgstr "Aktualizacja dynamicznago DNS dla %(hostname)s (%(provider)s) poprawna:"
 
 #: ../src/ddns/providers.py:194
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "An update for %(hostname)s (%(provider)s) is performed because of an IP "
 "address change"
-msgstr ""
-"Aktualizacja dynamicznago DNS dla %(hostname)s (%(provider)s) wywołała "
-"nieobsługiwany błąd: "
+msgstr "Aktualizacja %(hostname)s (%(provider)s) jest wykonywana z powodu zmiany adresu IP"
 
 #: ../src/ddns/providers.py:202
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "An update for %(hostname)s (%(provider)s) is performed because the holdoff "
 "time has expired"
-msgstr ""
-"Aktualizacja dynamicznago DNS dla %(hostname)s (%(provider)s) wywołała "
-"nieobsługiwany błąd: "
+msgstr "Aktualizacja %(hostname)s (%(provider)s) jest wykonywana z powodu zakończenia okresu wstrzymania."
 
 #. Otherwise, we don't need to perform an update
 #: ../src/ddns/providers.py:209
-#, fuzzy, python-format
+#, python-format
 msgid "No update required for %(hostname)s (%(provider)s)"
-msgstr ""
-"Aktualizacja dynamicznago DNS dla %(hostname)s (%(provider)s) nieudana:"
+msgstr "%(hostname)s (%(provider)s) nie wymaga aktualizacji"
 
 #: ../src/ddns/providers.py:228 ../src/ddns/providers.py:242
 #, python-format
 msgid "An update has not been performed because earlier updates failed for %s"
-msgstr ""
+msgstr "Nie przeprowadzono aktualizacji, ponieważ poprzednie aktualizacje dla %s zakończyły się niepowodzeniem"
 
 #: ../src/ddns/providers.py:230
 msgid "There will be no retries"
-msgstr ""
+msgstr "Nie będzie ponownych prób"
 
 #: ../src/ddns/providers.py:246
 msgid "Last failure message:"
-msgstr ""
+msgstr "Ostatni komunikat błędu:"
 
 #: ../src/ddns/providers.py:251
 #, python-format
 msgid "Further updates will be withheld until %s"
-msgstr ""
+msgstr "Kolejne aktualizacje będą wstrzymane przez %s"
 
 #: ../src/ddns/providers.py:385 ../src/ddns/providers.py:612
 #: ../src/ddns/providers.py:1191 ../src/ddns/providers.py:1340
 msgid "No valid FQDN was given."
-msgstr ""
+msgstr "Nie podano poprawnego FQDN."
 
 #: ../src/ddns/providers.py:387
 msgid "Specified host does not exist."
-msgstr ""
+msgstr "Podany host nie istnieje."
 
 #: ../src/ddns/providers.py:391
 msgid "DNS error encountered."
-msgstr ""
+msgstr "Wystąpił błąd DNS."
 
 #. If we got here, some other update error happened.
 #: ../src/ddns/providers.py:396 ../src/ddns/providers.py:785
 #, python-format
 msgid "Server response: %s"
-msgstr ""
+msgstr "Odpowiedź serwera: %s"
 
 #: ../src/ddns/providers.py:531
 msgid "Scriptlet:"
-msgstr ""
+msgstr "Skrypt: "
 
 #: ../src/ddns/providers.py:614 ../src/ddns/providers.py:661
 msgid "Invalid hostname specified."
-msgstr ""
+msgstr "Podano nieprawidłową nazwę hosta."
 
 #: ../src/ddns/providers.py:616
 msgid "Hostname not marked as a dynamic host."
-msgstr ""
+msgstr "Host nie jest oznaczony jako host dynamiczny."
 
 #: ../src/ddns/providers.py:618 ../src/ddns/providers.py:670
 #: ../src/ddns/providers.py:905
 msgid "Invalid IP address has been sent."
-msgstr ""
+msgstr "Wysłano nieprawidłowy adres IP."
 
 #: ../src/ddns/providers.py:658
 msgid "No hostname specified."
-msgstr ""
+msgstr "Nie podano nazwy hosta."
 
 #: ../src/ddns/providers.py:667
 msgid "Account has been disabled."
-msgstr ""
+msgstr "Konto zostało zablokowane."
 
 #: ../src/ddns/providers.py:673
 msgid "Too many failed requests."
-msgstr ""
+msgstr "Zbyt wiele nieudanych żądań."
 
 #: ../src/ddns/providers.py:776
 msgid "Malformed request has been sent."
-msgstr ""
+msgstr "Wysłano zniekształcone żądanie."
 
 #: ../src/ddns/providers.py:780
 msgid "Too frequent update requests have been sent."
-msgstr ""
+msgstr "Wysyłano zbyt częste żądania aktualizacji."
 
 #: ../src/ddns/providers.py:826 ../src/ddns/providers.py:1013
 msgid "Domain not found."
-msgstr ""
+msgstr "Nie znaleziono domeny."
 
 #: ../src/ddns/providers.py:861
 msgid "An invalid IP address was submitted"
-msgstr ""
+msgstr "Wprowadzono niepoprawny adres IP"
 
 #: ../src/ddns/providers.py:1015
 msgid "Domain not active."
-msgstr ""
+msgstr "Domena nieaktywna."
 
 #: ../src/ddns/providers.py:1165
 msgid "No Auth details specified."
-msgstr ""
+msgstr "Nie podano danych do logowania."
 
 #: ../src/ddns/providers.py:1187
 msgid "Invalid IPv4 address has been sent."
-msgstr ""
+msgstr "Wysłano błędny adres IPv4."
 
 #: ../src/ddns/providers.py:1189
 msgid "Invalid IPv6 address has been sent."
-msgstr ""
+msgstr "Wysłano błędny adres IPv6."
 
 #: ../src/ddns/providers.py:1385
 msgid "Invalid hostname specified"
-msgstr ""
+msgstr "Podano nieprawidłową nazwę hosta"
 
 #: ../src/ddns/system.py:55
 #, python-format
 msgid "Running on distribution: %s"
-msgstr ""
+msgstr "Działa na dystrybucji: %s"
 
 #: ../src/ddns/system.py:153
 msgid "Request header:"
@@ -268,4 +258,4 @@ msgstr "Nagłówek żądania: "
 #: ../src/ddns/system.py:161 ../src/ddns/system.py:170
 #, python-format
 msgid "Response header (Status Code %s):"
-msgstr ""
+msgstr "Nagłówek odpowiedzi (Kod Statusu %s):"

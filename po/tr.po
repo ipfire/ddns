@@ -1,23 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
-# Ersan YILDIRIM <yakazan@gmail.com>, 2014
-# K. Emre, 2014
+# Ersan YILDIRIM <ersan73@gmail.com>, 2014
+# Kudret Emre <kudretemre@hotmail.com.tr>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: IPFire Project\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-29 14:20+0000\n"
-"PO-Revision-Date: 2014-09-29 14:25+0000\n"
-"Last-Translator: Michael Tremer <michael.tremer@ipfire.org>\n"
-"Language-Team: Turkish (http://www.transifex.com/projects/p/ipfire/language/"
-"tr/)\n"
-"Language: tr\n"
+"PO-Revision-Date: 2014-09-30 20:50+0000\n"
+"Last-Translator: Kudret Emre <kudretemre@hotmail.com.tr>\n"
+"Language-Team: Turkish (http://www.transifex.com/projects/p/ipfire/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: ../src/ddns/__init__.py:63
@@ -36,16 +35,14 @@ msgstr "Yapılandırma dosyasında hiçbir girdi bulunamadı. Çıkılıyor."
 #: ../src/ddns/__init__.py:167
 #, python-format
 msgid "Dynamic DNS update for %(hostname)s (%(provider)s) failed:"
-msgstr ""
-"%(hostname)s (%(provider)s) için dinamik DNS güncelleştirmesi başarısız oldu."
+msgstr "%(hostname)s (%(provider)s) için dinamik DNS güncelleştirmesi başarısız oldu."
 
 #: ../src/ddns/__init__.py:174
 #, python-format
 msgid ""
 "Dynamic DNS update for %(hostname)s (%(provider)s) throwed an unhandled "
 "exception:"
-msgstr ""
-"%(hostname)s (%(provider)s) dinamik DNS işlenmesinde özel bir durum oluştu:"
+msgstr "%(hostname)s (%(provider)s) dinamik DNS işlenmesinde özel bir durum oluştu:"
 
 #: ../src/ddns/errors.py:29
 msgid "Error"
@@ -58,8 +55,7 @@ msgstr "Ağ hatası"
 #: ../src/ddns/errors.py:47
 msgid ""
 "The server denied processing the request because account abuse is suspected"
-msgstr ""
-"Sunucu isteği işlemeyi reddetti çünkü hesabı kötüye kullanma şüphesi var."
+msgstr "Sunucu isteği işlemeyi reddetti çünkü hesabı kötüye kullanma şüphesi var."
 
 #: ../src/ddns/errors.py:55
 msgid "Authentication against the server has failed"
@@ -94,9 +90,8 @@ msgid "Network unreachable"
 msgstr "Ağa ulaşılamıyor"
 
 #: ../src/ddns/errors.py:116
-#, fuzzy
 msgid "Not found"
-msgstr "Etki alanı bulunamadı."
+msgstr "Bulunamadı."
 
 #: ../src/ddns/errors.py:124
 msgid "Request error"
@@ -104,7 +99,7 @@ msgstr "İstek hatası"
 
 #: ../src/ddns/errors.py:132
 msgid "Could not resolve DNS entry"
-msgstr ""
+msgstr "DNS girdisi çözümlenemiyor"
 
 #: ../src/ddns/errors.py:139
 msgid "Service unavailable"
@@ -116,7 +111,7 @@ msgstr "Güncelleme yapılamadı"
 
 #: ../src/ddns/providers.py:85
 msgid "Provider is not properly configured"
-msgstr ""
+msgstr "Sağlayıcı düzgün yapılandırılmamış"
 
 #: ../src/ddns/providers.py:154
 #, python-format
@@ -126,49 +121,45 @@ msgstr "%s güncellemeye zorlandı"
 #: ../src/ddns/providers.py:170
 #, python-format
 msgid "Dynamic DNS update for %(hostname)s (%(provider)s) successful"
-msgstr ""
-"%(hostname)s (%(provider)s) için dinamik DNS güncellemesi başarıyla yapıldı "
+msgstr "%(hostname)s (%(provider)s) için dinamik DNS güncellemesi başarıyla yapıldı "
 
 #: ../src/ddns/providers.py:194
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "An update for %(hostname)s (%(provider)s) is performed because of an IP "
 "address change"
-msgstr ""
-"%(hostname)s (%(provider)s) dinamik DNS işlenmesinde özel bir durum oluştu:"
+msgstr "Bir ip adresi değişikliği olduğundan %(hostname)s (%(provider)s) için bir güncelleme yapıldı."
 
 #: ../src/ddns/providers.py:202
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "An update for %(hostname)s (%(provider)s) is performed because the holdoff "
 "time has expired"
-msgstr ""
-"%(hostname)s (%(provider)s) dinamik DNS işlenmesinde özel bir durum oluştu:"
+msgstr "Saklama zamanı dolduğundan %(hostname)s (%(provider)s) için bir güncelleme yapıldı"
 
 #. Otherwise, we don't need to perform an update
 #: ../src/ddns/providers.py:209
-#, fuzzy, python-format
+#, python-format
 msgid "No update required for %(hostname)s (%(provider)s)"
-msgstr ""
-"%(hostname)s (%(provider)s) için dinamik DNS güncelleştirmesi başarısız oldu."
+msgstr "%(hostname)s (%(provider)s) için güncelleme gerekmiyor"
 
 #: ../src/ddns/providers.py:228 ../src/ddns/providers.py:242
 #, python-format
 msgid "An update has not been performed because earlier updates failed for %s"
-msgstr ""
+msgstr "%s için önceki güncellemeler başarısız olduğu için güncelleme yapılmadı"
 
 #: ../src/ddns/providers.py:230
 msgid "There will be no retries"
-msgstr ""
+msgstr "Tekrar deneme olmayacak"
 
 #: ../src/ddns/providers.py:246
 msgid "Last failure message:"
-msgstr ""
+msgstr "Son hata mesajı:"
 
 #: ../src/ddns/providers.py:251
 #, python-format
 msgid "Further updates will be withheld until %s"
-msgstr ""
+msgstr "%s 'den önce yeni güncellemeler alınmayacak"
 
 #: ../src/ddns/providers.py:385 ../src/ddns/providers.py:612
 #: ../src/ddns/providers.py:1191 ../src/ddns/providers.py:1340
@@ -191,7 +182,7 @@ msgstr "Sunucu yanıtı: %s"
 
 #: ../src/ddns/providers.py:531
 msgid "Scriptlet:"
-msgstr ""
+msgstr "Betik:"
 
 #: ../src/ddns/providers.py:614 ../src/ddns/providers.py:661
 msgid "Invalid hostname specified."
@@ -219,22 +210,20 @@ msgid "Too many failed requests."
 msgstr "Çok fazla başarısız istek."
 
 #: ../src/ddns/providers.py:776
-#, fuzzy
 msgid "Malformed request has been sent."
-msgstr "Geçersiz IP adresi gönderildi."
+msgstr "Bozulmuş istek gönderildi."
 
 #: ../src/ddns/providers.py:780
 msgid "Too frequent update requests have been sent."
-msgstr ""
+msgstr "Çok sık güncelleme isteği gönderildi."
 
 #: ../src/ddns/providers.py:826 ../src/ddns/providers.py:1013
 msgid "Domain not found."
 msgstr "Etki alanı bulunamadı."
 
 #: ../src/ddns/providers.py:861
-#, fuzzy
 msgid "An invalid IP address was submitted"
-msgstr "Geçersiz IP adresi gönderildi."
+msgstr "Geçersiz bir IP adresi sunuldu"
 
 #: ../src/ddns/providers.py:1015
 msgid "Domain not active."
@@ -253,7 +242,6 @@ msgid "Invalid IPv6 address has been sent."
 msgstr "Geçersiz IPv6 adresi gönderildi."
 
 #: ../src/ddns/providers.py:1385
-#, fuzzy
 msgid "Invalid hostname specified"
 msgstr "Geçersiz ana bilgisayar adı belirtildi."
 

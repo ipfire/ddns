@@ -1,9 +1,11 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
 # Alexander Savchenko, 2014
+# Andrei Skipin <skian2007@yandex.ru>, 2014
+# ellviss <kpe1501@gmail.com>, 2015
 # bubnov_pi <ipfire@bubnov.su>, 2014
 # Вальчишин Андрій Олегович <v.andrey@i.ua>, 2012
 msgid ""
@@ -11,16 +13,14 @@ msgstr ""
 "Project-Id-Version: IPFire Project\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-29 14:20+0000\n"
-"PO-Revision-Date: 2014-09-29 14:25+0000\n"
-"Last-Translator: Michael Tremer <michael.tremer@ipfire.org>\n"
-"Language-Team: Russian (http://www.transifex.com/projects/p/ipfire/language/"
-"ru/)\n"
-"Language: ru\n"
+"PO-Revision-Date: 2015-02-17 19:26+0000\n"
+"Last-Translator: ellviss <kpe1501@gmail.com>\n"
+"Language-Team: Russian (http://www.transifex.com/projects/p/ipfire/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: ../src/ddns/__init__.py:63
 msgid "Debugging mode enabled"
@@ -45,9 +45,7 @@ msgstr "Ошибка обновления Dynamic DNS для %(hostname)s (%(pro
 msgid ""
 "Dynamic DNS update for %(hostname)s (%(provider)s) throwed an unhandled "
 "exception:"
-msgstr ""
-"Обновление Dynamic DNS для %(hostname)s (%(provider)s) вызвало "
-"необработанное исключение:"
+msgstr "Обновление Dynamic DNS для %(hostname)s (%(provider)s) вызвало необработанное исключение:"
 
 #: ../src/ddns/errors.py:29
 msgid "Error"
@@ -60,8 +58,7 @@ msgstr "Сетевая ошибка"
 #: ../src/ddns/errors.py:47
 msgid ""
 "The server denied processing the request because account abuse is suspected"
-msgstr ""
-"Сервер отклонил обработку запроса из-за подозрения в компрометации аккаунта."
+msgstr "Сервер отклонил обработку запроса из-за подозрения в компрометации аккаунта."
 
 #: ../src/ddns/errors.py:55
 msgid "Authentication against the server has failed"
@@ -96,9 +93,8 @@ msgid "Network unreachable"
 msgstr "Сеть недоступна"
 
 #: ../src/ddns/errors.py:116
-#, fuzzy
 msgid "Not found"
-msgstr "Домен не найден."
+msgstr "Не найдено"
 
 #: ../src/ddns/errors.py:124
 msgid "Request error"
@@ -106,7 +102,7 @@ msgstr "Ошибка запроса"
 
 #: ../src/ddns/errors.py:132
 msgid "Could not resolve DNS entry"
-msgstr ""
+msgstr "Невозможно разрешить запись DNS"
 
 #: ../src/ddns/errors.py:139
 msgid "Service unavailable"
@@ -118,7 +114,7 @@ msgstr "Обновление не может быть выполнено"
 
 #: ../src/ddns/providers.py:85
 msgid "Provider is not properly configured"
-msgstr ""
+msgstr "Провайдер не настроен"
 
 #: ../src/ddns/providers.py:154
 #, python-format
@@ -128,32 +124,27 @@ msgstr "Принудительное обновление %s"
 #: ../src/ddns/providers.py:170
 #, python-format
 msgid "Dynamic DNS update for %(hostname)s (%(provider)s) successful"
-msgstr ""
-"Обновление Dynamic DNS для %(hostname)s (%(provider)s) выполнено успешно."
+msgstr "Обновление Dynamic DNS для %(hostname)s (%(provider)s) выполнено успешно."
 
 #: ../src/ddns/providers.py:194
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "An update for %(hostname)s (%(provider)s) is performed because of an IP "
 "address change"
 msgstr ""
-"Обновление Dynamic DNS для %(hostname)s (%(provider)s) вызвало "
-"необработанное исключение:"
 
 #: ../src/ddns/providers.py:202
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "An update for %(hostname)s (%(provider)s) is performed because the holdoff "
 "time has expired"
 msgstr ""
-"Обновление Dynamic DNS для %(hostname)s (%(provider)s) вызвало "
-"необработанное исключение:"
 
 #. Otherwise, we don't need to perform an update
 #: ../src/ddns/providers.py:209
-#, fuzzy, python-format
+#, python-format
 msgid "No update required for %(hostname)s (%(provider)s)"
-msgstr "Ошибка обновления Dynamic DNS для %(hostname)s (%(provider)s):"
+msgstr ""
 
 #: ../src/ddns/providers.py:228 ../src/ddns/providers.py:242
 #, python-format
@@ -166,7 +157,7 @@ msgstr ""
 
 #: ../src/ddns/providers.py:246
 msgid "Last failure message:"
-msgstr ""
+msgstr "Последнее сообщение об ошибке"
 
 #: ../src/ddns/providers.py:251
 #, python-format
@@ -222,9 +213,8 @@ msgid "Too many failed requests."
 msgstr "Слишком много неудачных запросов."
 
 #: ../src/ddns/providers.py:776
-#, fuzzy
 msgid "Malformed request has been sent."
-msgstr "Отправлен некорректный IP-адрес."
+msgstr ""
 
 #: ../src/ddns/providers.py:780
 msgid "Too frequent update requests have been sent."
@@ -235,9 +225,8 @@ msgid "Domain not found."
 msgstr "Домен не найден."
 
 #: ../src/ddns/providers.py:861
-#, fuzzy
 msgid "An invalid IP address was submitted"
-msgstr "Отправлен некорректный IP-адрес."
+msgstr ""
 
 #: ../src/ddns/providers.py:1015
 msgid "Domain not active."
@@ -256,7 +245,6 @@ msgid "Invalid IPv6 address has been sent."
 msgstr "Отправлен некорректный адрес IPv6."
 
 #: ../src/ddns/providers.py:1385
-#, fuzzy
 msgid "Invalid hostname specified"
 msgstr "Указано неверное имя узла."
 
