@@ -1552,6 +1552,54 @@ class DDNSProviderZoneedit(DDNSProvider):
 		raise DDNSUpdateError
 
 
+class DDNSProviderDNSmadeEasy(DDNSProvider):
+	handle    = "dnsmadeeasy.com"
+	name      = "DNSmadeEasy.com"
+	website   = "http://www.dnsmadeeasy.com/"
+	protocols = ("ipv4",)
+
+	# DNS Made Easy Nameserver Provider also offering Dynamic DNS
+	# Documentation can be found here:
+	# http://www.dnsmadeeasy.com/dynamic-dns/
+
+	url = "https://cp.dnsmadeeasy.com/servlet/updateip?"
+	can_remove_records = False
+
+	def update_protocol(self, proto):
+		data = {
+			"ip" : self.get_address(proto),
+			"id" : self.hostname,
+			"username" : self.username,
+			"password" : self.password,
+		}
+
+		# Send update to the server.
+		response = self.send_request(self.url, data=data)
+
+		# Get the full response message.
+		output = response.read()
+
+		# Handle success messages.
+		if output.startswith("success") or output.startswith("error-record-ip-same"):
+			return
+
+		# Handle error codes.
+		if output.startswith("error-auth-suspend"):
+			raise DDNSRequestError(_("Account has been suspended."))
+
+		elif output.startswith("error-auth-voided"):
+			raise DDNSRequestError(_("Account has been revoked."))
+
+		elif output.startswith("error-record-invalid"):
+			raise DDNSRequestError(_("Specified host does not exist."))
+
+		elif output.startswith("error-auth"):
+			raise DDNSAuthenticationError
+
+		# If we got here, some other update error happened.
+		raise DDNSUpdateError(_("Server response: %s") % output)
+
+
 class DDNSProviderZZZZ(DDNSProvider):
 	handle    = "zzzz.io"
 	name      = "zzzz"
