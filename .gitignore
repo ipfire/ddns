@@ -6,6 +6,7 @@
 /man/*.html
 /missing
 /src/ddns/__version__.py
+/src/systemd/ddns.service
 /tmp
 *.py[co]
 /*.tar.bz2
