@@ -122,6 +122,9 @@ class DDNSDatabase(object):
 		"""
 			Returns the timestamp of the last update (with the given status code).
 		"""
+		if self._db is None:
+			self._db = self._open_database(self.path)
+
 		c = self._db.cursor()
 
 		try:
@@ -141,6 +144,9 @@ class DDNSDatabase(object):
 		"""
 			Returns the update status of the last update.
 		"""
+		if self._db is None:
+			self._db = self._open_database(self.path)
+
 		c = self._db.cursor()
 
 		try:
@@ -156,6 +162,9 @@ class DDNSDatabase(object):
 		"""
 			Returns the reason string for the last failed update (if any).
 		"""
+		if self._db is None:
+			self._db = self._open_database(self.path)
+
 		c = self._db.cursor()
 
 		try:
