@@ -161,6 +161,12 @@ class DDNSProvider(object):
 		try:
 			self.update()
 
+		# Catch network errors early, because we do not want to log
+		# them to the database. They are usually temporary and caused
+		# by the client side, so that we will retry quickly.
+		except DDNSNetworkError as e:
+			raise
+
 		# In case of any errors, log the failed request and
 		# raise the exception.
 		except DDNSError as e:
