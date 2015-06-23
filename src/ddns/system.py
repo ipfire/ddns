@@ -211,6 +211,10 @@ class DDNSSystem(object):
 				elif e.reason.errno == 111:
 					raise DDNSConnectionRefusedError
 
+				# No route to host
+				elif e.reason.errno == 113:
+					raise DDNSNoRouteToHostError(req.host)
+
 			# Raise all other unhandled exceptions.
 			raise
 
