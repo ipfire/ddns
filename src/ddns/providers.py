@@ -161,10 +161,13 @@ class DDNSProvider(object):
 		try:
 			self.update()
 
-		# Catch network errors early, because we do not want to log
+		# 1) Catch network errors early, because we do not want to log
 		# them to the database. They are usually temporary and caused
 		# by the client side, so that we will retry quickly.
-		except DDNSNetworkError as e:
+		# 2) If there is an internet server error (HTTP code 500) on the
+		# provider's site, we will not log a failure and try again
+		# shortly.
+		except (DDNSNetworkError, DDNSInternalServerError):
 			raise
 
 		# In case of any errors, log the failed request and
