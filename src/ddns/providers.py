@@ -1173,8 +1173,11 @@ class DDNSProviderNamecheap(DDNSResponseParserXML, DDNSProvider):
 		# Namecheap requires the hostname splitted into a host and domain part.
 		host, domain = self.hostname.split(".", 1)
 
+		# Get and store curent IP address.
+		address = self.get_address(proto)
+
 		data = {
-			"ip"       : self.get_address(proto),
+			"ip"       : address,
 			"password" : self.password,
 			"host"     : host,
 			"domain"   : domain
