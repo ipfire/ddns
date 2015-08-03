@@ -64,6 +64,13 @@ class DDNSBlockedError(DDNSError):
 	reason = N_("The server denies any updates from this client")
 
 
+class DDNSCertificateError(DDNSError):
+	"""
+		Thrown when a server presented an invalid certificate.
+	"""
+	reason = N_("Invalid certificate")
+
+
 class DDNSConfigurationError(DDNSError):
 	"""
 		Thrown when invalid or insufficient
@@ -137,6 +144,14 @@ class DDNSResolveError(DDNSNetworkError):
 		because of a local error.
 	"""
 	reason = N_("Could not resolve DNS entry")
+
+
+class DDNSSSLError(DDNSNetworkError):
+	"""
+		Raised when a SSL connection could not be
+		negotiated.
+	"""
+	reason = N_("SSL negotiation error")
 
 
 class DDNSServiceUnavailableError(DDNSNetworkError):

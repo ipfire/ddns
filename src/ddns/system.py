@@ -21,6 +21,7 @@
 
 import base64
 import re
+import ssl
 import socket
 import urllib
 import urllib2
@@ -199,6 +200,16 @@ class DDNSSystem(object):
 
 		except urllib2.URLError, e:
 			if e.reason:
+				# Handle SSL errors
+				if isinstance(e.reason, ssl.SSLError):
+					e = e.reason
+
+					if e.reason == "CERTIFICATE_VERIFY_FAILED":
+						raise DDNSCertificateError
+
+					# Raise all other SSL errors
+					raise DDNSSSLError(e.reason)
+
 				# Name or service not known
 				if e.reason.errno == -2:
 					raise DDNSResolveError
