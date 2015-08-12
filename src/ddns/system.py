@@ -66,6 +66,13 @@ class DDNSSystem(object):
 		return proxy
 
 	def get_local_ip_address(self, proto):
+		ip_address = self._get_local_ip_address(proto)
+
+		# Check if the IP address is usable and only return it then
+		if self._is_usable_ip_address(proto, ip_address):
+			return ip_address
+
+	def _get_local_ip_address(self, proto):
 		# Legacy code for IPFire 2.
 		if self.distro == "ipfire-2" and proto == "ipv4":
 			try:
@@ -281,16 +288,18 @@ class DDNSSystem(object):
 		guess_ip = self.core.settings.get("guess_external_ip", "true")
 		guess_ip = guess_ip in ("true", "yes", "1")
 
-		# If the external IP address should be used, we just do that.
-		if guess_ip:
-			return self.guess_external_ip_address(proto)
-
 		# Get the local IP address.
-		local_ip_address = self.get_local_ip_address(proto)
+		local_ip_address = None
 
-		# If the local IP address is not usable, we must guess
-		# the correct IP address...
-		if not self._is_usable_ip_address(proto, local_ip_address):
+		if not guess_ip:
+			try:
+				local_ip_address = self.get_local_ip_address(proto)
+			except NotImplementedError:
+				logger.warning(_("Falling back to check the IP address with help of a public server"))
+
+		# If no local IP address could be determined, we will fall back to the guess
+		# it with help of an external server...
+		if not local_ip_address:
 			local_ip_address = self.guess_external_ip_address(proto)
 
 		return local_ip_address
