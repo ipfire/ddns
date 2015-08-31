@@ -586,6 +586,33 @@ class DDNSProviderChangeIP(DDNSProvider):
 		raise DDNSUpdateError(_("Server response: %s") % output)
 
 
+class DDNSProviderDesecIO(DDNSProtocolDynDNS2, DDNSProvider):
+	handle    = "desec.io"
+	name      = "desec.io"
+	website   = "https://www.desec.io"
+	protocols = ("ipv6", "ipv4",)
+
+	# ipv4 / ipv6 records are automatically removed when the update
+	# request originates from the respectively other protocol and no
+	# address is explicitly provided for the unused protocol.
+
+	url = "https://update.dedyn.io"
+
+	# desec.io sends the IPv6 and IPv4 address in one request
+
+	def update(self):
+		data = DDNSProtocolDynDNS2.prepare_request_data(self, "ipv4")
+
+		# This one supports IPv6
+		myipv6 = self.get_address("ipv6")
+
+		# Add update information if we have an IPv6 address.
+		if myipv6:
+			data["myipv6"] = myipv6
+
+		self.send_request(data)
+
+
 class DDNSProviderDDNSS(DDNSProvider):
 	handle    = "ddnss.de"
 	name      = "DDNSS"
