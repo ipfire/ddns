@@ -9,15 +9,16 @@
 # Flávio Veras <flaviove@gmail.com>, 2014
 # Leandro Luquetti Basilio da Silva <leandroluquetti@gmail.com>, 2014
 # Moisés Bites Borges de Castro <moisesbites@gmail.com>, 2015
+# Rafael Lehnhart <lehnhart@gmail.com>, 2015
 # Rafael Tavares <rafael@ibinetwork.com.br>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: IPFire Project\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-29 14:20+0000\n"
-"PO-Revision-Date: 2015-03-24 21:15+0000\n"
-"Last-Translator: Moisés Bites Borges de Castro <moisesbites@gmail.com>\n"
-"Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/ipfire/language/pt_BR/)\n"
+"PO-Revision-Date: 2015-10-06 12:53+0000\n"
+"Last-Translator: Rafael Lehnhart <lehnhart@gmail.com>\n"
+"Language-Team: Portuguese (Brazil) (http://www.transifex.com/mstremer/ipfire/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -216,7 +217,7 @@ msgstr "Muitas requisições falhas."
 
 #: ../src/ddns/providers.py:776
 msgid "Malformed request has been sent."
-msgstr "Solicitação malformada foi enviada."
+msgstr "Solicitação mal concebida foi enviada."
 
 #: ../src/ddns/providers.py:780
 msgid "Too frequent update requests have been sent."

@@ -7,15 +7,16 @@
 # Fabian <vondor666@gmail.com>, 2014
 # Michael Tremer <michael.tremer@ipfire.org>, 2012,2014
 # Peter Cloudstone <rmg-mainz@web.de>, 2014
+# Sun Tiger, 2015
 # BlockMall, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: IPFire Project\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-29 14:20+0000\n"
-"PO-Revision-Date: 2014-10-28 23:29+0000\n"
-"Last-Translator: Fabian <vondor666@gmail.com>\n"
-"Language-Team: German (http://www.transifex.com/projects/p/ipfire/language/de/)\n"
+"PO-Revision-Date: 2015-05-07 17:00+0000\n"
+"Last-Translator: Sun Tiger\n"
+"Language-Team: German (http://www.transifex.com/mstremer/ipfire/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -78,7 +79,7 @@ msgstr "Verbindung zurückgewiesen"
 
 #: ../src/ddns/errors.py:86 ../src/ddns/system.py:218
 msgid "Connection timeout"
-msgstr "Verbindungstimeout"
+msgstr "Zeitüberschreitung bei der Verbindung"
 
 #: ../src/ddns/errors.py:94
 msgid "The host could not be found in the configuration file"
@@ -106,7 +107,7 @@ msgstr "DNS Eintrag konnte nicht aufgelöst werden"
 
 #: ../src/ddns/errors.py:139
 msgid "Service unavailable"
-msgstr "Service nicht verfügbar"
+msgstr "Dienst nicht verfügbar"
 
 #: ../src/ddns/errors.py:147
 msgid "The update could not be performed"
