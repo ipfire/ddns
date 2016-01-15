@@ -816,6 +816,18 @@ class DDNSProviderDtDNS(DDNSProvider):
 		raise DDNSUpdateError
 
 
+class DDNSProviderDuckDNS(DDNSProtocolDynDNS2, DDNSProvider):
+	handle    = "duckdns.org"
+	name      = "Duck DNS"
+	website   = "http://www.duckdns.org/"
+	protocols = ("ipv4",)
+
+	# Information about the format of the request is to be found
+	# https://www.duckdns.org/install.jsp
+
+	url = "https://www.duckdns.org/nic/update"
+
+
 class DDNSProviderDynDNS(DDNSProtocolDynDNS2, DDNSProvider):
 	handle    = "dyndns.org"
 	name      = "Dyn"
