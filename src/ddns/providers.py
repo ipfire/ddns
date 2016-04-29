@@ -1576,7 +1576,7 @@ class DDNSProviderZoneedit(DDNSProvider):
 		elif output.startswith("<ERROR CODE=\"704\""):
 			raise DDNSRequestError(_("No valid FQDN was given.")) 
 		elif output.startswith("<ERROR CODE=\"702\""):
-			raise DDNSInternalServerError
+			raise DDNSRequestError(_("Too frequent update requests have been sent."))
 
 		# If we got here, some other update error happened.
 		raise DDNSUpdateError
