@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # Khalil Delavaran <khalil.delavaran@gmail.com>, 2013-2015
 # Reza Moghadam <r.moghadam@hotmail.com>, 2013
@@ -9,14 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IPFire Project\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-29 14:20+0000\n"
+"POT-Creation-Date: 2016-05-07 12:54+0100\n"
 "PO-Revision-Date: 2015-02-17 23:57+0000\n"
 "Last-Translator: Khalil Delavaran <khalil.delavaran@gmail.com>\n"
-"Language-Team: Persian (http://www.transifex.com/projects/p/ipfire/language/fa/)\n"
+"Language-Team: Persian (http://www.transifex.com/projects/p/ipfire/language/"
+"fa/)\n"
+"Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fa\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../src/ddns/__init__.py:63
@@ -42,7 +43,9 @@ msgstr "بروزرسانی Dynamic DNS برای %(hostname)s (%(provider)s) شک
 msgid ""
 "Dynamic DNS update for %(hostname)s (%(provider)s) throwed an unhandled "
 "exception:"
-msgstr "بروزرسانی Dynamic DNS برای %(hostname)s (%(provider)s) یک استثنا اداره نشده باطل :"
+msgstr ""
+"بروزرسانی Dynamic DNS برای %(hostname)s (%(provider)s) یک استثنا اداره نشده "
+"باطل :"
 
 #: ../src/ddns/errors.py:29
 msgid "Error"
@@ -65,47 +68,59 @@ msgstr "احراز هویت در برابر سرور شکست خورده است"
 msgid "The server denies any updates from this client"
 msgstr "سرور هر گونه بروز رسانی از این کلاینت را رد می کند "
 
-#: ../src/ddns/errors.py:72
+#: ../src/ddns/errors.py:71
+msgid "Invalid certificate"
+msgstr ""
+
+#: ../src/ddns/errors.py:79
 msgid "The configuration file has errors"
 msgstr "فایل پیکربندی ایراد دارد"
 
-#: ../src/ddns/errors.py:79
+#: ../src/ddns/errors.py:86
 msgid "Connection refused"
 msgstr "اتصال رد شد"
 
-#: ../src/ddns/errors.py:86 ../src/ddns/system.py:218
+#: ../src/ddns/errors.py:93 ../src/ddns/system.py:240
 msgid "Connection timeout"
 msgstr "مهلت زمانی اتصال پایان یافت"
 
-#: ../src/ddns/errors.py:94
+#: ../src/ddns/errors.py:101
 msgid "The host could not be found in the configuration file"
 msgstr "میزبان در فایل پیکربندی یافت نمی شود"
 
-#: ../src/ddns/errors.py:102
+#: ../src/ddns/errors.py:109
 msgid "Internal server error"
 msgstr "ایراد درونی سرور"
 
-#: ../src/ddns/errors.py:109
+#: ../src/ddns/errors.py:116
 msgid "Network unreachable"
 msgstr "شبکه دور از دسترس است"
 
-#: ../src/ddns/errors.py:116
+#: ../src/ddns/errors.py:123
+msgid "No route to host"
+msgstr ""
+
+#: ../src/ddns/errors.py:130
 msgid "Not found"
 msgstr "پیدا نشد"
 
-#: ../src/ddns/errors.py:124
+#: ../src/ddns/errors.py:138
 msgid "Request error"
 msgstr "ایراد در درخواست"
 
-#: ../src/ddns/errors.py:132
+#: ../src/ddns/errors.py:146
 msgid "Could not resolve DNS entry"
 msgstr "نمی توان وردودی DNS را درست کرد"
 
-#: ../src/ddns/errors.py:139
+#: ../src/ddns/errors.py:154
+msgid "SSL negotiation error"
+msgstr ""
+
+#: ../src/ddns/errors.py:161
 msgid "Service unavailable"
 msgstr "سرویس در دسترس نیست"
 
-#: ../src/ddns/errors.py:147
+#: ../src/ddns/errors.py:169
 msgid "The update could not be performed"
 msgstr "بروز رسانی نمی تواند انجام شود"
 
@@ -118,144 +133,199 @@ msgstr "سرویس دهنده به درستی پیکربندی نشده است"
 msgid "Updating %s forced"
 msgstr "بروزرسانی %s به زور شد"
 
-#: ../src/ddns/providers.py:170
+#: ../src/ddns/providers.py:179
 #, python-format
 msgid "Dynamic DNS update for %(hostname)s (%(provider)s) successful"
 msgstr "Dynamic DNS برای %(hostname)s (%(provider)s) بروزرسانی شد"
 
-#: ../src/ddns/providers.py:194
+#: ../src/ddns/providers.py:203
 #, python-format
 msgid ""
 "An update for %(hostname)s (%(provider)s) is performed because of an IP "
 "address change"
-msgstr "یک بروزرسانی بخاطر تغییر IP برای %(hostname)s (%(provider)s) انجام شده است."
+msgstr ""
+"یک بروزرسانی بخاطر تغییر IP برای %(hostname)s (%(provider)s) انجام شده است."
 
-#: ../src/ddns/providers.py:202
+#: ../src/ddns/providers.py:211
 #, python-format
 msgid ""
 "An update for %(hostname)s (%(provider)s) is performed because the holdoff "
 "time has expired"
-msgstr "یک بروزرسانی بخاطر پایان یافتن زمان نگهداری برای %(hostname)s (%(provider)s) انجام شده است."
+msgstr ""
+"یک بروزرسانی بخاطر پایان یافتن زمان نگهداری برای %(hostname)s (%(provider)s) "
+"انجام شده است."
 
 #. Otherwise, we don't need to perform an update
-#: ../src/ddns/providers.py:209
+#: ../src/ddns/providers.py:218
 #, python-format
 msgid "No update required for %(hostname)s (%(provider)s)"
 msgstr "%(hostname)s (%(provider)s) به بروزرسانی نیاز ندارد"
 
-#: ../src/ddns/providers.py:228 ../src/ddns/providers.py:242
+#: ../src/ddns/providers.py:237 ../src/ddns/providers.py:251
 #, python-format
 msgid "An update has not been performed because earlier updates failed for %s"
-msgstr "هیچ بروزرسانی انجام نشده است زیرا بروزرسانی ها برای %s زودتر شکست خورده است."
+msgstr ""
+"هیچ بروزرسانی انجام نشده است زیرا بروزرسانی ها برای %s زودتر شکست خورده است."
 
-#: ../src/ddns/providers.py:230
+#: ../src/ddns/providers.py:239
 msgid "There will be no retries"
 msgstr "ترتیب دسته وجود نخواهد داشت"
 
-#: ../src/ddns/providers.py:246
+#: ../src/ddns/providers.py:255
 msgid "Last failure message:"
 msgstr "آخرین پیام شکست:"
 
-#: ../src/ddns/providers.py:251
+#: ../src/ddns/providers.py:260
 #, python-format
 msgid "Further updates will be withheld until %s"
 msgstr "در زمان برگزاری %s بروزرسانی بیشتر خواهد شد"
 
-#: ../src/ddns/providers.py:385 ../src/ddns/providers.py:612
-#: ../src/ddns/providers.py:1191 ../src/ddns/providers.py:1340
-msgid "No valid FQDN was given."
+#: ../src/ddns/providers.py:394 ../src/ddns/providers.py:668
+#: ../src/ddns/providers.py:752 ../src/ddns/providers.py:1419
+#: ../src/ddns/providers.py:1589
+#, fuzzy
+msgid "No valid FQDN was given"
 msgstr "FQDN بدست آمده درست نیست."
 
-#: ../src/ddns/providers.py:387
-msgid "Specified host does not exist."
+#: ../src/ddns/providers.py:396 ../src/ddns/providers.py:670
+#: ../src/ddns/providers.py:1636
+#, fuzzy
+msgid "Specified host does not exist"
 msgstr "میزبان گزینش شده وجود ندارد."
 
-#: ../src/ddns/providers.py:391
-msgid "DNS error encountered."
+#: ../src/ddns/providers.py:400 ../src/ddns/providers.py:674
+#, fuzzy
+msgid "DNS error encountered"
 msgstr "ایراد در DNS مواجه شده است."
 
 #. If we got here, some other update error happened.
-#: ../src/ddns/providers.py:396 ../src/ddns/providers.py:785
+#: ../src/ddns/providers.py:405 ../src/ddns/providers.py:586
+#: ../src/ddns/providers.py:973 ../src/ddns/providers.py:1642
 #, python-format
 msgid "Server response: %s"
 msgstr "پاسخ سرور: %s"
 
-#: ../src/ddns/providers.py:531
+#: ../src/ddns/providers.py:540
 msgid "Scriptlet:"
 msgstr "Scriptlet:"
 
-#: ../src/ddns/providers.py:614 ../src/ddns/providers.py:661
-msgid "Invalid hostname specified."
-msgstr "نام هاست گزینش شده درست نیست."
-
-#: ../src/ddns/providers.py:616
-msgid "Hostname not marked as a dynamic host."
-msgstr "نام هاست به عنوان یک هاست پویا مشخص نیست."
-
-#: ../src/ddns/providers.py:618 ../src/ddns/providers.py:670
-#: ../src/ddns/providers.py:905
-msgid "Invalid IP address has been sent."
-msgstr "آدرس IP نادرست فرستاده شده است."
-
-#: ../src/ddns/providers.py:658
-msgid "No hostname specified."
-msgstr "هیچ نام میزبانی مشخص نشده است."
-
-#: ../src/ddns/providers.py:667
-msgid "Account has been disabled."
-msgstr "حساب کاربری ناپویا شده است."
-
-#: ../src/ddns/providers.py:673
-msgid "Too many failed requests."
-msgstr "درخواست های بسیاری شکست خورده است."
-
-#: ../src/ddns/providers.py:776
-msgid "Malformed request has been sent."
-msgstr "درخواستی ناهنجار فرستاده شده است."
-
-#: ../src/ddns/providers.py:780
-msgid "Too frequent update requests have been sent."
-msgstr "درخواست بروز رسانی بیش از پیش شده است."
-
-#: ../src/ddns/providers.py:826 ../src/ddns/providers.py:1013
+#: ../src/ddns/providers.py:577
 msgid "Domain not found."
 msgstr "دامین یافت نشد."
 
-#: ../src/ddns/providers.py:861
-msgid "An invalid IP address was submitted"
-msgstr "یک IP آدرس نادرست، ثبت شده است"
+#: ../src/ddns/providers.py:676
+#, fuzzy
+msgid "Account disabled or locked"
+msgstr "حساب کاربری ناپویا شده است."
 
-#: ../src/ddns/providers.py:1015
-msgid "Domain not active."
-msgstr "دامین پویا نشده است."
-
-#: ../src/ddns/providers.py:1165
-msgid "No Auth details specified."
-msgstr "جزئیات تایید مشخص نشده است."
-
-#: ../src/ddns/providers.py:1187
-msgid "Invalid IPv4 address has been sent."
-msgstr "آدرس IPv4 نامعتبر فرستاده شده است."
-
-#: ../src/ddns/providers.py:1189
-msgid "Invalid IPv6 address has been sent."
-msgstr "آدرس IPv6 نامعتبر فرستاده شده است."
-
-#: ../src/ddns/providers.py:1385
+#: ../src/ddns/providers.py:754 ../src/ddns/providers.py:801
+#: ../src/ddns/providers.py:1682
 msgid "Invalid hostname specified"
 msgstr "نام هاست اختصاص داده شده، نادرست است"
 
-#: ../src/ddns/system.py:55
+#: ../src/ddns/providers.py:756
+#, fuzzy
+msgid "Hostname not marked as a dynamic host"
+msgstr "نام هاست به عنوان یک هاست پویا مشخص نیست."
+
+#: ../src/ddns/providers.py:758 ../src/ddns/providers.py:810
+#: ../src/ddns/providers.py:1093
+#, fuzzy
+msgid "Invalid IP address has been sent"
+msgstr "آدرس IP نادرست فرستاده شده است."
+
+#: ../src/ddns/providers.py:798
+#, fuzzy
+msgid "No hostname specified"
+msgstr "هیچ نام میزبانی مشخص نشده است."
+
+#: ../src/ddns/providers.py:807
+#, fuzzy
+msgid "Account has been disabled"
+msgstr "حساب کاربری ناپویا شده است."
+
+#: ../src/ddns/providers.py:813
+#, fuzzy
+msgid "Too many failed requests"
+msgstr "درخواست های بسیاری شکست خورده است."
+
+#: ../src/ddns/providers.py:908
+msgid "Dynamic DNS is not turned on for this domain"
+msgstr ""
+
+#: ../src/ddns/providers.py:911
+#, fuzzy
+msgid "Invalid data has been sent"
+msgstr "آدرس IP نادرست فرستاده شده است."
+
+#: ../src/ddns/providers.py:914 ../src/ddns/providers.py:968
+#: ../src/ddns/providers.py:1591
+#, fuzzy
+msgid "Too frequent update requests have been sent"
+msgstr "درخواست بروز رسانی بیش از پیش شده است."
+
+#: ../src/ddns/providers.py:964
+#, fuzzy
+msgid "Malformed request has been sent"
+msgstr "درخواستی ناهنجار فرستاده شده است."
+
+#: ../src/ddns/providers.py:1014 ../src/ddns/providers.py:1241
+#, fuzzy
+msgid "Domain not found"
+msgstr "دامین یافت نشد."
+
+#: ../src/ddns/providers.py:1049
+msgid "An invalid IP address was submitted"
+msgstr "یک IP آدرس نادرست، ثبت شده است"
+
+#: ../src/ddns/providers.py:1243
+#, fuzzy
+msgid "Domain not active"
+msgstr "دامین پویا نشده است."
+
+#: ../src/ddns/providers.py:1393
+#, fuzzy
+msgid "No Auth details specified"
+msgstr "جزئیات تایید مشخص نشده است."
+
+#: ../src/ddns/providers.py:1415
+#, fuzzy
+msgid "Invalid IPv4 address has been sent"
+msgstr "آدرس IPv4 نامعتبر فرستاده شده است."
+
+#: ../src/ddns/providers.py:1417
+#, fuzzy
+msgid "Invalid IPv6 address has been sent"
+msgstr "آدرس IPv6 نامعتبر فرستاده شده است."
+
+#: ../src/ddns/providers.py:1630
+#, fuzzy
+msgid "Account has been suspended"
+msgstr "حساب کاربری ناپویا شده است."
+
+#: ../src/ddns/providers.py:1633
+#, fuzzy
+msgid "Account has been revoked"
+msgstr "حساب کاربری ناپویا شده است."
+
+#: ../src/ddns/system.py:56
 #, python-format
 msgid "Running on distribution: %s"
 msgstr "در حال اجرا در توزیع: %s"
 
-#: ../src/ddns/system.py:153
+#: ../src/ddns/system.py:161
 msgid "Request header:"
 msgstr "درخواست هدر:"
 
 #. Log response header.
-#: ../src/ddns/system.py:161 ../src/ddns/system.py:170
+#: ../src/ddns/system.py:169 ../src/ddns/system.py:178
 #, python-format
 msgid "Response header (Status Code %s):"
 msgstr "هدر پاسخ (کد وضعیت %s):"
+
+#: ../src/ddns/system.py:298
+msgid "Falling back to check the IP address with help of a public server"
+msgstr ""
+
+#~ msgid "Invalid hostname specified."
+#~ msgstr "نام هاست گزینش شده درست نیست."
