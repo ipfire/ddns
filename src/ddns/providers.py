@@ -391,13 +391,13 @@ class DDNSProtocolDynDNS2(object):
 		elif output == "abuse":
 			raise DDNSAbuseError
 		elif output == "notfqdn":
-			raise DDNSRequestError(_("No valid FQDN was given."))
+			raise DDNSRequestError(_("No valid FQDN was given"))
 		elif output == "nohost":
-			raise DDNSRequestError(_("Specified host does not exist."))
+			raise DDNSRequestError(_("Specified host does not exist"))
 		elif output == "911":
 			raise DDNSInternalServerError
 		elif output == "dnserr":
-			raise DDNSInternalServerError(_("DNS error encountered."))
+			raise DDNSInternalServerError(_("DNS error encountered"))
 		elif output == "badagent":
 			raise DDNSBlockedError
 
@@ -665,15 +665,15 @@ class DDNSProviderDDNSS(DDNSProvider):
 		if output == "badauth":
 			raise DDNSAuthenticationError
 		elif output == "notfqdn":
-			raise DDNSRequestError(_("No valid FQDN was given."))
+			raise DDNSRequestError(_("No valid FQDN was given"))
 		elif output == "nohost":
-			raise DDNSRequestError(_("Specified host does not exist."))
+			raise DDNSRequestError(_("Specified host does not exist"))
 		elif output == "911":
 			raise DDNSInternalServerError
 		elif output == "dnserr":
-			raise DDNSInternalServerError(_("DNS error encountered."))
+			raise DDNSInternalServerError(_("DNS error encountered"))
 		elif output == "disabled":
-			raise DDNSRequestError(_("Account disabled or locked."))
+			raise DDNSRequestError(_("Account disabled or locked"))
 
 		# If we got here, some other update error happened.
 		raise DDNSUpdateError
@@ -749,13 +749,13 @@ class DDNSProviderDNSpark(DDNSProvider):
 		elif output == "blocked":
 			raise DDNSBlockedError
 		elif output == "nofqdn":
-			raise DDNSRequestError(_("No valid FQDN was given."))
+			raise DDNSRequestError(_("No valid FQDN was given"))
 		elif output == "nohost":
-			raise DDNSRequestError(_("Invalid hostname specified."))
+			raise DDNSRequestError(_("Invalid hostname specified"))
 		elif output == "notdyn":
-			raise DDNSRequestError(_("Hostname not marked as a dynamic host."))
+			raise DDNSRequestError(_("Hostname not marked as a dynamic host"))
 		elif output == "invalid":
-			raise DDNSRequestError(_("Invalid IP address has been sent."))
+			raise DDNSRequestError(_("Invalid IP address has been sent"))
 
 		# If we got here, some other update error happened.
 		raise DDNSUpdateError
@@ -795,22 +795,22 @@ class DDNSProviderDtDNS(DDNSProvider):
 
 		# Handle error codes.
 		if output == "No hostname to update was supplied.":
-			raise DDNSRequestError(_("No hostname specified."))
+			raise DDNSRequestError(_("No hostname specified"))
 
 		elif output == "The hostname you supplied is not valid.":
-			raise DDNSRequestError(_("Invalid hostname specified."))
+			raise DDNSRequestError(_("Invalid hostname specified"))
 
 		elif output == "The password you supplied is not valid.":
 			raise DDNSAuthenticationError
 
 		elif output == "Administration has disabled this account.":
-			raise DDNSRequestError(_("Account has been disabled."))
+			raise DDNSRequestError(_("Account has been disabled"))
 
 		elif output == "Illegal character in IP.":
-			raise DDNSRequestError(_("Invalid IP address has been sent."))
+			raise DDNSRequestError(_("Invalid IP address has been sent"))
 
 		elif output == "Too many failed requests.":
-			raise DDNSRequestError(_("Too many failed requests."))
+			raise DDNSRequestError(_("Too many failed requests"))
 
 		# If we got here, some other update error happened.
 		raise DDNSUpdateError
@@ -905,13 +905,13 @@ class DDNSProviderEasyDNS(DDNSProvider):
 			raise DDNSAuthenticationError
 
 		elif output.startswith("NOSERVICE"):
-			raise DDNSRequestError(_("Dynamic DNS is not turned on for this domain."))
+			raise DDNSRequestError(_("Dynamic DNS is not turned on for this domain"))
 
 		elif output.startswith("ILLEGAL INPUT"):
-			raise DDNSRequestError(_("Invalid data has been sent."))
+			raise DDNSRequestError(_("Invalid data has been sent"))
 
 		elif output.startswith("TOOSOON"):
-			raise DDNSRequestError(_("Too frequent update requests have been sent."))
+			raise DDNSRequestError(_("Too frequent update requests have been sent"))
 
 		# If we got here, some other update error happened.
 		raise DDNSUpdateError
@@ -961,11 +961,11 @@ class DDNSProviderDynsNet(DDNSProvider):
 
 		# Handle error codes.
 		if output.startswith("400"):
-			raise DDNSRequestError(_("Malformed request has been sent."))
+			raise DDNSRequestError(_("Malformed request has been sent"))
 		elif output.startswith("401"):
 			raise DDNSAuthenticationError
 		elif output.startswith("402"):
-			raise DDNSRequestError(_("Too frequent update requests have been sent."))
+			raise DDNSRequestError(_("Too frequent update requests have been sent"))
 		elif output.startswith("403"):
 			raise DDNSInternalServerError
 
@@ -1011,7 +1011,7 @@ class DDNSProviderEnomCom(DDNSResponseParserXML, DDNSProvider):
 		if errorcode == "304155":
 			raise DDNSAuthenticationError
 		elif errorcode == "304153":
-			raise DDNSRequestError(_("Domain not found."))
+			raise DDNSRequestError(_("Domain not found"))
 
 		# If we got here, some other update error happened.
 		raise DDNSUpdateError
@@ -1090,7 +1090,7 @@ class DDNSProviderFreeDNSAfraidOrg(DDNSProvider):
 		if output == "ERROR: Unable to locate this record":
 			raise DDNSAuthenticationError
 		elif "is an invalid IP address" in output:
-			raise DDNSRequestError(_("Invalid IP address has been sent."))
+			raise DDNSRequestError(_("Invalid IP address has been sent"))
 
 		# If we got here, some other update error happened.
 		raise DDNSUpdateError
@@ -1238,9 +1238,9 @@ class DDNSProviderNamecheap(DDNSResponseParserXML, DDNSProvider):
 		if errorcode == "304156":
 			raise DDNSAuthenticationError
 		elif errorcode == "316153":
-			raise DDNSRequestError(_("Domain not found."))
+			raise DDNSRequestError(_("Domain not found"))
 		elif errorcode == "316154":
-			raise DDNSRequestError(_("Domain not active."))
+			raise DDNSRequestError(_("Domain not active"))
 		elif errorcode in ("380098", "380099"):
 			raise DDNSInternalServerError
 
@@ -1390,7 +1390,7 @@ class DDNSProviderRegfish(DDNSProvider):
 		# Raise an error if no token and no useranem and password
 		# are given.
 		elif not self.username and not self.password:
-			raise DDNSConfigurationError(_("No Auth details specified."))
+			raise DDNSConfigurationError(_("No Auth details specified"))
 
 		# HTTP Basic Auth is only allowed if no token is used.
 		if self.token:
@@ -1412,11 +1412,11 @@ class DDNSProviderRegfish(DDNSProvider):
 		if "401" or "402" in output:
 			raise DDNSAuthenticationError
 		elif "408" in output:
-			raise DDNSRequestError(_("Invalid IPv4 address has been sent."))
+			raise DDNSRequestError(_("Invalid IPv4 address has been sent"))
 		elif "409" in output:
-			raise DDNSRequestError(_("Invalid IPv6 address has been sent."))
+			raise DDNSRequestError(_("Invalid IPv6 address has been sent"))
 		elif "412" in output:
-			raise DDNSRequestError(_("No valid FQDN was given."))
+			raise DDNSRequestError(_("No valid FQDN was given"))
 		elif "414" in output:
 			raise DDNSInternalServerError
 
@@ -1586,9 +1586,9 @@ class DDNSProviderZoneedit(DDNSProvider):
 		if output.startswith("invalid login"):
 			raise DDNSAuthenticationError
 		elif output.startswith("<ERROR CODE=\"704\""):
-			raise DDNSRequestError(_("No valid FQDN was given.")) 
+			raise DDNSRequestError(_("No valid FQDN was given"))
 		elif output.startswith("<ERROR CODE=\"702\""):
-			raise DDNSRequestError(_("Too frequent update requests have been sent."))
+			raise DDNSRequestError(_("Too frequent update requests have been sent"))
 
 		# If we got here, some other update error happened.
 		raise DDNSUpdateError
@@ -1627,13 +1627,13 @@ class DDNSProviderDNSmadeEasy(DDNSProvider):
 
 		# Handle error codes.
 		if output.startswith("error-auth-suspend"):
-			raise DDNSRequestError(_("Account has been suspended."))
+			raise DDNSRequestError(_("Account has been suspended"))
 
 		elif output.startswith("error-auth-voided"):
-			raise DDNSRequestError(_("Account has been revoked."))
+			raise DDNSRequestError(_("Account has been revoked"))
 
 		elif output.startswith("error-record-invalid"):
-			raise DDNSRequestError(_("Specified host does not exist."))
+			raise DDNSRequestError(_("Specified host does not exist"))
 
 		elif output.startswith("error-auth"):
 			raise DDNSAuthenticationError
