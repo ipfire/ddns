@@ -1443,8 +1443,8 @@ class DDNSProviderSelfhost(DDNSProtocolDynDNS2, DDNSProvider):
 
 class DDNSProviderSPDNS(DDNSProtocolDynDNS2, DDNSProvider):
 	handle    = "spdns.org"
-	name      = "SPDNS"
-	website   = "http://spdns.org/"
+	name      = "SPDYN"
+	website   = "https://www.spdyn.de/"
 
 	# Detailed information about request and response codes are provided
 	# by the vendor. They are using almost the same mechanism and status
@@ -1453,7 +1453,7 @@ class DDNSProviderSPDNS(DDNSProtocolDynDNS2, DDNSProvider):
 	# http://wiki.securepoint.de/index.php/SPDNS_FAQ
 	# http://wiki.securepoint.de/index.php/SPDNS_Update-Tokens
 
-	url = "https://update.spdns.de/nic/update"
+	url = "https://update.spdyn.de/nic/update"
 
 	@property
 	def username(self):
