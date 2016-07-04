@@ -1687,3 +1687,14 @@ class DDNSProviderZZZZ(DDNSProvider):
 
 		# If we got here, some other update error happened.
 		raise DDNSUpdateError
+
+class DDNSProviderSchokokeksDNS(DDNSProtocolDynDNS2, DDNSProvider):
+       handle    = "schokokeks.org"
+       name      = "Schokokeks"
+       website   = "http://www.schokokeks.org/"
+       protocols = ("ipv4",)
+
+       # Information about the format of the request is to be found
+       # https://wiki.schokokeks.org/DynDNS
+
+       url = " https://dyndns.schokokeks.org/nic/update?myip=<ipaddr> "
