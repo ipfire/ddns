@@ -6,7 +6,7 @@ written in Python.
 WEB HOME:
 	http://git.ipfire.org/?p=ddns.git;a=summary
 
-BUGTRACKER:
+BUG TRACKER:
 	https://bugzilla.ipfire.org/
 
 	Product: DDNS Updater
@@ -86,3 +86,20 @@ SUPPORTED PROVIDERS:
 	zzzz.io
 
 Also supports DNS updates via the ISC BIND nsupdate utility.
+
+CONTRIBUTE:
+	This is an Open Source and platform-independent project where
+	everyone is welcome to contribute improvements or support
+	for additional providers.
+
+	Please only send patches to the official mailing list:
+		ddns@lists.ipfire.org
+
+	Use the standard Git patch format as described here
+		http://wiki.ipfire.org/devel/git/commit-messages
+
+	and follow the general IPFire contribution guidelines
+		http://wiki.ipfire.org/devel/submit-patches
+
+	Please refrain from sending patches on GitHub or any other
+	platforms where this repository is mirrored.
