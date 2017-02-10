@@ -1452,6 +1452,41 @@ class DDNSProviderSelfhost(DDNSProtocolDynDNS2, DDNSProvider):
 		return data
 
 
+class DDNSProviderServercow(DDNSProvider):
+	handle    = "servercow.de"
+	name      = "servercow.de"
+	website   = "https://servercow.de/"
+	protocols = ("ipv4", "ipv6")
+
+	url = "https://www.servercow.de/dnsupdate/update.php"
+	can_remove_records = False
+
+	def update_protocol(self, proto):
+		data = {
+			"ipaddr"   : self.get_address(proto),
+			"hostname" : self.hostname,
+			"username" : self.username,
+			"pass"     : self.password,
+		}
+
+		# Send request to provider
+		response = self.send_request(self.url, data=data)
+
+		# Read response
+		output = response.read()
+
+		# Server responds with OK if update was successful
+		if output.startswith("OK"):
+			return
+
+		# Catch any errors
+		elif output.startswith("FAILED - Authentication failed"):
+			raise DDNSAuthenticationError
+
+		# If we got here, some other update error happened
+		raise DDNSUpdateError(output)
+
+
 class DDNSProviderSPDNS(DDNSProtocolDynDNS2, DDNSProvider):
 	handle    = "spdns.org"
 	name      = "SPDYN"
