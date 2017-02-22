@@ -1271,6 +1271,19 @@ class DDNSProviderNOIP(DDNSProtocolDynDNS2, DDNSProvider):
 		return data
 
 
+class DDNSProviderNowDNS(DDNSProtocolDynDNS2, DDNSProvider):
+	handle    = "now-dns.com"
+	name      = "NOW-DNS"
+	website   = "http://now-dns.com/"
+	protocols = ("ipv6", "ipv4")
+
+	# Information about the format of the request is to be found
+	# but only can be accessed by register an account and login
+	# https://now-dns.com/?m=api
+
+	url = "https://now-dns.com/update"
+
+
 class DDNSProviderNsupdateINFO(DDNSProtocolDynDNS2, DDNSProvider):
 	handle    = "nsupdate.info"
 	name      = "nsupdate.info"

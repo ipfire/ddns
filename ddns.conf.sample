@@ -124,6 +124,11 @@
 # username = user
 # password = pass
 
+# [test.now-dns.com]
+# provider = now-dns.com
+# username = user
+# password = pass
+
 # [test.nsupdate.info]
 # provider = nsupdate.info
 # token = token
