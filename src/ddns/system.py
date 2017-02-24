@@ -194,6 +194,10 @@ class DDNSSystem(object):
 			elif e.code == 404:
 				raise DDNSNotFound(e.reason)
 
+			# 429 - Too Many Requests
+			elif e.code == 429:
+				raise DDNSTooManyRequests(e.reason)
+
 			# 500 - Internal Server Error
 			elif e.code == 500:
 				raise DDNSInternalServerError(e.reason)

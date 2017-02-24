@@ -2,7 +2,7 @@
 ###############################################################################
 #                                                                             #
 # ddns - A dynamic DNS client for IPFire                                      #
-# Copyright (C) 2012 IPFire development team                                  #
+# Copyright (C) 2012-2017 IPFire development team                             #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU General Public License as published by        #
@@ -159,6 +159,13 @@ class DDNSServiceUnavailableError(DDNSNetworkError):
 		Equivalent to HTTP error code 503.
 	"""
 	reason = N_("Service unavailable")
+
+
+class DDNSTooManyRequests(DDNSError):
+	"""
+		Raised when too many requests occured.
+	"""
+	reason = N_("Too many requests")
 
 
 class DDNSUpdateError(DDNSError):
