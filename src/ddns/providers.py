@@ -2,7 +2,7 @@
 ###############################################################################
 #                                                                             #
 # ddns - A dynamic DNS client for IPFire                                      #
-# Copyright (C) 2012 IPFire development team                                  #
+# Copyright (C) 2012-2017 IPFire development team                             #
 #                                                                             #
 # This program is free software: you can redistribute it and/or modify        #
 # it under the terms of the GNU General Public License as published by        #
@@ -839,6 +839,19 @@ class DDNSProviderDynDNS(DDNSProtocolDynDNS2, DDNSProvider):
 	# http://dyn.com/support/developers/api/return-codes/
 
 	url = "https://members.dyndns.org/nic/update"
+
+
+class DDNSProviderDomainOffensive(DDNSProtocolDynDNS2, DDNSProvider):
+	handle    = "do.de"
+	name      = "Domain-Offensive"
+	website   = "https://www.do.de/"
+	protocols = ("ipv6", "ipv4")
+
+	# Detailed information about the request and response codes
+	# are available on the providers webpage.
+	# https://www.do.de/wiki/FlexDNS_-_Entwickler
+
+	url = "https://ddns.do.de/"
 
 
 class DDNSProviderDynU(DDNSProtocolDynDNS2, DDNSProvider):
