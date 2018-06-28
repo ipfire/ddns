@@ -400,6 +400,8 @@ class DDNSProtocolDynDNS2(object):
 			raise DDNSInternalServerError(_("DNS error encountered"))
 		elif output == "badagent":
 			raise DDNSBlockedError
+		elif output == "badip":
+			raise DDNSBlockedError
 
 		# If we got here, some other update error happened.
 		raise DDNSUpdateError(_("Server response: %s") % output)
@@ -826,6 +828,24 @@ class DDNSProviderDuckDNS(DDNSProtocolDynDNS2, DDNSProvider):
 	# https://www.duckdns.org/install.jsp
 
 	url = "https://www.duckdns.org/nic/update"
+
+
+class DDNSProviderDyFi(DDNSProtocolDynDNS2, DDNSProvider):
+	handle    = "dy.fi"
+	name      = "dy.fi"
+	website   = "https://www.dy.fi/"
+	protocols = ("ipv4",)
+
+	# Information about the format of the request is to be found
+	# https://www.dy.fi/page/clients?lang=en
+	# https://www.dy.fi/page/specification?lang=en
+
+	url = "http://www.dy.fi/nic/update"
+
+	# Please only send automatic updates when your IP address changes,
+	# or once per 5 to 6 days to refresh the address mapping (they will
+	# expire if not refreshed within 7 days).
+	holdoff_days = 6
 
 
 class DDNSProviderDynDNS(DDNSProtocolDynDNS2, DDNSProvider):
