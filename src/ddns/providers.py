@@ -1129,6 +1129,18 @@ class DDNSProviderFreeDNSAfraidOrg(DDNSProvider):
 		raise DDNSUpdateError
 
 
+class DDNSProviderItsdns(DDNSProtocolDynDNS2, DDNSProvider):
+		handle    = "itsdns.de"
+		name      = "it's DNS"
+		website   = "http://www.itsdns.de/"
+		protocols = ("ipv6", "ipv4")
+
+		# Information about the format of the HTTP request is to be found
+		# here: https://www.itsdns.de/dynupdatehelp.htm
+
+		url = "https://www.itsdns.de/update.php"
+
+
 class DDNSProviderJoker(DDNSProtocolDynDNS2, DDNSProvider):
 		handle  = "joker.com"
 		name    = "Joker.com Dynamic DNS"
