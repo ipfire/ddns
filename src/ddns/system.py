@@ -142,7 +142,7 @@ class DDNSSystem(object):
 
 			if ip is not None:
 				logger.info ("External IP found: URL='%s', RegEx='%s', IP=%s" % (url, regex, ip))
-				return ip;
+				return ip
 			else:
 				logger.warning ("Failed getting external IP: URL='%s', RegEx='%s'" % (url, regex))
 
