@@ -89,7 +89,7 @@ class DDNSSystem(object):
 		# XXX TODO
 		raise NotImplementedError
 
-	def _guess_external_ip_address(self, url, timeout=10):
+	def _guess_external_ip_address(self, url, regex, timeout=10):
 		"""
 			Sends a request to an external web server
 			to determine the current default IP address.
@@ -104,21 +104,50 @@ class DDNSSystem(object):
 		if not response.code == 200:
 			return
 
-		match = re.search(r"^Your IP address is: (.*)$", response.read())
+		match = re.search(regex, response.read())
 		if match is None:
 			return
 
 		return match.group(1)
 
 	def guess_external_ip_address(self, family, **kwargs):
+		guessip_providers4 = [
+						["http://checkip4.dns.lightningwirelabs.com", "^Your IP address is: (\d+\.\d+\.\d+\.\d+)$"],
+						["http://ifconfig.me/ip", "^(\d+\.\d+\.\d+\.\d+)$"],
+						["http://ifconfig.co/ip", "^(\d+\.\d+\.\d+\.\d+)$"]
+					]
+
+		guessip_providers6 = [
+						["http://checkip6.dns.lightningwirelabs.com", "^Your IP address is: (\d+\.\d+\.\d+\.\d+)$"],
+						["http://ifconfig.me/ip", "^(\d+\.\d+\.\d+\.\d+)$"],
+						["http://ifconfig.co/ip", "^(\d+\.\d+\.\d+\.\d+)$"]
+					]
+
 		if family == "ipv6":
-			url = "http://checkip6.dns.lightningwirelabs.com"
+			guessip_providers = guessip_providers6
 		elif family == "ipv4":
-			url = "http://checkip4.dns.lightningwirelabs.com"
+			guessip_providers = guessip_providers4
 		else:
 			raise ValueError("unknown address family")
 
-		return self._guess_external_ip_address(url, **kwargs)
+		for provider in guessip_providers:
+			# Try all "guess ip providers" and use the first valid answer
+			url = provider[0]
+			regex = provider[1]
+			ip = None
+			try:
+				ip = self._guess_external_ip_address(url, regex, **kwargs)
+			except URLError:
+				pass
+
+			if ip is not None:
+				logger.info ("External IP found: URL='%s', RegEx='%s', IP=%s" % (url, regex, ip))
+				return ip;
+			else:
+				logger.warning ("Failed getting external IP: URL='%s', RegEx='%s'" % (url, regex))
+
+		return
+
 
 	def send_request(self, url, method="GET", data=None, username=None, password=None, timeout=30):
 		assert method in ("GET", "POST")
