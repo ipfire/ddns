@@ -1130,6 +1130,19 @@ class DDNSProviderFreeDNSAfraidOrg(DDNSProvider):
 
 
 class DDNSProviderItsdns(DDNSProtocolDynDNS2, DDNSProvider):
+		handle    = "inwx.com"
+		name      = "INWX"
+		website   = "https://www.inwx.com"
+		protocols = ("ipv6", "ipv4")
+
+		# Information about the format of the HTTP request is to be found
+		# here: https://www.inwx.com/en/nameserver2/dyndns (requires login)
+		# Notice: The URL is the same for: inwx.com|de|at|ch|es
+
+		url = "https://dyndns.inwx.com/nic/update"
+
+
+class DDNSProviderItsdns(DDNSProtocolDynDNS2, DDNSProvider):
 		handle    = "itsdns.de"
 		name      = "it's DNS"
 		website   = "http://www.itsdns.de/"
