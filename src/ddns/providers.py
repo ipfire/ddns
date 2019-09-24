@@ -1003,7 +1003,7 @@ class DDNSProviderDynsNet(DDNSProvider):
 			raise DDNSInternalServerError
 
 		# If we got here, some other update error happened.
-		raise DDNSUpdateError(_("Server response: %s") % output) 
+		raise DDNSUpdateError(_("Server response: %s") % output)
 
 
 class DDNSProviderEnomCom(DDNSResponseParserXML, DDNSProvider):
