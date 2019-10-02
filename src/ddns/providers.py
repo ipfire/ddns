@@ -873,6 +873,43 @@ class DDNSProviderDomainOffensive(DDNSProtocolDynDNS2, DDNSProvider):
 
 	url = "https://ddns.do.de/"
 
+class DDNSProviderDynUp(DDNSProvider):
+	handle    = "dynup.de"
+	name      = "DynUp.DE"
+	website   = "http://dynup.de/"
+	protocols = ("ipv4",)
+
+	# Information about the format of the HTTPS request is to be found
+	# https://dyndnsfree.de/user/hilfe.php
+
+	url = "https://dynup.de/dyn.php"
+	can_remove_records = False
+
+	def update_protocol(self, proto):
+		data = {
+			"username" : self.username,
+			"password" : self.password,
+			"hostname" : self.hostname,
+			"print" : '1',
+		}
+
+		# Send update to the server.
+		response = self.send_request(self.url, data=data)
+
+		# Get the full response message.
+		output = response.read()
+
+		# Remove all leading and trailing whitespace.
+		output = output.strip()
+
+		# Handle success messages.
+		if output.startswith("I:OK") :
+			return
+
+		# If we got here, some other update error happened.
+		raise DDNSUpdateError
+
+
 
 class DDNSProviderDynU(DDNSProtocolDynDNS2, DDNSProvider):
 	handle    = "dynu.com"
