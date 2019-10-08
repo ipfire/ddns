@@ -112,9 +112,9 @@ class DDNSSystem(object):
 
 	def guess_external_ip_address(self, family, **kwargs):
 		if family == "ipv6":
-			url = "http://checkip6.dns.lightningwirelabs.com"
+			url = "https://checkip6.dns.lightningwirelabs.com"
 		elif family == "ipv4":
-			url = "http://checkip4.dns.lightningwirelabs.com"
+			url = "https://checkip4.dns.lightningwirelabs.com"
 		else:
 			raise ValueError("unknown address family")
 
