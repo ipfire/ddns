@@ -21,7 +21,7 @@
 AC_PREREQ([2.64])
 
 AC_INIT([ddns],
-	[011],
+	[012],
 	[info@ipfire.org],
 	[ddns],
 	[http://git.ipfire.org/?p=oddments/ddns.git;a=summary])
