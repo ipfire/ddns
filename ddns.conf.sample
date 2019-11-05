@@ -119,8 +119,8 @@
 # provider = namecheap.com
 # password = pass
 
-# [test.no-ip.org]
-# provider = no-ip.com
+# [test.noip.org]
+# provider = noip.com
 # username = user
 # password = pass
 

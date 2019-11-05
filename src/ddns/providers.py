@@ -1344,16 +1344,16 @@ class DDNSProviderNamecheap(DDNSResponseParserXML, DDNSProvider):
 
 
 class DDNSProviderNOIP(DDNSProtocolDynDNS2, DDNSProvider):
-	handle    = "no-ip.com"
-	name      = "No-IP"
-	website   = "http://www.no-ip.com/"
+	handle    = "noip.com"
+	name      = "NoIP"
+	website   = "http://www.noip.com/"
 	protocols = ("ipv4",)
 
 	# Information about the format of the HTTP request is to be found
-	# here: http://www.no-ip.com/integrate/request and
-	# here: http://www.no-ip.com/integrate/response
+	# here: http://www.noip.com/integrate/request and
+	# here: http://www.noip.com/integrate/response
 
-	url = "http://dynupdate.no-ip.com/nic/update"
+	url = "http://dynupdate.noip.com/nic/update"
 
 	def prepare_request_data(self, proto):
 		assert proto == "ipv4"
