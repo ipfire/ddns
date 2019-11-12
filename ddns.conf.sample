@@ -120,7 +120,7 @@
 # password = pass
 
 # [test.noip.org]
-# provider = noip.com
+# provider = no-ip.com
 # username = user
 # password = pass
 

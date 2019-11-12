@@ -1344,7 +1344,7 @@ class DDNSProviderNamecheap(DDNSResponseParserXML, DDNSProvider):
 
 
 class DDNSProviderNOIP(DDNSProtocolDynDNS2, DDNSProvider):
-	handle    = "noip.com"
+	handle    = "no-ip.com"
 	name      = "NoIP"
 	website   = "http://www.noip.com/"
 	protocols = ("ipv4",)
