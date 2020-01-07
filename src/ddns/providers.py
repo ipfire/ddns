@@ -1188,6 +1188,51 @@ class DDNSProviderJoker(DDNSProtocolDynDNS2, DDNSProvider):
 		url = "https://svc.joker.com/nic/update"
 
 
+class DDNSProviderKEYSYSTEMS(DDNSProvider):
+	handle    = "key-systems.net"
+	name      = "dynamicdns.key-systems.net"
+	website   = "https://domaindiscount24.com/"
+	protocols = ("ipv4",)
+
+	# There are only information provided by the domaindiscount24 how to
+	# perform an update with HTTP APIs
+	# https://www.domaindiscount24.com/faq/dynamic-dns
+	# examples: https://dynamicdns.key-systems.net/update.php?hostname=hostname&password=password&ip=auto
+	#           https://dynamicdns.key-systems.net/update.php?hostname=hostname&password=password&ip=213.x.x.x&mx=213.x.x.x
+
+	url = "https://dynamicdns.key-systems.net/update.php"
+	can_remove_records = False
+
+	def update_protocol(self, proto):
+		address = self.get_address(proto)
+		data = {
+			"hostname"      : self.hostname,
+			"password"      : self.password,
+			"ip"            : address,
+		}
+
+		# Send update to the server.
+		response = self.send_request(self.url, data=data)
+
+		# Get the full response message.
+		output = response.read().decode()
+
+		# Handle success messages.
+		if "code = 200" in output:
+			return
+
+		# Handle error messages.
+		if "abuse prevention triggered" in output:
+			raise DDNSAbuseError
+		elif "invalid password" in output:
+			raise DDNSAuthenticationError
+		elif "Authorization failed" in output:
+			raise DDNSRequestError(_("Invalid hostname specified"))
+
+		# If we got here, some other update error happened.
+		raise DDNSUpdateError
+
+
 class DDNSProviderGoogle(DDNSProtocolDynDNS2, DDNSProvider):
         handle    = "domains.google.com"
         name      = "Google Domains"
