@@ -37,9 +37,6 @@ class DDNSDatabase(object):
 		# so that we do not do it unnecessarily.
 		self._db = None
 
-	def __del__(self):
-		self._close_database()
-
 	def _open_database(self, path):
 		logger.debug("Opening database %s" % path)
 
@@ -79,12 +76,6 @@ class DDNSDatabase(object):
 		# If not, we check if we are able to write to the directory.
 		# In that case the database file will be created in _open_database().
 		return os.access(os.path.dirname(self.path), os.W_OK)
-
-	def _close_database(self):
-		if self._db:
-			# TODO: Check Unresolved attribute reference '_db_close' for class 'DDNSDatabase'
-			self._db_close()
-			self._db = None
 
 	def _execute(self, query, *parameters):
 		if self._db is None:
