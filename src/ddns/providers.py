@@ -370,7 +370,7 @@ class DDNSProtocolDynDNS2(object):
 		response = DDNSProvider.send_request(self, self.url, data=data, username=self.username, password=self.password)
 
 		# Get the full response message.
-		output = response.read()
+		output = response.read().decode()
 
 		# Handle success messages.
 		if output.startswith("good") or output.startswith("nochg"):
@@ -447,7 +447,7 @@ class DDNSProviderAllInkl(DDNSProvider):
 		response = self.send_request(self.url, username=self.username, password=self.password)
 
 		# Get the full response message.
-		output = response.read()
+		output = response.read().decode()
 
 		# Handle success messages.
 		if output.startswith("good") or output.startswith("nochg"):
@@ -723,7 +723,7 @@ class DDNSProviderDNSpark(DDNSProvider):
 		response = self.send_request(self.url, username=self.username, password=self.password, data=data)
 
 		# Get the full response message.
-		output = response.read()
+		output = response.read().decode()
 
 		# Handle success messages.
 		if output.startswith("ok") or output.startswith("nochange"):
@@ -772,7 +772,7 @@ class DDNSProviderDtDNS(DDNSProvider):
 		response = self.send_request(self.url, data=data)
 
 		# Get the full response message.
-		output = response.read()
+		output = response.read().decode()
 
 		# Remove all leading and trailing whitespace.
 		output = output.strip()
@@ -883,7 +883,7 @@ class DDNSProviderDynUp(DDNSProvider):
 		response = self.send_request(self.url, data=data)
 
 		# Get the full response message.
-		output = response.read()
+		output = response.read().decode()
 
 		# Remove all leading and trailing whitespace.
 		output = output.strip()
@@ -945,7 +945,7 @@ class DDNSProviderEasyDNS(DDNSProvider):
 		response = self.send_request(self.url, data=data, username=self.username, password=self.password)
 
 		# Get the full response message.
-		output = response.read()
+		output = response.read().decode()
 
 		# Remove all leading and trailing whitespace.
 		output = output.strip()
@@ -1007,7 +1007,7 @@ class DDNSProviderDynsNet(DDNSProvider):
 		response = self.send_request(self.url, data=data)
 
 		# Get the full response message.
-		output = response.read()
+		output = response.read().decode()
 
 		# Handle success messages.
 		if output.startswith("200"):
@@ -1053,7 +1053,7 @@ class DDNSProviderEnomCom(DDNSResponseParserXML, DDNSProvider):
 		response = self.send_request(self.url, data=data)
 
 		# Get the full response message.
-		output = response.read()
+		output = response.read().decode()
 
 		# Handle success messages.
 		if self.get_xml_tag_value(output, "ErrCount") == "0":
@@ -1134,7 +1134,7 @@ class DDNSProviderFreeDNSAfraidOrg(DDNSProvider):
 		response = self.send_request(url, data=data)
 
 		# Get the full response message.
-		output = response.read()
+		output = response.read().decode()
 
 		# Handle success messages.
 		if output.startswith("Updated") or "has not changed" in output:
@@ -1305,7 +1305,7 @@ class DDNSProviderNamecheap(DDNSResponseParserXML, DDNSProvider):
 		response = self.send_request(self.url, data=data)
 
 		# Get the full response message.
-		output = response.read()
+		output = response.read().decode()
 
 		# Handle success messages.
 		if self.get_xml_tag_value(output, "IP") == address:
@@ -1493,7 +1493,7 @@ class DDNSProviderRegfish(DDNSProvider):
 			response = self.send_request(self.url, username=self.username, password=self.password, data=data)
 
 		# Get the full response message.
-		output = response.read()
+		output = response.read().decode()
 
 		# Handle success messages.
 		if "100" in output or "101" in output:
@@ -1564,7 +1564,7 @@ class DDNSProviderServercow(DDNSProvider):
 		response = self.send_request(self.url, data=data)
 
 		# Read response
-		output = response.read()
+		output = response.read().decode()
 
 		# Server responds with OK if update was successful
 		if output.startswith("OK"):
@@ -1712,7 +1712,7 @@ class DDNSProviderZoneedit(DDNSProvider):
 		response = self.send_request(self.url, username=self.username, password=self.password, data=data)
 
 		# Get the full response message.
-		output = response.read()
+		output = response.read().decode()
 
 		# Handle success messages.
 		if output.startswith("<SUCCESS"):
@@ -1755,7 +1755,7 @@ class DDNSProviderDNSmadeEasy(DDNSProvider):
 		response = self.send_request(self.url, data=data)
 
 		# Get the full response message.
-		output = response.read()
+		output = response.read().decode()
 
 		# Handle success messages.
 		if output.startswith("success") or output.startswith("error-record-ip-same"):
