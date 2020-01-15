@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 ###############################################################################
 #                                                                             #
 # ddns - A dynamic DNS client for IPFire                                      #
@@ -82,6 +82,7 @@ class DDNSDatabase(object):
 
 	def _close_database(self):
 		if self._db:
+			# TODO: Check Unresolved attribute reference '_db_close' for class 'DDNSDatabase'
 			self._db_close()
 			self._db = None
 

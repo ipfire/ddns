@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 ###############################################################################
 #                                                                             #
 # ddns - A dynamic DNS client for IPFire                                      #

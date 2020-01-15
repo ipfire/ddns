@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 ###############################################################################
 #                                                                             #
 # ddns - A dynamic DNS client for IPFire                                      #
@@ -74,16 +74,16 @@ def main():
 		# IPv6
 		ipv6_address = d.system.guess_external_ip_address("ipv6")
 		if ipv6_address:
-			print _("IPv6 Address: %s") % ipv6_address
+			print("IPv6 Address: %s" % ipv6_address)
 
 		# IPv4
 		ipv4_address = d.system.guess_external_ip_address("ipv4")
 		if ipv4_address:
-			print _("IPv4 Address: %s") % ipv4_address
+			print("IPv4 Address: %s" % ipv4_address)
 
 	elif args.subparsers_name == "list-providers":
 		provider_names = d.get_provider_names()
-		print "\n".join(provider_names)
+		print("\n".join(provider_names))
 
 	elif args.subparsers_name == "update":
 		d.updateone(hostname=args.hostname, force=args.force)

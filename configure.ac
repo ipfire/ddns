@@ -54,7 +54,7 @@ AC_PROG_SED
 AC_PATH_PROG([XSLTPROC], [xsltproc])
 
 # Python
-AM_PATH_PYTHON([2.7])
+AM_PATH_PYTHON([3.6])
 
 save_LIBS="$LIBS"
 

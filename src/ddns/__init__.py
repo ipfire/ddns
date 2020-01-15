@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 ###############################################################################
 #                                                                             #
 # ddns - A dynamic DNS client for IPFire                                      #
@@ -21,15 +21,15 @@
 
 import logging
 import logging.handlers
-import ConfigParser
+import configparser
 
-from i18n import _
+from .i18n import _
 
 logger = logging.getLogger("ddns.core")
 logger.propagate = 1
 
-import database
-import providers
+from . import database
+from . import providers
 
 from .errors import *
 from .system import DDNSSystem
@@ -89,7 +89,7 @@ class DDNSCore(object):
 	def load_configuration(self, filename):
 		logger.debug(_("Loading configuration file %s") % filename)
 
-		configs = ConfigParser.RawConfigParser()
+		configs = configparser.RawConfigParser()
 		configs.read([filename,])
 
 		# First apply all global configuration settings.
@@ -98,7 +98,7 @@ class DDNSCore(object):
 				self.settings[k] = v
 
 		# Allow missing config section
-		except ConfigParser.NoSectionError:
+		except configparser.NoSectionError:
 			pass
 
 		for entry in configs.sections():
@@ -127,7 +127,7 @@ class DDNSCore(object):
 			# Check if the provider is actually supported and if there are
 			# some dependencies missing on this system.
 			if not provider.supported():
-				logger.warning("Provider '%s' is known, but not supported on this machine" % (provider.name))
+				logger.warning("Provider '%s' is known, but not supported on this machine" % provider.name)
 				continue
 
 			# Create an instance of the provider object with settings from the
@@ -163,13 +163,13 @@ class DDNSCore(object):
 		try:
 			entry(force=force)
 
-		except DDNSError, e:
-			logger.error(_("Dynamic DNS update for %(hostname)s (%(provider)s) failed:") % \
-				{ "hostname" : entry.hostname, "provider" : entry.name })
+		except DDNSError as e:
+			logger.error(_("Dynamic DNS update for %(hostname)s (%(provider)s) failed:") %
+				{"hostname": entry.hostname, "provider": entry.name})
 			logger.error("  %s: %s" % (e.__class__.__name__, e.reason))
 			if e.message:
 				logger.error("  %s" % e.message)
 
-		except Exception, e:
-			logger.error(_("Dynamic DNS update for %(hostname)s (%(provider)s) throwed an unhandled exception:") % \
-				{ "hostname" : entry.hostname, "provider" : entry.name }, exc_info=True)
+		except Exception:
+			logger.error(_("Dynamic DNS update for %(hostname)s (%(provider)s) threw an unhandled exception:") %
+						 {"hostname": entry.hostname, "provider": entry.name}, exc_info=True)

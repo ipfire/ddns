@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 ###############################################################################
 #                                                                             #
 # ddns - A dynamic DNS client for IPFire                                      #
@@ -23,10 +23,12 @@ import datetime
 import logging
 import os
 import subprocess
-import urllib2
+import urllib.request
+import urllib.error
+import urllib.parse
 import xml.dom.minidom
 
-from i18n import _
+from .i18n import _
 
 # Import all possible exception types.
 from .errors import *
@@ -84,7 +86,7 @@ class DDNSProvider(object):
 			if not all((provider.handle, provider.name, provider.website)):
 				raise DDNSError(_("Provider is not properly configured"))
 
-			assert not _providers.has_key(provider.handle), \
+			assert provider.handle not in _providers, \
 				"Provider '%s' has already been registered" % provider.handle
 
 			_providers[provider.handle] = provider
@@ -109,7 +111,7 @@ class DDNSProvider(object):
 		return "<DDNS Provider %s (%s)>" % (self.name, self.handle)
 
 	def __cmp__(self, other):
-		return cmp(self.hostname, other.hostname)
+		return (lambda a, b: (a > b)-(a < b))(self.hostname, other.hostname)
 
 	@property
 	def db(self):
@@ -176,8 +178,8 @@ class DDNSProvider(object):
 			self.core.db.log_failure(self.hostname, e)
 			raise
 
-		logger.info(_("Dynamic DNS update for %(hostname)s (%(provider)s) successful") % \
-			{ "hostname" : self.hostname, "provider" : self.name })
+		logger.info(_("Dynamic DNS update for %(hostname)s (%(provider)s) successful") %
+					{"hostname": self.hostname, "provider": self.name})
 		self.core.db.log_success(self.hostname)
 
 	def update(self):
@@ -192,7 +194,7 @@ class DDNSProvider(object):
 
 	def remove_protocol(self, proto):
 		if not self.can_remove_records:
-			raise RuntimeError, "can_remove_records is enabled, but remove_protocol() not implemented"
+			raise RuntimeError("can_remove_records is enabled, but remove_protocol() not implemented")
 
 		raise NotImplementedError
 
@@ -200,23 +202,21 @@ class DDNSProvider(object):
 	def requires_update(self):
 		# If the IP addresses have changed, an update is required
 		if self.ip_address_changed(self.protocols):
-			logger.debug(_("An update for %(hostname)s (%(provider)s)"
-				" is performed because of an IP address change") % \
-				{ "hostname" : self.hostname, "provider" : self.name })
+			logger.debug(_("An update for %(hostname)s (%(provider)s) is performed because of an IP address change") %
+			{"hostname": self.hostname, "provider": self.name})
 
 			return True
 
 		# If the holdoff time has expired, an update is required, too
 		if self.holdoff_time_expired():
-			logger.debug(_("An update for %(hostname)s (%(provider)s)"
-				" is performed because the holdoff time has expired") % \
-				{ "hostname" : self.hostname, "provider" : self.name })
+			logger.debug(_("An update for %(hostname)s (%(provider)s) is performed because the holdoff time has expired") %
+						 {"hostname": self.hostname, "provider": self.name})
 
 			return True
 
 		# Otherwise, we don't need to perform an update
-		logger.debug(_("No update required for %(hostname)s (%(provider)s)") % \
-			{ "hostname" : self.hostname, "provider" : self.name })
+		logger.debug(_("No update required for %(hostname)s (%(provider)s)") %
+					 {"hostname": self.hostname, "provider": self.name})
 
 		return False
 
@@ -234,8 +234,7 @@ class DDNSProvider(object):
 
 		# If there is no holdoff time, we won't update ever again.
 		if self.holdoff_failure_days is None:
-			logger.warning(_("An update has not been performed because earlier updates failed for %s") \
-				% self.hostname)
+			logger.warning(_("An update has not been performed because earlier updates failed for %s") % self.hostname)
 			logger.warning(_("There will be no retries"))
 
 			return True
@@ -248,8 +247,7 @@ class DDNSProvider(object):
 		if now < holdoff_end:
 			failure_message = self.db.last_update_failure_message(self.hostname)
 
-			logger.warning(_("An update has not been performed because earlier updates failed for %s") \
-				% self.hostname)
+			logger.warning(_("An update has not been performed because earlier updates failed for %s") % self.hostname)
 
 			if failure_message:
 				logger.warning(_("Last failure message:"))
@@ -315,8 +313,8 @@ class DDNSProvider(object):
 			logger.debug("The holdoff time has expired for %s" % self.hostname)
 			return True
 		else:
-			logger.debug("Updates for %s are held off until %s" % \
-				(self.hostname, holdoff_end))
+			logger.debug("Updates for %s are held off until %s" %
+						 (self.hostname, holdoff_end))
 			return False
 
 	def send_request(self, *args, **kwargs):
@@ -375,8 +373,7 @@ class DDNSProtocolDynDNS2(object):
 
 	def send_request(self, data):
 		# Send update to the server.
-		response = DDNSProvider.send_request(self, self.url, data=data,
-			username=self.username, password=self.password)
+		response = DDNSProvider.send_request(self, self.url, data=data, username=self.username, password=self.password)
 
 		# Get the full response message.
 		output = response.read()
@@ -413,7 +410,7 @@ class DDNSResponseParserXML(object):
 		will be sent by various providers. This class uses the python
 		shipped XML minidom module to walk through the XML tree and return
 		a requested element.
-        """
+	"""
 
 	def get_xml_tag_value(self, document, content):
 		# Send input to the parser.
@@ -494,9 +491,7 @@ class DDNSProviderBindNsupdate(DDNSProvider):
 		# -t sets the timeout
 		command = ["nsupdate", "-v", "-t", "60"]
 
-		p = subprocess.Popen(command, shell=True,
-			stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-		)
+		p = subprocess.Popen(command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		stdout, stderr = p.communicate(scriptlet)
 
 		if p.returncode == 0:
@@ -570,11 +565,10 @@ class DDNSProviderChangeIP(DDNSProvider):
 
 		# Send update to the server.
 		try:
-			response = self.send_request(self.url, username=self.username, password=self.password,
-				data=data)
+			response = self.send_request(self.url, username=self.username, password=self.password, data=data)
 
 		# Handle error codes.
-		except urllib2.HTTPError, e:
+		except urllib.error.HTTPError as e:
 			if e.code == 422:
 				raise DDNSRequestError(_("Domain not found."))
 
@@ -703,8 +697,7 @@ class DDNSProviderDHS(DDNSProvider):
 		}
 
 		# Send update to the server.
-		response = self.send_request(self.url, username=self.username, password=self.password,
-			data=data)
+		response = self.send_request(self.url, username=self.username, password=self.password, data=data)
 
 		# Handle success messages.
 		if response.code == 200:
@@ -733,8 +726,7 @@ class DDNSProviderDNSpark(DDNSProvider):
 		}
 
 		# Send update to the server.
-		response = self.send_request(self.url, username=self.username, password=self.password,
-			data=data)
+		response = self.send_request(self.url, username=self.username, password=self.password, data=data)
 
 		# Get the full response message.
 		output = response.read()
@@ -903,12 +895,11 @@ class DDNSProviderDynUp(DDNSProvider):
 		output = output.strip()
 
 		# Handle success messages.
-		if output.startswith("I:OK") :
+		if output.startswith("I:OK"):
 			return
 
 		# If we got here, some other update error happened.
 		raise DDNSUpdateError
-
 
 
 class DDNSProviderDynU(DDNSProtocolDynDNS2, DDNSProvider):
@@ -957,8 +948,7 @@ class DDNSProviderEasyDNS(DDNSProvider):
 		}
 
 		# Send update to the server.
-		response = self.send_request(self.url, data=data,
-			username=self.username, password=self.password)
+		response = self.send_request(self.url, data=data, username=self.username, password=self.password)
 
 		# Get the full response message.
 		output = response.read()
@@ -1111,7 +1101,7 @@ class DDNSProviderEntryDNS(DDNSProvider):
 			response = self.send_request(url, data=data)
 
 		# Handle error codes
-		except urllib2.HTTPError, e:
+		except urllib.error.HTTPError as e:
 			if e.code == 404:
 				raise DDNSAuthenticationError
 
@@ -1488,7 +1478,7 @@ class DDNSProviderRegfish(DDNSProvider):
 			data["ipv4"] = address4
 
 		# Raise an error if none address is given.
-		if not data.has_key("ipv6") and not data.has_key("ipv4"):
+		if "ipv6" not in data and "ipv4" not in data:
 			raise DDNSConfigurationError
 
 		# Check if a token has been set.
@@ -1506,8 +1496,7 @@ class DDNSProviderRegfish(DDNSProvider):
 			response = self.send_request(self.url, data=data)
 		else:
 			# Send update to the server.
-			response = self.send_request(self.url, username=self.username, password=self.password,
-				data=data)
+			response = self.send_request(self.url, username=self.username, password=self.password, data=data)
 
 		# Get the full response message.
 		output = response.read()
@@ -1726,8 +1715,7 @@ class DDNSProviderZoneedit(DDNSProvider):
 		}
 
 		# Send update to the server.
-		response = self.send_request(self.url, username=self.username, password=self.password,
-			data=data)
+		response = self.send_request(self.url, username=self.username, password=self.password, data=data)
 
 		# Get the full response message.
 		output = response.read()

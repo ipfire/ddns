@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 ###############################################################################
 #                                                                             #
 # ddns - A dynamic DNS client for IPFire                                      #
@@ -25,15 +25,14 @@ TEXTDOMAIN = "ddns"
 
 N_ = lambda x: x
 
+
 def _(singular, plural=None, n=None):
 	"""
 		A function that returnes the translation of a string if available.
-
 		The language is taken from the system environment.
-        """
-	if not plural is None:
+	"""
+	if plural is not None:
 		assert n is not None
 		return gettext.dngettext(TEXTDOMAIN, singular, plural, n)
 
 	return gettext.dgettext(TEXTDOMAIN, singular)
-

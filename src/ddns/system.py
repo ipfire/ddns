@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 ###############################################################################
 #                                                                             #
 # ddns - A dynamic DNS client for IPFire                                      #
@@ -23,12 +23,13 @@ import base64
 import re
 import ssl
 import socket
-import urllib
-import urllib2
+import urllib.request
+import urllib.parse
+import urllib.error
 
-from __version__ import CLIENT_VERSION
+from .__version__ import CLIENT_VERSION
 from .errors import *
-from i18n import _
+from .i18n import _
 
 # Initialize the logger.
 import logging
@@ -79,7 +80,7 @@ class DDNSSystem(object):
 				with open("/var/ipfire/red/local-ipaddress") as f:
 					return f.readline()
 
-			except IOError, e:
+			except IOError as e:
 				# File not found
 				if e.errno == 2:
 					return
@@ -137,7 +138,7 @@ class DDNSSystem(object):
 		if data:
 			logger.debug("  data: %s" % data)
 
-		req = urllib2.Request(url, data=data)
+		req = urllib.request.Request(url, data=data)
 
 		if username and password:
 			basic_auth_header = self._make_basic_auth_header(username, password)
@@ -163,7 +164,7 @@ class DDNSSystem(object):
 			logger.debug("  %s: %s" % (k, v))
 
 		try:
-			resp = urllib2.urlopen(req, timeout=timeout)
+			resp = urllib.request.urlopen(req, timeout=timeout)
 
 			# Log response header.
 			logger.debug(_("Response header (Status Code %s):") % resp.code)
@@ -173,7 +174,7 @@ class DDNSSystem(object):
 			# Return the entire response object.
 			return resp
 
-		except urllib2.HTTPError, e:
+		except urllib.error.HTTPError as e:
 			# Log response header.
 			logger.debug(_("Response header (Status Code %s):") % e.code)
 			for k, v in e.hdrs.items():
@@ -209,7 +210,7 @@ class DDNSSystem(object):
 			# Raise all other unhandled exceptions.
 			raise
 
-		except urllib2.URLError, e:
+		except urllib.error.URLError as e:
 			if e.reason:
 				# Handle SSL errors
 				if isinstance(e.reason, ssl.SSLError):
@@ -240,7 +241,7 @@ class DDNSSystem(object):
 			# Raise all other unhandled exceptions.
 			raise
 
-		except socket.timeout, e:
+		except socket.timeout as e:
 			logger.debug(_("Connection timeout"))
 
 			raise DDNSConnectionTimeoutError
@@ -249,7 +250,7 @@ class DDNSSystem(object):
 		args = []
 
 		for k, v in data.items():
-			arg = "%s=%s" % (k, urllib.quote(v))
+			arg = "%s=%s" % (k, urllib.parse.quote(v))
 			args.append(arg)
 
 		return "&".join(args)
@@ -258,7 +259,7 @@ class DDNSSystem(object):
 		authstring = "%s:%s" % (username, password)
 
 		# Encode authorization data in base64.
-		authstring = base64.encodestring(authstring)
+		authstring = base64.encodebytes(authstring)
 
 		# Remove any newline characters.
 		authstring = authstring.replace("\n", "")
@@ -354,7 +355,7 @@ class DDNSSystem(object):
 		# Resolve the host address.
 		try:
 			response = socket.getaddrinfo(hostname, None, family)
-		except socket.gaierror, e:
+		except socket.gaierror as e:
 			# Name or service not known
 			if e.errno == -2:
 				return []
@@ -388,7 +389,7 @@ class DDNSSystem(object):
 				continue
 
 			# Add to repsonse list if not already in there.
-			if not address in addresses:
+			if address not in addresses:
 				addresses.append(address)
 
 		return addresses
@@ -418,7 +419,7 @@ class DDNSSystem(object):
 		"""
 		try:
 			f = open("/etc/os-release", "r")
-		except IOError, e:
+		except IOError as e:
 			# File not found
 			if e.errno == 2:
 				return
@@ -447,7 +448,7 @@ class DDNSSystem(object):
 		"""
 		try:
 			f = open("/etc/system-release", "r")
-		except IOError, e:
+		except IOError as e:
 			# File not found
 			if e.errno == 2:
 				return
