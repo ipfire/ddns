@@ -105,11 +105,11 @@ class DDNSSystem(object):
 		if not response.code == 200:
 			return
 
-		match = re.search(r"^Your IP address is: (.*)$", response.read())
+		match = re.search(b"^Your IP address is: (.*)$", response.read())
 		if match is None:
 			return
 
-		return match.group(1)
+		return match.group(1).decode()
 
 	def guess_external_ip_address(self, family, **kwargs):
 		if family == "ipv6":
