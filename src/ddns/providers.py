@@ -73,24 +73,6 @@ class DDNSProvider(object):
 	# Required to remove AAAA records if IPv6 is absent again.
 	can_remove_records = True
 
-	# Automatically register all providers.
-	class __metaclass__(type):
-		def __init__(provider, name, bases, dict):
-			type.__init__(provider, name, bases, dict)
-
-			# The main class from which is inherited is not registered
-			# as a provider.
-			if name == "DDNSProvider":
-				return
-
-			if not all((provider.handle, provider.name, provider.website)):
-				raise DDNSError(_("Provider is not properly configured"))
-
-			assert provider.handle not in _providers, \
-				"Provider '%s' has already been registered" % provider.handle
-
-			_providers[provider.handle] = provider
-
 	@staticmethod
 	def supported():
 		"""
@@ -106,6 +88,18 @@ class DDNSProvider(object):
 		# update them by those from the configuration file.
 		self.settings = self.DEFAULT_SETTINGS.copy()
 		self.settings.update(settings)
+
+	def __init_subclass__(cls, **kwargs):
+		super().__init_subclass__(**kwargs)
+
+		if not all((cls.handle, cls.name, cls.website)):
+			raise DDNSError(_("Provider is not properly configured"))
+
+		assert cls.handle not in _providers, \
+			"Provider '%s' has already been registered" % cls.handle
+
+		# Register class
+		_providers[cls.handle] = cls
 
 	def __repr__(self):
 		return "<DDNS Provider %s (%s)>" % (self.name, self.handle)
