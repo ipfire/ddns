@@ -1256,26 +1256,16 @@ class DDNSProviderLightningWireLabs(DDNSProvider):
 	url = "https://dns.lightningwirelabs.com/update"
 
 	def update(self):
+		# Raise an error if no auth details are given.
+		if not self.token:
+			raise DDNSConfigurationError
+
 		data =  {
 			"hostname" : self.hostname,
+			"token"    : self.token,
 			"address6" : self.get_address("ipv6", "-"),
 			"address4" : self.get_address("ipv4", "-"),
 		}
-
-		# Check if a token has been set.
-		if self.token:
-			data["token"] = self.token
-
-		# Check for username and password.
-		elif self.username and self.password:
-			data.update({
-				"username" : self.username,
-				"password" : self.password,
-			})
-
-		# Raise an error if no auth details are given.
-		else:
-			raise DDNSConfigurationError
 
 		# Send update to the server.
 		response = self.send_request(self.url, data=data)
