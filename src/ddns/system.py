@@ -142,7 +142,7 @@ class DDNSSystem(object):
 
 		if username and password:
 			basic_auth_header = self._make_basic_auth_header(username, password)
-			req.add_header("Authorization", "Basic %s" % basic_auth_header)
+			req.add_header("Authorization", "Basic %s" % basic_auth_header.decode())
 
 		# Set the user agent.
 		req.add_header("User-Agent", self.USER_AGENT)
@@ -259,10 +259,7 @@ class DDNSSystem(object):
 		authstring = "%s:%s" % (username, password)
 
 		# Encode authorization data in base64.
-		authstring = base64.encodebytes(authstring)
-
-		# Remove any newline characters.
-		authstring = authstring.replace("\n", "")
+		authstring = base64.b64encode(authstring.encode())
 
 		return authstring
 
