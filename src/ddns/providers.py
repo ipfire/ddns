@@ -1248,7 +1248,7 @@ class DDNSProviderGoogle(DDNSProtocolDynDNS2, DDNSProvider):
 class DDNSProviderLightningWireLabs(DDNSProvider):
 	handle    = "dns.lightningwirelabs.com"
 	name      = "Lightning Wire Labs DNS Service"
-	website   = "http://dns.lightningwirelabs.com/"
+	website   = "https://dns.lightningwirelabs.com/"
 
 	# Information about the format of the HTTPS request is to be found
 	# https://dns.lightningwirelabs.com/knowledge-base/api/ddns
