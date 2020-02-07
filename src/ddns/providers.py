@@ -826,7 +826,7 @@ class DDNSProviderDyFi(DDNSProtocolDynDNS2, DDNSProvider):
 	# https://www.dy.fi/page/clients?lang=en
 	# https://www.dy.fi/page/specification?lang=en
 
-	url = "http://www.dy.fi/nic/update"
+	url = "https://www.dy.fi/nic/update"
 
 	# Please only send automatic updates when your IP address changes,
 	# or once per 5 to 6 days to refresh the address mapping (they will
