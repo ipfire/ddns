@@ -642,10 +642,8 @@ class DDNSProviderDDNSS(DDNSProvider):
 		response = self.send_request(self.url, data=data)
 
 		# This provider sends the response code as part of the header.
-		header = response.info()
-
 		# Get status information from the header.
-		output = header.getheader('ddnss-response')
+		output = response.getheader('ddnss-response')
 
 		# Handle success messages.
 		if output == "good" or output == "nochg":
