@@ -86,6 +86,20 @@ class DDNSCore(object):
 		"""
 		return sorted(self.providers.keys())
 
+	def get_provider_with_token_support(self):
+		"""
+			Returns a list with names of all registered providers
+			which support token based authtentication.
+		"""
+
+		token_provider = []
+
+		for handle, provider in sorted(self.providers.items()):
+			if provider.supports_token_auth is True:
+				token_provider.append(handle)
+
+		return sorted(token_provider)
+
 	def load_configuration(self, filename):
 		logger.debug(_("Loading configuration file %s") % filename)
 
