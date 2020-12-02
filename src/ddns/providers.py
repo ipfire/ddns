@@ -802,16 +802,62 @@ class DDNSProviderDtDNS(DDNSProvider):
 		raise DDNSUpdateError
 
 
-class DDNSProviderDuckDNS(DDNSProtocolDynDNS2, DDNSProvider):
+class DDNSProviderDuckDNS(DDNSProvider):
 	handle    = "duckdns.org"
 	name      = "Duck DNS"
 	website   = "http://www.duckdns.org/"
-	protocols = ("ipv4",)
+	protocols = ("ipv6", "ipv4",)
 
 	# Information about the format of the request is to be found
-	# https://www.duckdns.org/install.jsp
+	# https://www.duckdns.org/spec.jsp
 
-	url = "https://www.duckdns.org/nic/update"
+	url = "https://www.duckdns.org/update"
+	can_remove_records = False
+
+	def update(self):
+		# Raise an error if no auth details are given.
+		if not self.token:
+			raise DDNSConfigurationError
+
+		data =  {
+			"domains" : self.hostname,
+			"token"    : self.token,
+		}
+
+		# Check if we update an IPv4 address.
+		address4 = self.get_address("ipv4")
+		if address4:
+			data["ip"] = address4
+
+		# Check if we update an IPv6 address.
+		address6 = self.get_address("ipv6")
+		if address6:
+			data["ipv6"] = address6
+
+		# Raise an error if no address is given.
+		if "ip" not in data and "ipv6" not in data:
+			raise DDNSConfigurationError
+
+		# Send update to the server.
+		response = self.send_request(self.url, data=data)
+
+		# Get the full response message.
+		output = response.read().decode()
+
+		# Remove all leading and trailing whitespace.
+		output = output.strip()
+
+		# Handle success messages.
+		if output == "OK":
+			return
+
+		# The provider does not give detailed information
+		# if the update fails. Only a "KO" will be sent back.
+		if output == "KO":
+			raise DDNSUpdateError
+
+		# If we got here, some other update error happened.
+		raise DDNSUpdateError
 
 
 class DDNSProviderDyFi(DDNSProtocolDynDNS2, DDNSProvider):
