@@ -536,7 +536,7 @@ class DDNSProviderBindNsupdate(DDNSProvider):
 
 			logger.debug("  %s" % line)
 
-		return "\n".join(scriptlet)
+		return "\n".join(scriptlet).encode()
 
 
 class DDNSProviderChangeIP(DDNSProvider):
