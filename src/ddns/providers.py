@@ -1218,6 +1218,22 @@ class DDNSProviderFreeDNSAfraidOrg(DDNSProvider):
 		raise DDNSUpdateError
 
 
+class DDNSProviderHENet(DDNSProtocolDynDNS2, DDNSProvider):
+                handle    = "he.net"
+                name      = "he.net"
+                website   = "https://he.net"
+                protocols = ("ipv6", "ipv4",)
+
+                # Detailed information about the update api can be found here.
+                # http://dns.he.net/docs.html
+
+                url = "https://dyn.dns.he.net/nic/update"
+                @property
+                def username(self):
+                        return self.get("hostname")
+
+		
+
 class DDNSProviderItsdns(DDNSProtocolDynDNS2, DDNSProvider):
 		handle    = "inwx.com"
 		name      = "INWX"
