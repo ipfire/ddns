@@ -1460,7 +1460,7 @@ class DDNSProviderNOIP(DDNSProtocolDynDNS2, DDNSProvider):
 	# here: http://www.noip.com/integrate/request and
 	# here: http://www.noip.com/integrate/response
 
-	url = "http://dynupdate.noip.com/nic/update"
+	url = "https://dynupdate.noip.com/nic/update"
 
 	def prepare_request_data(self, proto):
 		assert proto == "ipv4"
