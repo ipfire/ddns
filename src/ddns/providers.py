@@ -446,7 +446,7 @@ class DDNSProviderAllInkl(DDNSProvider):
 	# from the net.
 	# http://all-inkl.goetze.it/v01/ddns-mit-einfachen-mitteln/
 
-	url = "http://dyndns.kasserver.com"
+	url = "https://dyndns.kasserver.com"
 	can_remove_records = False
 	supports_token_auth = False
 
