@@ -689,7 +689,8 @@ class DDNSProviderDHS(DDNSProvider):
 	# No information about the used update api provided on webpage,
 	# grabed from source code of ez-ipudate.
 
-	url = "http://members.dhs.org/nic/hosts"
+	# Provider currently does not support TLS 1.2.
+	url = "https://members.dhs.org/nic/hosts"
 	can_remove_records = False
 	supports_token_auth = False
 
