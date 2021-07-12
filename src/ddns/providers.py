@@ -626,7 +626,7 @@ class DDNSProviderDDNSS(DDNSProvider):
 	# http://www.ddnss.de/info.php
 	# http://www.megacomputing.de/2014/08/dyndns-service-response-time/#more-919
 
-	url = "http://www.ddnss.de/upd.php"
+	url = "https://www.ddnss.de/upd.php"
 	can_remove_records = False
 	supports_token_auth = False
 
