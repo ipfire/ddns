@@ -1044,7 +1044,8 @@ class DDNSProviderDomopoli(DDNSProtocolDynDNS2, DDNSProvider):
 
 	# https://www.domopoli.de/?page=howto#DynDns_start
 
-	url = "http://dyndns.domopoli.de/nic/update"
+	# This provider does not support TLS 1.2.
+	url = "https://dyndns.domopoli.de/nic/update"
 
 
 class DDNSProviderDynsNet(DDNSProvider):
