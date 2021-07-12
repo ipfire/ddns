@@ -1188,26 +1188,23 @@ class DDNSProviderFreeDNSAfraidOrg(DDNSProvider):
 
 	# No information about the request or response could be found on the vendor
 	# page. All used values have been collected by testing.
-	url = "https://freedns.afraid.org/dynamic/update.php"
+	url = "https://sync.afraid.org/u/"
 	can_remove_records = False
 	supports_token_auth = True
 
 	def update_protocol(self, proto):
-		data = {
-			"address" : self.get_address(proto),
-		}
 
 		# Add auth token to the update url.
-		url = "%s?%s" % (self.url, self.token)
+		url = "%s%s/" % (self.url, self.token)
 
 		# Send update to the server.
-		response = self.send_request(url, data=data)
+		response = self.send_request(url)
 
 		# Get the full response message.
 		output = response.read().decode()
 
 		# Handle success messages.
-		if output.startswith("Updated") or "has not changed" in output:
+		if output.startswith("Updated") or output.startswith("No IP changed detected"):
 			return
 
 		# Handle error codes.
