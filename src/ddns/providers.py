@@ -996,7 +996,7 @@ class DDNSProviderEasyDNS(DDNSProvider):
 	# (API 1.3) are available on the providers webpage.
 	# https://fusion.easydns.com/index.php?/Knowledgebase/Article/View/102/7/dynamic-dns
 
-	url = "http://api.cp.easydns.com/dyn/tomato.php"
+	url = "https://api.cp.easydns.com/dyn/tomato.php"
 
 	supports_token_auth = False
 
