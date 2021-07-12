@@ -1060,7 +1060,7 @@ class DDNSProviderDynsNet(DDNSProvider):
 	# the possible response codes. (Currently we are using the v1.1 proto)
 	# http://www.dyns.net/documentation/technical/protocol/
 
-	url = "http://www.dyns.net/postscript011.php"
+	url = "https://www.dyns.net/postscript011.php"
 
 	def update_protocol(self, proto):
 		data = {
