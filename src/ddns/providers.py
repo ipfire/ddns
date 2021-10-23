@@ -1204,7 +1204,7 @@ class DDNSProviderFreeDNSAfraidOrg(DDNSProvider):
 		output = response.read().decode()
 
 		# Handle success messages.
-		if output.startswith("Updated") or output.startswith("No IP changed detected"):
+		if output.startswith("Updated") or output.startswith("No IP change detected"):
 			return
 
 		# Handle error codes.
