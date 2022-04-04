@@ -226,8 +226,12 @@ class DDNSSystem(object):
 				if e.reason.errno == -2:
 					raise DDNSResolveError
 
+				# Cannot assign requested address
+				elif e.reason.errno == 99:
+					raise DDNSNetworkUnreachableError
+
 				# Network Unreachable (e.g. no IPv6 access)
-				if e.reason.errno == 101:
+				elif e.reason.errno == 101:
 					raise DDNSNetworkUnreachableError
 
 				# Connection Refused
