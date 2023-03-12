@@ -21,6 +21,7 @@
 
 import datetime
 import logging
+import json
 import os
 import subprocess
 import urllib.request
@@ -442,7 +443,7 @@ class DDNSProviderAllInkl(DDNSProvider):
 	protocols = ("ipv4",)
 
 	# There are only information provided by the vendor how to
-	# perform an update on a FRITZ Box. Grab requried informations
+	# perform an update on a FRITZ Box. Grab required information
 	# from the net.
 	# http://all-inkl.goetze.it/v01/ddns-mit-einfachen-mitteln/
 
@@ -1212,6 +1213,55 @@ class DDNSProviderFreeDNSAfraidOrg(DDNSProvider):
 			raise DDNSAuthenticationError
 		elif "is an invalid IP address" in output:
 			raise DDNSRequestError(_("Invalid IP address has been sent"))
+
+		# If we got here, some other update error happened.
+		raise DDNSUpdateError
+
+
+class DDNSProviderGodaddy(DDNSProvider):
+	handle    = "godaddy.com"
+	name      = "godaddy.com"
+	website   = "https://godaddy.com/"
+	protocols = ("ipv4",)
+
+	# Information about the format of the HTTP request is to be found
+	# here: https://developer.godaddy.com/doc/endpoint/domains#/v1/recordReplaceTypeName
+	url = "https://api.godaddy.com/v1/domains/"
+	can_remove_records = False
+
+	def update_protocol(self, proto):
+		# retrieve ip
+		ip_address = self.get_address(proto)
+
+		# set target url
+		url = f"{self.url}/{self.hostname}/records/A/@"
+
+		# prepare data
+		data = json.dumps([{"data": ip_address, "ttl": 600, "name": self.hostname, "type": "A"}]).encode("utf-8")
+
+		# Method requires authentication by special headers.
+		request = urllib.request.Request(url=url,
+										 data=data,
+										 headers={"Authorization": f"sso-key {self.username}:{self.password}",
+												  "Content-Type": "application/json"},
+										 method="PUT")
+		result = urllib.request.urlopen(request)
+
+		# handle success
+		if result.code == 200:
+			return
+
+		# handle errors
+		if result.code == 400:
+			raise DDNSRequestError(_("Malformed request received."))
+		if result.code in (401, 403):
+			raise DDNSAuthenticationError
+		if result.code == 404:
+			raise DDNSRequestError(_("Resource not found."))
+		if result.code == 422:
+			raise DDNSRequestError(_("Record does not fulfill the schema."))
+		if result.code == 429:
+			raise DDNSRequestError(_("API Rate limiting."))
 
 		# If we got here, some other update error happened.
 		raise DDNSUpdateError
