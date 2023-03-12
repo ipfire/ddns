@@ -100,6 +100,12 @@
 # username = user
 # password = pass
 
+# [test.godaddy.com]
+# provider = godaddy.com
+# username = key
+# password = secret
+
+
 # [test.google.com]
 # provider = domains.google.com
 # username = user

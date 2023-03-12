@@ -27,7 +27,7 @@ LICENSE:
 INSTALLATION:
 	REQUIREMENTS:
 		ddns is written in Python and does not require any third-party
-		modules. The minumum version of Python that has been tested
+		modules. The minimum version of Python that has been tested
 		is Python 2.7.
 
 		Building the program from source code requires:
@@ -69,6 +69,7 @@ SUPPORTED PROVIDERS:
 	enom.com
 	entrydns.net
 	freedns.afraid.org
+	godaddy.com
 	inwx.com|de|at|ch|es
 	itsdns.de
 	joker.com
