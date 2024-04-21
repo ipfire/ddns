@@ -2005,3 +2005,15 @@ class DDNSProviderZZZZ(DDNSProvider):
 
 		# If we got here, some other update error happened.
 		raise DDNSUpdateError
+
+class DDNSProviderInfomaniak(DDNSProtocolDynDNS2, DDNSProvider):
+	handle    = "infomaniak.ch"
+	name      = "infomaniak"
+	website   = "https://www.infomaniak.ch"
+	protocols = ("ipv4",)
+
+	# Detailed information about how to send the update request and possible response
+	# codes can be obtained from here.
+	# https://www.infomaniak.com/de/support/faq/2376/dyndns-aktualisieren-eines-dynamischen-dns-uber-die-api
+
+	url = "https://infomaniak.com/nic/update"
