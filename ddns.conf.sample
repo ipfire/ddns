@@ -105,9 +105,13 @@
 # username = key
 # password = secret
 
-
 # [test.google.com]
 # provider = domains.google.com
+# username = user
+# password = pass
+
+# [test.infomaniak.ch]
+# provider = infomaniak.ch
 # username = user
 # password = pass
 
