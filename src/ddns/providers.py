@@ -604,7 +604,9 @@ class DDNSProviderDesecIO(DDNSProtocolDynDNS2, DDNSProvider):
 	# desec.io sends the IPv6 and IPv4 address in one request
 
 	def update(self):
-		data = DDNSProtocolDynDNS2.prepare_request_data(self, "ipv4")
+		data = {
+			"myip"     : self.get_address("ipv4")
+		}
 
 		# This one supports IPv6
 		myipv6 = self.get_address("ipv6")
